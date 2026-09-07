@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="auto-adaptive">
+<head>
+  <meta charset="UTF-8">
+  <!-- 動態自適應視口設定，支援 iPhone/Android 安全區域與自動比例調整 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SynCare 昕護 - 居家特護跨角色智慧協作生態平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+    :root {
+      --sage-dark: #436048;
+      --sage-primary: #648866;
+      --sage-mid: #9AB995;
+      --sage-light: #D3E3CF;
+      --sage-bg: #F3F7F2;
+      --card-bg: #FFFFFF;
+      --border-sage: #DEE8DC;
+      --text-main: #243527;
+      --text-muted: #596D5C;
+      --alert-rose: #C55D4E;
+      --alert-amber: #C68947;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      background-color: var(--sage-bg);
+      color: var(--text-main);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 手機與電腦自適應比例控制 */
+    html.device-mobile {
+      font-size: 15px;
+    }
+    html.device-desktop {
+      font-size: 16px;
+    }
+
+    .badge-sage-primary { background-color: var(--sage-light); color: var(--sage-dark); border: 1px solid var(--sage-mid); }
+    .badge-sage-soft { background-color: #EDF3EC; color: #436048; border: 1px solid #D0DFC9; }
+    .badge-amber { background-color: #FBF4EA; color: #8F5E24; border: 1px solid #F0DDC5; }
+    .badge-rose { background-color: #FAF0EE; color: #9A382A; border: 1px solid #F2D2CB; }
+
+    .body-marker {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 3px 8px rgba(67, 96, 72, 0.45);
+      transition: all 0.2s ease;
+      z-index: 20;
+    }
+    .body-marker:hover, .body-marker:active { transform: scale(1.3); }
+
+    .pulse-amber { animation: pulseAmber 2s infinite; }
+    .pulse-rose { animation: pulseRose 2s infinite; }
+    @keyframes pulseAmber {
+      0% { box-shadow: 0 0 0 0 rgba(198, 137, 71, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(198, 137, 71, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(198, 137, 71, 0); }
+    }
+    @keyframes pulseRose {
+      0% { box-shadow: 0 0 0 0 rgba(197, 93, 78, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(197, 93, 78, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(197, 93, 78, 0); }
+    }
+
+    .waveform-bar {
+      display: inline-block;
+      width: 4px;
+      background-color: var(--sage-primary);
+      border-radius: 3px;
+      animation: wave 0.8s infinite ease-in-out alternate;
+    }
+    @keyframes wave {
+      0% { height: 6px; }
+      100% { height: 26px; }
+    }
+
+    .chat-bubble-ai {
+      background-color: #EDF3EC;
+      color: #243527;
+      border-radius: 18px 18px 18px 4px;
+      border: 1px solid #D0DFC9;
+    }
+    .chat-bubble-user {
+      background-color: #436048;
+      color: #FFFFFF;
+      border-radius: 18px 18px 4px 18px;
+    }
+
+    .floating-fab {
+      position: fixed;
+      right: 20px;
+      bottom: 24px;
+      z-index: 40;
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-[#D3E3CF] selection:text-[#243527]">
+
+  <!-- ==================== 0. 身份分流門戶 (Portal Hub) ==================== -->
+  <div id="view-portal-hub" class="min-h-screen flex flex-col justify-between p-4 sm:p-8 max-w-6xl mx-auto w-full">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div class="w-14 h-14 sm:w-18 sm:h-18 bg-gradient-to-br from-[#436048] via-[#527557] to-[#648866] rounded-2xl flex items-center justify-center p-2 text-white shadow-xl shadow-[#436048]/25 border-2 border-white/40">
+          <svg viewBox="0 0 120 120" class="w-full h-full fill-none stroke-white stroke-[8] stroke-linecap-round stroke-linejoin-round drop-shadow">
+            <path d="M 20 62 L 60 26 L 100 62" />
+            <path d="M 60 48 C 48 34, 28 44, 35 68 C 40 80, 60 96, 60 96 C 60 96, 80 80, 85 68 C 92 44, 72 34, 60 48 Z" stroke-width="7" />
+            <polyline points="25,54 35,68 45,56" stroke-width="7" />
+            <polyline points="95,64 85,50 75,62" stroke-width="7" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-black text-[#243527] tracking-tight">SynCare <span class="text-[#648866]">昕護</span></h1>
+            <span class="text-[10px] sm:text-xs px-2.5 py-0.5 bg-[#D3E3CF] text-[#436048] font-black rounded-full border border-[#9AB995]">Homecare Pro</span>
+          </div>
+          <p class="text-xs text-[#596D5C] font-semibold mt-0.5" data-i18n="portal_subtitle">居家特護跨角色智慧協作與生態樞紐平台</p>
+        </div>
+      </div>
+
+      <div class="flex items-center bg-white border border-[#DEE8DC] rounded-2xl px-3 py-1.5 shadow-xs">
+        <i class="fa-solid fa-globe text-[#648866] text-xs mr-2"></i>
+        <select id="hub-lang-select" onchange="changeGlobalLanguage(this.value)" class="text-xs bg-transparent text-[#243527] font-bold focus:outline-none cursor-pointer">
+          <option value="zh">🇹🇼 繁體中文</option>
+          <option value="id">🇮🇩 Bahasa Indonesia</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="vi">🇻🇳 Tiếng Việt</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="my-4 bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-3">
+      <div class="flex items-center justify-between border-b border-[#EDF3EC] pb-2">
+        <h3 class="font-black text-sm text-[#243527] flex items-center gap-2">
+          <i class="fa-solid fa-compass text-[#648866]"></i> SynCare 平台核心使用指引
+        </h3>
+        <!-- 自動偵測裝置狀態標籤 -->
+        <span id="device-mode-badge" class="text-[11px] font-bold px-2.5 py-0.5 bg-[#EDF3EC] text-[#436048] rounded-full border border-[#D0DFC9]">
+          <i class="fa-solid fa-mobile-screen mr-1"></i>偵測中...
+        </span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-[#596D5C]">
+        <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9]">
+          <p class="font-bold text-[#436048]">外籍看護端 (阿蒂)</p>
+          <p class="mt-1">SOP 影音學習認證、BSFS 完整 7 型大便打卡、標準人形管路圖卡、母語語音結構化交班與用藥記錄。</p>
+        </div>
+        <div class="p-3 bg-white rounded-2xl border border-[#DEE8DC]">
+          <p class="font-bold text-[#436048]">家屬決策端 (小金)</p>
+          <p class="mt-1">近 7 日連續照護折線圖（支援懸停每日重點）、3 大指標圖卡追蹤、長照 2.0 外展資源與急診數位包。</p>
+        </div>
+        <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9]">
+          <p class="font-bold text-[#436048]">個案端 (金伯伯)</p>
+          <p class="mt-1">大字行程提醒、ICOPE 六力懷舊認知問答、自主語音心願錄製、標準人形不適點選與每日心情回饋。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 身分分流卡片 -->
+    <div class="space-y-3 my-2">
+      <div class="text-center">
+        <h2 class="text-xl sm:text-2xl font-black text-[#243527]">請選擇登入身分</h2>
+        <p class="text-xs text-[#596D5C] mt-0.5">個案：金大明 伯伯 (75歲 · 留置鼻胃管 · 每週三次血液透析)</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+        <div onclick="loginRole('caregiver')" class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-[#DEE8DC] hover:border-[#648866] transition cursor-pointer flex flex-col justify-between shadow-xs">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-[#EDF3EC] text-[#436048] flex items-center justify-center text-xl font-bold">
+              <i class="fa-solid fa-user-nurse"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-[#648866] uppercase tracking-wider">Perawat (Tri)</span>
+              <h3 class="text-lg font-bold text-[#243527]">外籍看護端 (阿蒂)</h3>
+              <p class="text-xs text-[#596D5C] mt-1">SOP 影音學習測驗中心、BSFS 完整 7 型打卡、標準人形管路圖卡、全生命徵象/血糖/灌食與 AI 臨床對話。</p>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#EDF3EC] text-xs font-bold text-[#436048] flex justify-between items-center">
+            <span>進入看護工作台 ➔</span>
+            <i class="fa-solid fa-arrow-right text-[#648866]"></i>
+          </div>
+        </div>
+
+        <div onclick="loginRole('family')" class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-[#DEE8DC] hover:border-[#648866] transition cursor-pointer flex flex-col justify-between shadow-xs">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-[#D3E3CF] text-[#436048] flex items-center justify-center text-xl font-bold">
+              <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-[#436048] uppercase tracking-wider">Keluarga (Mr. Kim)</span>
+              <h3 class="text-lg font-bold text-[#243527]">家屬決策端 (小金)</h3>
+              <p class="text-xs text-[#596D5C] mt-1">近 7 日照護趨勢連續折線圖（懸停每日重點）、3 大指標圖卡追蹤、長照 2.0 生態外展連動與急診數位包。</p>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#EDF3EC] text-xs font-bold text-[#436048] flex justify-between items-center">
+            <span>進入家屬決策台 ➔</span>
+            <i class="fa-solid fa-arrow-right text-[#648866]"></i>
+          </div>
+        </div>
+
+        <div onclick="loginRole('patient')" class="bg-white rounded-3xl p-5 sm:p-6 border-2 border-[#DEE8DC] hover:border-[#648866] transition cursor-pointer flex flex-col justify-between shadow-xs">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-[#EDF3EC] text-[#436048] flex items-center justify-center text-xl font-bold">
+              <i class="fa-solid fa-wheelchair"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-[#648866] uppercase tracking-wider">Pasien (Kakek Kim)</span>
+              <h3 class="text-lg font-bold text-[#243527]">個案端 (金伯伯)</h3>
+              <p class="text-xs text-[#596D5C] mt-1">大字今日行程、每日 2 分鐘懷舊問答、語音自主心願錄製表達、標準人形身體不適點選與每日心情回饋。</p>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#EDF3EC] text-xs font-bold text-[#436048] flex justify-between items-center">
+            <span>進入個案專屬介面 ➔</span>
+            <i class="fa-solid fa-arrow-right text-[#648866]"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center text-xs text-[#596D5C] py-2">
+      SynCare · 台北榮民總醫院實習研發 以人為本跨角色智慧閉環照護系統
+    </div>
+  </div>
+
+  <!-- ==================== 主應用工作區 (APP MAIN) ==================== -->
+  <div id="view-app-main" class="flex-grow flex flex-col hidden min-h-screen">
+    
+    <!-- 頂部自適應導航列 -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-[#DEE8DC] sticky top-0 z-50 shadow-xs">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-between items-center py-2.5 gap-2">
+          
+          <div class="flex items-center space-x-2.5">
+            <div class="w-11 h-11 bg-gradient-to-br from-[#436048] to-[#648866] rounded-xl flex items-center justify-center p-1.5 text-white shadow-xs cursor-pointer border border-white/50" onclick="goToCurrentRoleHome()">
+              <svg viewBox="0 0 120 120" class="w-full h-full fill-none stroke-white stroke-[8] stroke-linecap-round stroke-linejoin-round">
+                <path d="M 20 62 L 60 26 L 100 62" />
+                <path d="M 60 48 C 48 34, 28 44, 35 68 C 40 80, 60 96, 60 96 C 60 96, 80 80, 85 68 C 92 44, 72 34, 60 48 Z" stroke-width="7" />
+                <polyline points="25,54 35,68 45,56" stroke-width="7" />
+                <polyline points="95,64 85,50 75,62" stroke-width="7" />
+              </svg>
+            </div>
+            
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-lg font-black text-[#243527]">SynCare</span>
+                <span class="text-[10px] px-2 py-0.5 bg-[#EDF3EC] text-[#436048] font-bold rounded-md">同步 09:42</span>
+              </div>
+              <p class="text-[11px] text-[#596D5C] hidden sm:block">三端智慧閉環照護系統</p>
+            </div>
+
+            <button onclick="navigateHistoryBack()" class="px-2 py-1 bg-[#EDF3EC] hover:bg-[#D3E3CF] text-[#436048] rounded-xl text-xs font-bold border border-[#D0DFC9] flex items-center gap-1">
+              <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">上一頁</span>
+            </button>
+          </div>
+
+          <!-- 角色切換 Tab (手機自動滑動，大螢幕居中) -->
+          <div class="flex overflow-x-auto bg-[#EDF3EC] p-1 rounded-2xl border border-[#D0DFC9] text-xs font-bold max-w-full">
+            <button id="tab-caregiver" onclick="switchRole('caregiver')" class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]">
+              <i class="fa-solid fa-user-nurse"></i> 看護端 (阿蒂)
+            </button>
+            <button id="tab-family" onclick="switchRole('family')" class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]">
+              <i class="fa-solid fa-user-tie"></i> 家屬端 (小金)
+            </button>
+            <button id="tab-patient" onclick="switchRole('patient')" class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]">
+              <i class="fa-solid fa-wheelchair"></i> 個案端 (金伯伯)
+            </button>
+          </div>
+
+          <!-- 語系與登出 -->
+          <div class="flex items-center space-x-1.5">
+            <select id="main-lang-select" onchange="changeGlobalLanguage(this.value)" class="text-xs bg-white border border-[#DEE8DC] rounded-xl px-2 py-1.5 text-[#243527] font-bold cursor-pointer">
+              <option value="zh">🇹🇼 中文</option>
+              <option value="id">🇮🇩 印尼</option>
+              <option value="en">🇺🇸 EN</option>
+              <option value="vi">🇻🇳 越南</option>
+            </select>
+            <button onclick="logoutToPortal()" class="px-2.5 py-1.5 bg-[#FAF0EE] hover:bg-[#F5E2DE] text-[#9A382A] rounded-xl text-xs font-bold border border-[#F2D2CB]">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主展示容器 -->
+    <main class="flex-grow max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 w-full space-y-5">
+
+      <!-- ==================== 1. 照護人員端 (Caregiver View - 阿蒂) ==================== -->
+      <section id="view-caregiver" class="space-y-5">
+        
+        <!-- 狀態主橫幅 -->
+        <div class="bg-gradient-to-r from-[#436048] via-[#527557] to-[#648866] rounded-3xl p-5 text-white shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-0.5 bg-white/20 rounded-full text-xs font-semibold mb-1.5">
+              <i class="fa-solid fa-circle-check text-emerald-200"></i> 三端連線同步中
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black">Selamat Pagi, Mbak Tri (早安，阿蒂)</h2>
+            <p class="text-emerald-100 text-xs mt-0.5">個案：金大明 伯伯 (75歲) · 今日照護排程：5 項任務</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="openNgtCheckModal()" class="px-3 py-1.5 bg-[#D3E3CF] hover:bg-[#C2D7BD] text-[#243527] font-bold rounded-xl text-xs flex items-center gap-1">
+              <i class="fa-solid fa-ruler-combined text-[#436048]"></i> 鼻胃管刻度相片比對
+            </button>
+            <button onclick="openBsfsModal()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold rounded-xl text-xs flex items-center gap-1">
+              <i class="fa-solid fa-toilet"></i> BSFS 完整 7 型打卡
+            </button>
+            <button onclick="document.getElementById('vital-modal').classList.remove('hidden')" class="px-3.5 py-1.5 bg-white text-[#436048] font-black rounded-xl text-xs shadow-xs flex items-center gap-1">
+              <i class="fa-solid fa-heart-pulse text-[#C55D4E]"></i> 登錄徵象/血糖/用藥
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="lg:col-span-2 space-y-5">
+
+            <!-- 🌟 需求 1: 附件 1 象形標準人形圖管路監控 -->
+            <div id="section-body-map" class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs">
+              <div class="flex justify-between items-center mb-3">
+                <div>
+                  <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
+                    <i class="fa-solid fa-child-reaching text-[#648866]"></i> 標準人體管路監控與即時圖卡 (附件 1 人形)
+                  </h3>
+                  <p class="text-xs text-[#596D5C]">點選人形標記（鼻胃管、瘻管、導尿管、壓瘡點）即可彈出專屬圖卡</p>
+                </div>
+                <span class="badge-amber px-2.5 py-1 rounded-full text-xs font-bold">1 處管路觀察中</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                <!-- 附件 1 象形圖人體輪廓 -->
+                <div class="md:col-span-5 bg-[#F8FAF8] border border-[#DEE8DC] rounded-3xl p-4 flex flex-col items-center justify-center relative min-h-[350px]">
+                  <p class="text-[11px] text-[#596D5C] font-bold mb-2">附件 1 人形臨床點位</p>
+                  
+                  <div class="relative w-44 h-76 flex items-center justify-center">
+                    <!-- 附件 1 精準向量人體 -->
+                    <svg viewBox="0 0 180 320" class="w-full h-full drop-shadow-sm">
+                      <circle cx="90" cy="36" r="22" fill="#436048" />
+                      <rect x="22" y="78" width="18" height="114" rx="9" fill="#436048" />
+                      <rect x="140" y="78" width="18" height="114" rx="9" fill="#436048" />
+                      <path d="M 52,90 C 52,76 66,74 90,74 C 114,74 128,76 128,90 L 128,190 L 126,294 C 126,302 104,302 104,294 L 100,195 C 100,190 80,190 80,195 L 76,294 C 76,302 54,302 54,294 L 52,190 Z" fill="#436048" />
+                    </svg>
+
+                    <!-- 4 大部位精確定位標記 -->
+                    <div onclick="openTubeModal('ngt')" class="body-marker bg-[#C68947] pulse-amber" style="top: 26px; left: 77px;" title="1. 鼻胃管 NGT">
+                      <span>1</span>
+                    </div>
+                    <div onclick="openTubeModal('dialysis')" class="body-marker bg-[#436048]" style="top: 136px; right: 14px;" title="2. 左手洗腎瘻管">
+                      <span>2</span>
+                    </div>
+                    <div onclick="openTubeModal('foley')" class="body-marker bg-[#436048]" style="top: 180px; left: 77px;" title="3. 留置導尿管 Foley">
+                      <span>3</span>
+                    </div>
+                    <div onclick="openTubeModal('hip')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 174px; right: 40px;" title="! 左髖受壓點">
+                      <span>!</span>
+                    </div>
+                  </div>
+
+                  <div class="flex gap-3 text-[10px] mt-2 font-bold">
+                    <span class="flex items-center gap-1 text-[#436048]"><span class="w-2 h-2 rounded-full bg-[#436048]"></span> 正常</span>
+                    <span class="flex items-center gap-1 text-[#8F5E24]"><span class="w-2 h-2 rounded-full bg-[#C68947]"></span> 臨期/注意</span>
+                    <span class="flex items-center gap-1 text-[#9A382A]"><span class="w-2 h-2 rounded-full bg-[#C55D4E]"></span> 壓瘡警示</span>
+                  </div>
+                </div>
+
+                <!-- 側邊管路點選清單 -->
+                <div class="md:col-span-7 space-y-2.5">
+                  <div onclick="openTubeModal('ngt')" class="p-3 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl cursor-pointer transition flex justify-between items-center">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black px-2 py-0.5 bg-[#D3E3CF] text-[#436048] rounded">標記 1</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]">鼻胃管 (NGT 14 Fr 矽膠材質)</h4>
+                      </div>
+                      <p class="text-[11px] text-[#596D5C] mt-0.5">固定刻度 52cm · 效期剩餘 12 天 · 點擊查詳細圖卡 ➔</p>
+                    </div>
+                    <span class="badge-amber text-[10px] px-2 py-0.5 rounded font-bold">今日已核對</span>
+                  </div>
+
+                  <div onclick="openTubeModal('dialysis')" class="p-3 bg-[#F8FAF8] hover:bg-[#EDF3EC] border border-[#DEE8DC] rounded-2xl cursor-pointer transition flex justify-between items-center">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black px-2 py-0.5 bg-[#DEE8DC] text-[#436048] rounded">標記 2</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]">左手洗腎瘻管 (AV Fistula)</h4>
+                      </div>
+                      <p class="text-[11px] text-[#596D5C] mt-0.5">震顫音 Thrill 良好 · 嚴禁量血壓壓迫 · 點擊查圖卡 ➔</p>
+                    </div>
+                    <span class="badge-sage-primary text-[10px] px-2 py-0.5 rounded font-bold">血流暢通</span>
+                  </div>
+
+                  <div onclick="openTubeModal('foley')" class="p-3 bg-[#F8FAF8] hover:bg-[#EDF3EC] border border-[#DEE8DC] rounded-2xl cursor-pointer transition flex justify-between items-center">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black px-2 py-0.5 bg-[#DEE8DC] text-[#436048] rounded">標記 3</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]">雙腔留置導尿管 (Foley 16 Fr)</h4>
+                      </div>
+                      <p class="text-[11px] text-[#596D5C] mt-0.5">尿袋低於膀胱 · 尿色澄清無沈澱 · 點擊查圖卡 ➔</p>
+                    </div>
+                    <span class="badge-sage-primary text-[10px] px-2 py-0.5 rounded font-bold">剩 18 天</span>
+                  </div>
+
+                  <div onclick="openTubeModal('hip')" class="p-3 bg-[#FAF0EE] hover:bg-[#F5E2DE] border border-[#F2D2CB] rounded-2xl cursor-pointer transition flex justify-between items-center">
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs font-black px-2 py-0.5 bg-[#F2D2CB] text-[#9A382A] rounded">警示</span>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#9A382A]">左側髖部大轉子 (壓瘡紅斑觀察點)</h4>
+                      </div>
+                      <p class="text-[11px] text-[#9A382A] mt-0.5">定時 2 小時側臥減壓 30 度 · 點擊查照護對策 ➔</p>
+                    </div>
+                    <span class="badge-rose text-[10px] px-2 py-0.5 rounded font-bold">重點防護</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 🌟 需求 2: 看護端學習影片功能 (修復完畢) -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-3">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#EDF3EC] pb-3 gap-2">
+                <div>
+                  <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
+                    <i class="fa-solid fa-circle-play text-[#648866]"></i> Pusat Video SOP & Pelatihan (多語影音衛教中心)
+                  </h3>
+                  <p class="text-xs text-[#596D5C]">免翻手冊 · 支援雙語對照 · 0.8x 慢速放映 · 課後防呆小測驗</p>
+                </div>
+                <span class="text-xs bg-[#EDF3EC] text-[#436048] font-black px-3 py-1 rounded-full border border-[#D0DFC9]">
+                  <i class="fa-solid fa-award mr-1"></i>認證進度：75% (3/4門合格)
+                </span>
+              </div>
+
+              <!-- 影片分類 -->
+              <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-bold">
+                <button class="px-3 py-1.5 bg-[#436048] text-white rounded-xl whitespace-nowrap">全部課程 (Semua)</button>
+                <button class="px-3 py-1.5 bg-[#EDF3EC] text-[#436048] rounded-xl whitespace-nowrap">鼻胃管灌食 (Selang NGT)</button>
+                <button class="px-3 py-1.5 bg-[#EDF3EC] text-[#436048] rounded-xl whitespace-nowrap">翻身減壓 (Reposisi Tubuh)</button>
+              </div>
+
+              <!-- 影片列表 -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div class="border border-[#DEE8DC] rounded-2xl p-3 bg-[#F8FAF8]">
+                  <div class="relative bg-stone-900 rounded-xl h-32 flex items-center justify-center overflow-hidden cursor-pointer" onclick="openInteractiveVideo('ngt')">
+                    <div class="absolute inset-0 bg-cover bg-center opacity-65" style="background-image: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=500&q=80')"></div>
+                    <div class="w-10 h-10 rounded-full bg-[#436048] text-white flex items-center justify-center shadow z-10">
+                      <i class="fa-solid fa-play ml-0.5"></i>
+                    </div>
+                    <span class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 rounded font-mono z-10">02:45</span>
+                  </div>
+                  <div class="mt-2">
+                    <h4 class="font-bold text-xs sm:text-sm text-[#243527]">SOP Pemberian Nutrisi NGT (鼻胃管灌食標準步驟)</h4>
+                    <p class="text-[11px] text-[#596D5C] mt-0.5">反抽胃液確認、38°C溫水潤管、45度坐姿防嗆咳吸入性肺炎。</p>
+                    <div class="mt-2 pt-2 border-t flex justify-between items-center text-xs">
+                      <span class="text-[#436048] font-bold"><i class="fa-solid fa-check"></i> 已認證</span>
+                      <button onclick="openInteractiveVideo('ngt')" class="text-[#648866] font-bold hover:underline">複習影片</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-[#DEE8DC] rounded-2xl p-3 bg-[#F8FAF8]">
+                  <div class="relative bg-stone-900 rounded-xl h-32 flex items-center justify-center overflow-hidden cursor-pointer" onclick="openInteractiveVideo('turning')">
+                    <div class="absolute inset-0 bg-cover bg-center opacity-65" style="background-image: url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=500&q=80')"></div>
+                    <div class="w-10 h-10 rounded-full bg-[#436048] text-white flex items-center justify-center shadow z-10">
+                      <i class="fa-solid fa-play ml-0.5"></i>
+                    </div>
+                    <span class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 rounded font-mono z-10">03:15</span>
+                  </div>
+                  <div class="mt-2">
+                    <h4 class="font-bold text-xs sm:text-sm text-[#243527]">Teknik Membalikkan Tubuh & Cegah Luka (翻身減壓防壓瘡)</h4>
+                    <p class="text-[11px] text-[#596D5C] mt-0.5">利用床單省力翻轉、30度三角側睡枕、檢查骨突處皮膚完整度。</p>
+                    <div class="mt-2 pt-2 border-t flex justify-between items-center text-xs">
+                      <span class="text-[#C68947] font-bold"><i class="fa-solid fa-clock"></i> 待測驗</span>
+                      <button onclick="openInteractiveVideo('turning')" class="px-2.5 py-1 bg-[#436048] text-white rounded-lg font-bold">開始學習</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 今日照護排程 -->
+            <div class="bg-white rounded-3xl p-5 border border-[#DEE8DC] shadow-xs space-y-3">
+              <div class="flex justify-between items-center">
+                <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
+                  <i class="fa-solid fa-calendar-check text-[#648866]"></i> 今日照護排程 (5項)
+                </h3>
+                <span class="text-xs bg-[#EDF3EC] text-[#436048] px-2.5 py-0.5 rounded-full font-bold">完成 3/5</span>
+              </div>
+              <div class="space-y-2 text-xs" id="caregiver-task-list">
+                <div class="p-3 bg-[#F8FAF8] border rounded-2xl flex justify-between items-center">
+                  <div>
+                    <p class="font-bold text-[#243527]">08:00 晨間生理徵象 & 飯前血糖 (已完成)</p>
+                    <p class="text-[11px] text-[#596D5C]">血壓: 125/80 mmHg · 血糖: 108 mg/dL · SpO2: 98%</p>
+                  </div>
+                  <span class="badge-sage-primary px-2 py-0.5 rounded font-bold">已打卡</span>
+                </div>
+                <div class="p-3 bg-[#F8FAF8] border rounded-2xl flex justify-between items-center">
+                  <div>
+                    <p class="font-bold text-[#243527]">11:30 鼻胃管灌食 250ml & 飯後血糖 (已完成)</p>
+                    <p class="text-[11px] text-[#596D5C]">低鉀配方 250ml · 飯後血糖: 136 mg/dL · 胃殘餘 15ml</p>
+                  </div>
+                  <span class="badge-sage-primary px-2 py-0.5 rounded font-bold">已打卡</span>
+                </div>
+                <div class="p-3 bg-white border border-[#648866] rounded-2xl flex justify-between items-center shadow-xs">
+                  <div>
+                    <p class="font-bold text-[#243527]">14:00 翻身擺位與左髖減壓檢測</p>
+                    <p class="text-[11px] text-[#C68947]">特別注意：左側髖部紅斑處置與三角枕 30 度擺位</p>
+                  </div>
+                  <button onclick="completeTask(this)" class="px-3 py-1.5 bg-[#436048] hover:bg-[#324936] text-white rounded-xl font-bold">拍照完成</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 右側欄：AI 臨床對話 -->
+          <div class="space-y-5">
+            <div class="bg-white rounded-3xl p-5 border border-[#DEE8DC] shadow-xs flex flex-col h-[560px]">
+              <div class="flex items-center justify-between border-b border-[#EDF3EC] pb-2.5 mb-2.5">
+                <div class="flex items-center space-x-2">
+                  <div class="w-8 h-8 rounded-xl bg-[#EDF3EC] text-[#436048] flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-robot"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-bold text-[#243527]">SynCare AI 臨床分級助手</h3>
+                    <p class="text-[10px] text-[#436048] font-bold">● 24H 雙語真人級臨床對話中</p>
+                  </div>
+                </div>
+                <button onclick="resetAIChat()" class="text-xs text-[#596D5C] hover:text-[#243527]"><i class="fa-solid fa-rotate-right"></i></button>
+              </div>
+
+              <!-- 快捷情境 -->
+              <div class="flex flex-wrap gap-1 mb-2.5 text-[10px] font-bold">
+                <button onclick="sendQuickScenario('cough')" class="px-2 py-0.5 bg-[#FAF4EA] text-[#8F5E24] rounded-lg border">⚠️ 灌食嗆咳</button>
+                <button onclick="sendQuickScenario('fever')" class="px-2 py-0.5 bg-[#FAF4EA] text-[#8F5E24] rounded-lg border">🌡️ 體溫 38.3°C</button>
+                <button onclick="sendQuickScenario('tube_out')" class="px-2 py-0.5 bg-[#FAF0EE] text-[#9A382A] rounded-lg border">🚨 鼻管滑脫</button>
+              </div>
+
+              <!-- 對話視窗 -->
+              <div id="ai-dialog-box" class="flex-grow bg-[#F8FAF8] rounded-2xl p-3 border border-[#DEE8DC] text-xs space-y-2.5 overflow-y-auto">
+                <div class="chat-bubble-ai p-3 shadow-xs">
+                  <p class="font-bold text-[#436048] text-[11px] mb-0.5"><i class="fa-solid fa-robot"></i> SynCare AI</p>
+                  Halo Mbak Tri (阿蒂您好)！照護金伯伯有任何管路、體溫、血糖或嗆咳狀況，請隨時在此對話發問！
+                </div>
+              </div>
+
+              <div class="mt-2.5 flex gap-1.5 pt-2 border-t">
+                <input id="ai-dialog-input" type="text" onkeydown="if(event.key==='Enter') sendUserMessage()" placeholder="輸入照護問題..." class="flex-grow text-xs border rounded-xl px-3 py-2 bg-[#F8FAF8] focus:outline-none">
+                <button onclick="sendUserMessage()" class="bg-[#436048] text-white px-3.5 py-2 rounded-xl text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 2. 家屬決策端 (Family View - 小金先生) ==================== -->
+      <section id="view-family" class="space-y-5 hidden">
+        
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#EDF3EC] pb-3 mb-4 gap-2">
+            <div>
+              <p class="text-[11px] font-bold text-[#648866] uppercase">2026年7月26日・星期日</p>
+              <h2 class="text-2xl font-black text-[#243527]">早安，金先生</h2>
+              <p class="text-xs text-[#596D5C] mt-0.5">父親今日生理體徵平穩，阿蒂已落實晨間空腹血糖與生命徵象登錄。</p>
+            </div>
+            <span class="text-xs bg-[#EDF3EC] text-[#436048] px-3 py-1.5 rounded-xl font-bold border border-[#D0DFC9]">
+              <i class="fa-solid fa-shield-halved mr-1"></i>三端即時閉環同步中
+            </span>
+          </div>
+
+          <!-- 🌟 需求 4: 家屬端 3 大核心指標均可點開圖卡詳細追蹤 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+            <div onclick="openCgLearningTrackModal()" class="p-4 rounded-2xl bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] flex flex-col justify-between cursor-pointer transition group shadow-xs">
+              <div class="flex justify-between items-start">
+                <span class="text-xs font-bold text-[#436048]">阿蒂知能學習認證</span>
+                <span class="w-6 h-6 rounded-lg bg-[#436048] text-white flex items-center justify-center text-xs font-bold">↗</span>
+              </div>
+              <div class="my-2">
+                <strong class="text-3xl font-black text-[#243527]">72%</strong>
+                <div class="w-full bg-white h-2 rounded-full overflow-hidden border border-[#D0DFC9] mt-2">
+                  <div class="bg-[#436048] h-full w-[72%]"></div>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-[#648866] group-hover:underline">點擊開啟受訓圖卡與證書 ➔</span>
+            </div>
+
+            <div onclick="openScheduleDetailModal()" class="p-4 rounded-2xl bg-white hover:bg-[#F8FAF8] border border-[#DEE8DC] flex flex-col justify-between cursor-pointer transition group shadow-xs">
+              <div class="flex justify-between items-start">
+                <span class="text-xs font-bold text-[#596D5C]">今日排程執行進度</span>
+                <span class="w-6 h-6 rounded-lg bg-[#648866] text-white flex items-center justify-center text-xs font-bold">✓</span>
+              </div>
+              <div class="my-2">
+                <strong class="text-3xl font-black text-[#243527]">3 <span class="text-sm font-normal text-stone-500">/ 5 項</span></strong>
+                <p class="text-xs text-[#596D5C] mt-1">晨間量測、午間灌食已打卡完成</p>
+              </div>
+              <span class="text-xs font-bold text-[#648866] group-hover:underline">點擊開啟排程打卡圖卡 ➔</span>
+            </div>
+
+            <div onclick="openIncidentDetailModal()" class="p-4 rounded-2xl bg-[#FAF0EE] hover:bg-[#F5E2DE] border border-[#F2D2CB] flex flex-col justify-between cursor-pointer transition group shadow-xs">
+              <div class="flex justify-between items-start">
+                <span class="text-xs font-bold text-[#9A382A]">待追蹤臨床事件</span>
+                <span class="w-6 h-6 rounded-lg bg-[#C55D4E] text-white flex items-center justify-center text-xs font-bold animate-pulse">!</span>
+              </div>
+              <div class="my-2">
+                <strong class="text-3xl font-black text-[#9A382A]">1 <span class="text-sm font-normal">項待簽核</span></strong>
+                <p class="text-xs text-[#9A382A] mt-1 font-semibold">14:20 灌食期間出現輕微咳嗽</p>
+              </div>
+              <span class="text-xs font-bold text-[#C55D4E] group-hover:underline">點擊開啟雙軌確認簽核 ➔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7 日照護趨勢連續折線圖 (以真實日期標記 + 懸停每日重點) -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-2.5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#EDF3EC] pb-2.5 gap-2">
+            <div>
+              <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
+                <i class="fa-solid fa-chart-line text-[#648866]"></i> 近 7 日照護計畫連續趨勢圖 (動態完成率與每日關鍵備忘)
+              </h3>
+              <p class="text-xs text-[#596D5C]">以真實日期記錄 · 滑鼠移至圓點即可浮現當日照護重點備忘</p>
+            </div>
+            <span class="text-xs bg-[#EDF3EC] text-[#436048] font-bold px-3 py-1 rounded-full border border-[#D0DFC9]">
+              近 7 日平均完成率：83.5%
+            </span>
+          </div>
+          <div class="h-64 sm:h-72 w-full pt-2">
+            <canvas id="careTrendChart"></canvas>
+          </div>
+        </div>
+
+        <!-- 🌟 需求 3: 長照 2.0 生態外展資源連動 (恢復完整連動) -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-3">
+          <div class="flex justify-between items-center border-b border-[#EDF3EC] pb-2.5">
+            <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
+              <i class="fa-solid fa-van-shuttle text-[#648866]"></i> 長照 2.0 與社區外展資源整合 (Community Ecosystem Hub)
+            </h3>
+            <button onclick="openLtcBudgetModal()" class="text-xs text-[#436048] bg-[#EDF3EC] px-3 py-1 rounded-xl font-bold border border-[#D0DFC9]">
+              四包錢預算水位：已用 65%
+            </button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div onclick="openLtcBusModal()" class="p-3.5 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl cursor-pointer transition">
+              <div class="flex justify-between font-bold text-[#436048]">
+                <span><i class="fa-solid fa-bus text-[#648866] mr-1"></i> 特約復康巴士 (透析接送)</span>
+                <span class="badge-sage-primary px-2 py-0.5 rounded text-[10px]">準點出發</span>
+              </div>
+              <p class="text-[#243527] font-semibold mt-1">今日 14:00 血液透析專車 (車牌：TDF-8899)</p>
+              <p class="text-[#596D5C] text-[11px]">司機：陳先生 · 點擊查看路線 ➔</p>
+            </div>
+
+            <div onclick="openLtcOutreachModal()" class="p-3.5 bg-white hover:bg-[#F8FAF8] border border-[#DEE8DC] rounded-2xl cursor-pointer transition">
+              <div class="flex justify-between font-bold text-[#436048]">
+                <span><i class="fa-solid fa-bath text-[#648866] mr-1"></i> 到宅沐浴車與專業團隊</span>
+                <span class="text-stone-500 text-[10px]">週五 10:00</span>
+              </div>
+              <p class="text-[#243527] font-semibold mt-1">紅十字會到宅沐浴車 (三人專業小組)</p>
+              <p class="text-[#596D5C] text-[11px]">下週四 15:30 物理治療師到府 ➔</p>
+            </div>
+
+            <div onclick="openLtcCareModal()" class="p-3.5 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl cursor-pointer transition">
+              <div class="flex justify-between font-bold text-[#436048]">
+                <span><i class="fa-solid fa-hand-holding-hand text-[#648866] mr-1"></i> 社區照顧與喘息支援</span>
+                <span class="text-[10px] bg-[#D3E3CF] text-[#436048] px-1.5 py-0.5 rounded font-bold">可申請</span>
+              </div>
+              <p class="text-[#243527] font-semibold mt-1">居服員備餐 / 陪伴喘息服務</p>
+              <p class="text-[#596D5C] text-[11px]">讓外籍看護阿蒂定期心理休養 ➔</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 3. 🌟 需求 5: 個案端 (Client View - 金大明伯伯) ==================== -->
+      <section id="view-patient" class="space-y-6 hidden">
+        
+        <!-- 🌟 需求 10: 個案重要行程字體放大 -->
+        <div class="bg-white border-2 border-[#DEE8DC] rounded-3xl p-6 sm:p-8 text-center max-w-3xl mx-auto space-y-6 shadow-sm">
+          <div class="w-16 h-16 bg-[#436048] text-white rounded-3xl mx-auto flex items-center justify-center text-3xl shadow-md">
+            <i class="fa-solid fa-sun text-[#D3E3CF]"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl sm:text-4xl font-black text-[#243527]">早安，金大明 伯伯</h2>
+            <p class="text-lg sm:text-xl text-[#596D5C] font-bold mt-1">今天是 2026 年 8 月 19 日 (星期三)</p>
+          </div>
+
+          <!-- 重要行程 (特大字體排版) -->
+          <div class="bg-[#F8FAF8] rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-4">
+            <h3 class="text-2xl font-black text-[#243527] border-b border-[#EDF3EC] pb-2 flex items-center gap-2">
+              <i class="fa-solid fa-calendar-day text-[#648866]"></i> 今日重要行程提醒
+            </h3>
+            <div class="space-y-3">
+              <div class="p-4 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] flex items-center space-x-4">
+                <span class="text-4xl">🚐</span>
+                <div>
+                  <p class="text-xl sm:text-2xl font-black text-[#243527]">下午 14:00 - 醫院血液透析 (洗腎)</p>
+                  <p class="text-sm sm:text-base text-[#596D5C] font-bold mt-0.5">復康巴士陳先生接送 · 阿蒂陪同前往</p>
+                </div>
+              </div>
+              <div class="p-4 bg-white rounded-2xl border border-[#DEE8DC] flex items-center space-x-4">
+                <span class="text-4xl">🥣</span>
+                <div>
+                  <p class="text-xl sm:text-2xl font-black text-[#243527]">下午 16:30 - 傍晚營養灌食</p>
+                  <p class="text-sm sm:text-base text-[#596D5C] font-bold mt-0.5">低鉀腎臟專用配方奶 250ml</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🌟 需求 9: 個案心情選項供家屬追蹤 -->
+          <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-3 shadow-xs">
+            <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
+              <i class="fa-solid fa-face-smile text-[#648866]"></i> 今天心情與感覺怎麼樣？
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+              <button onclick="recordClientMood('舒服很好 😊')" class="p-4 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl text-center transition">
+                <span class="text-4xl block">😊</span>
+                <span class="text-base font-black text-[#436048] mt-1 block">舒服 / 很好</span>
+              </button>
+              <button onclick="recordClientMood('普通還可以 😐')" class="p-4 bg-[#F8FAF8] hover:bg-[#EDF3EC] border border-[#DEE8DC] rounded-2xl text-center transition">
+                <span class="text-4xl block">😐</span>
+                <span class="text-base font-black text-[#243527] mt-1 block">還可以 / 普通</span>
+              </button>
+              <button onclick="recordClientMood('疼痛難受 😣')" class="p-4 bg-[#FAF0EE] hover:bg-[#F5E2DE] border border-[#F2D2CB] rounded-2xl text-center transition">
+                <span class="text-4xl block">😣</span>
+                <span class="text-base font-black text-[#9A382A] mt-1 block">疼痛 / 難受</span>
+              </button>
+              <button onclick="recordClientMood('想念小金 💬')" class="p-4 bg-[#FAF4EA] hover:bg-[#F2E8DA] border border-[#ECDDC7] rounded-2xl text-center transition">
+                <span class="text-4xl block">💬</span>
+                <span class="text-base font-black text-[#8F5E24] mt-1 block">想找家人</span>
+              </button>
+            </div>
+            <p id="client-mood-alert" class="hidden text-xs font-bold text-[#436048] bg-[#EDF3EC] p-2.5 rounded-xl border border-[#D0DFC9] text-center"></p>
+          </div>
+
+          <!-- 🌟 需求 8: 個案端 身體哪裡不適點選 (附件 1 人形圖互動) -->
+          <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-4 shadow-xs">
+            <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
+              <i class="fa-solid fa-person-dots-from-line text-[#C55D4E]"></i> 哪裡覺得痛或不舒服？（點選人形部位）
+            </h3>
+            <p class="text-xs text-[#596D5C]">免開口說話，直接點選身體部位，系統即刻發送通知給阿蒂與小金！</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
+              <!-- 附件 1 象形人體 -->
+              <div class="sm:col-span-6 bg-[#F8FAF8] border border-[#DEE8DC] rounded-2xl p-4 flex flex-col items-center justify-center relative min-h-[340px]">
+                <div class="relative w-44 h-80 flex items-center justify-center">
+                  <svg viewBox="0 0 180 320" class="w-full h-full drop-shadow-sm">
+                    <circle cx="90" cy="36" r="22" fill="#436048" />
+                    <rect x="22" y="78" width="18" height="114" rx="9" fill="#436048" />
+                    <rect x="140" y="78" width="18" height="114" rx="9" fill="#436048" />
+                    <path d="M 52,90 C 52,76 66,74 90,74 C 114,74 128,76 128,90 L 128,190 L 126,294 C 126,302 104,302 104,294 L 100,195 C 100,190 80,190 80,195 L 76,294 C 76,302 54,302 54,294 L 52,190 Z" fill="#436048" />
+                  </svg>
+
+                  <div onclick="clientReportPain('頭部痛 / 頭暈')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 24px; left: 77px;" title="頭部痛">
+                    <span>🤕</span>
+                  </div>
+                  <div onclick="clientReportPain('胸口悶 / 呼吸喘')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 105px; left: 77px;" title="胸口悶">
+                    <span>🫁</span>
+                  </div>
+                  <div onclick="clientReportPain('肚子脹痛 / 想吐')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 145px; left: 77px;" title="肚子脹痛">
+                    <span>🫄</span>
+                  </div>
+                  <div onclick="clientReportPain('左側屁股 / 髖部壓痛')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 175px; right: 40px;" title="髖部壓痛">
+                    <span>🦴</span>
+                  </div>
+                  <div onclick="clientReportPain('下肢水腫 / 腳痛')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 245px; left: 77px;" title="腳酸痛">
+                    <span>🦵</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 快捷症狀按鈕 -->
+              <div class="sm:col-span-6 space-y-2.5 text-xs font-bold">
+                <button onclick="clientReportPain('鼻胃管卡卡拉扯痛')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
+                  <span class="text-xl">👃</span> 鼻子 / 鼻胃管卡卡痛
+                </button>
+                <button onclick="clientReportPain('胸口很悶、吸不到氣')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
+                  <span class="text-xl">🫁</span> 胸口很悶、吸不到氣
+                </button>
+                <button onclick="clientReportPain('肚子脹脹的、消化不良')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
+                  <span class="text-xl">🫄</span> 肚子脹脹的、想吐
+                </button>
+                <button onclick="clientReportPain('左側髖部骨頭被壓到很痛')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
+                  <span class="text-xl">🦴</span> 屁股 / 側邊骨頭被壓到痛
+                </button>
+
+                <div id="client-pain-feedback" class="hidden p-3 bg-[#FAF0EE] border border-[#F2D2CB] text-[#9A382A] rounded-xl text-xs"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🌟 需求 6: 個案端 ICOPE 長者六力懷舊認知問答微互動 -->
+          <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-3 shadow-xs">
+            <div class="flex justify-between items-center border-b border-[#EDF3EC] pb-2">
+              <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
+                <i class="fa-solid fa-gamepad text-[#648866]"></i> 每日 2 分鐘懷舊老歌問答 (長者六力認知維持)
+              </h3>
+              <span class="text-xs bg-[#EDF3EC] text-[#436048] font-bold px-2.5 py-1 rounded-full border border-[#D0DFC9]">大腦活化</span>
+            </div>
+            <p class="text-xs text-[#596D5C]">天天猜一猜，動動腦筋更健康！點擊下方開始今天的三道懷舊題目：</p>
+            <button onclick="openNostalgicModal()" class="w-full py-3.5 bg-[#436048] hover:bg-[#324936] text-white font-black text-base rounded-2xl shadow-xs transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-play"></i> 點我開始今天的懷舊問答 (3 題)
+            </button>
+          </div>
+
+          <!-- 🌟 需求 7: 個案端 語音自主心願錄製表達功能 -->
+          <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-4 shadow-xs">
+            <div class="flex justify-between items-center border-b border-[#EDF3EC] pb-2">
+              <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
+                <i class="fa-solid fa-heart text-[#648866]"></i> 今日生活自主心願 (My Dignity Wishes)
+              </h3>
+              <span class="text-xs bg-[#EDF3EC] text-[#436048] font-bold px-2.5 py-1 rounded-full border">我有選擇權</span>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-[#243527] mb-1.5">👉 請選擇您今天希望照護者配合的心願：</label>
+              <select id="patient-wish-select" class="w-full text-base border border-[#DEE8DC] rounded-xl p-3 bg-[#F8FAF8] font-bold focus:ring-2 focus:ring-[#648866] focus:outline-none">
+                <option value="擦澡前想先聽 20 分鐘廣播老歌">📻 擦澡前想先聽 20 分鐘廣播老歌</option>
+                <option value="下午翻身時希望側睡左側多看看窗外陽光">🪟 下午翻身時希望側睡左側多看看窗外陽光</option>
+                <option value="想要用溫毛巾多熱敷一下後頸與肩膀">🧖 想要用溫毛巾多熱敷一下後頸與肩膀</option>
+                <option value="洗腎回來後想先聽小金錄的家人問候語音">🎙️ 洗腎回來後想先聽小金錄的家人問候語音</option>
+                <option value="自訂其他心願">✍️ 其他（請錄音或輸入告訴阿蒂）</option>
+              </select>
+            </div>
+            
+            <!-- 麥克風錄音動態控制區塊 -->
+            <div class="p-4 bg-[#F8FAF8] rounded-2xl border border-[#DEE8DC] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="flex items-center space-x-3">
+                <button id="btn-patient-record" onclick="togglePatientVoiceRecord()" class="w-14 h-14 bg-[#C55D4E] hover:bg-[#AA493B] text-white rounded-full flex items-center justify-center text-2xl shadow-xs transition">
+                  <i id="record-icon" class="fa-solid fa-microphone"></i>
+                </button>
+                <div>
+                  <p class="font-black text-base text-[#243527]" id="record-status-text">點擊按鈕開始錄音說出心願</p>
+                  <p class="text-xs text-[#596D5C]">國語、台語皆可，AI 自動轉譯並傳達給阿蒂與小金</p>
+                </div>
+              </div>
+              <div id="recording-waveform" class="hidden items-center space-x-1.5 h-7">
+                <span class="waveform-bar"></span>
+                <span class="waveform-bar" style="animation-delay: 0.2s;"></span>
+                <span class="waveform-bar" style="animation-delay: 0.4s;"></span>
+                <span class="waveform-bar" style="animation-delay: 0.1s;"></span>
+                <span class="waveform-bar" style="animation-delay: 0.3s;"></span>
+              </div>
+            </div>
+
+            <button onclick="submitPatientWish()" class="w-full py-3 bg-[#436048] hover:bg-[#324936] text-white font-black text-base rounded-2xl shadow-xs transition">
+              <i class="fa-solid fa-paper-plane mr-1"></i> 確認送出心願 (自動通知阿蒂與小金)
+            </button>
+            <div id="patient-wish-msg" class="hidden text-sm font-bold text-[#436048] text-center p-3 bg-[#EDF3EC] rounded-xl border border-[#D0DFC9]"></div>
+          </div>
+
+          <!-- 緊急呼叫大按鈕 -->
+          <button onclick="alert('🚨 已觸發呼叫鈴！阿蒂手機與智慧手環已同步震動鈴響。')" class="w-full py-5 bg-[#C55D4E] hover:bg-[#AA493B] text-white font-black text-2xl rounded-3xl shadow-lg shadow-[#C55D4E]/30 transition flex items-center justify-center gap-3">
+            <i class="fa-solid fa-bell animate-bounce"></i> 呼叫看護阿蒂 (Panggil Tri)
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== 模態視窗組 (MODALS) ==================== -->
+
+  <!-- 阿蒂學習進度詳情 Modal -->
+  <div id="cg-learning-track-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto border border-[#DEE8DC]">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2">
+          <i class="fa-solid fa-user-graduate text-[#648866]"></i> 外籍看護 (阿蒂) 照護技能受訓與認證圖卡
+        </h3>
+        <button onclick="document.getElementById('cg-learning-track-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="p-4 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] space-y-2 text-xs">
+        <div class="flex justify-between font-bold text-[#436048]">
+          <span>整體受訓達成率：72% (3/4 門通過)</span>
+          <span>🔥 連續受訓 7 天</span>
+        </div>
+        <div class="w-full bg-white h-2 rounded-full overflow-hidden border">
+          <div class="bg-[#436048] h-full w-[72%]"></div>
+        </div>
+      </div>
+      <div class="space-y-2 text-xs">
+        <div class="p-3 bg-[#F8FAF8] rounded-xl border flex justify-between items-center">
+          <div><p class="font-bold text-[#243527]">1. 鼻胃管灌食安全 (NGT Feeding)</p><p class="text-[11px] text-stone-500">回抽胃液確認、38°C溫水潤管、45度坐姿</p></div>
+          <span class="badge-sage-primary px-2.5 py-0.5 rounded-full font-bold">已認證</span>
+        </div>
+        <div class="p-3 bg-[#F8FAF8] rounded-xl border flex justify-between items-center">
+          <div><p class="font-bold text-[#243527]">2. 安全翻身與移位 (Positioning & Skin)</p><p class="text-[11px] text-stone-500">每 2 小時翻身、30度三角枕支撐、骨突檢視</p></div>
+          <span class="badge-amber px-2.5 py-0.5 rounded-full font-bold">62%</span>
+        </div>
+      </div>
+      <div class="flex justify-end pt-2 border-t">
+        <button onclick="document.getElementById('cg-learning-track-modal').classList.add('hidden')" class="px-4 py-2 bg-[#436048] text-white font-bold rounded-xl text-xs">關閉圖卡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今日排程任務進度詳情 Modal -->
+  <div id="schedule-detail-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto border border-[#DEE8DC]">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-[#648866]"></i> 今日 5 大照護任務執行圖卡
+        </h3>
+        <button onclick="document.getElementById('schedule-detail-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="space-y-2.5 text-xs">
+        <div class="p-3 bg-[#EDF3EC] rounded-xl border">
+          <div class="flex justify-between font-bold text-[#436048]"><span>1. 08:00 晨間量測與血糖</span><span>已於 08:05 打卡</span></div>
+          <p class="text-stone-600 mt-1">血壓: 125/80 mmHg · 血糖: 108 mg/dL · 脈搏: 76 bpm</p>
+        </div>
+        <div class="p-3 bg-[#EDF3EC] rounded-xl border">
+          <div class="flex justify-between font-bold text-[#436048]"><span>2. 11:30 鼻胃管灌食與血糖</span><span>已於 11:35 打卡</span></div>
+          <p class="text-stone-600 mt-1">低鉀配方 250ml · 飯後血糖: 136 mg/dL · 刻度照片核對無位移</p>
+        </div>
+        <div class="p-3 bg-[#FAF0EE] rounded-xl border">
+          <div class="flex justify-between font-bold text-[#9A382A]"><span>3. 14:00 翻身擺位與髖部檢查</span><span>已打卡 (發現泛紅)</span></div>
+          <p class="text-stone-600 mt-1">已拍照上傳 · 左側髖部有輕微紅斑 · 已協助三角枕減壓 30 度</p>
+        </div>
+      </div>
+      <div class="flex justify-end pt-2 border-t">
+        <button onclick="document.getElementById('schedule-detail-modal').classList.add('hidden')" class="px-4 py-2 bg-[#436048] text-white font-bold rounded-xl text-xs">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 異常事件雙軌確認簽核 Modal -->
+  <div id="incident-detail-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl space-y-4 border border-[#DEE8DC]">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-[#9A382A] text-base flex items-center gap-2">
+          <i class="fa-solid fa-triangle-exclamation text-[#C55D4E]"></i> 臨床異常事件通報圖卡 (雙軌確認)
+        </h3>
+        <button onclick="document.getElementById('incident-detail-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="p-4 bg-[#FAF0EE] rounded-2xl border border-[#F2D2CB] space-y-2 text-xs">
+        <div class="flex justify-between text-[#9A382A] font-bold">
+          <span>事件：灌食輕微嗆咳 (黃色觀察)</span>
+          <span>7月25日 14:20</span>
+        </div>
+        <p class="text-[#243527]"><strong>回報人員：</strong> 外籍看護阿蒂 (Ati)</p>
+        <p class="text-[#243527]"><strong>處置經過：</strong> 灌食 100ml 時連續咳嗽兩聲，阿蒂立刻暫停灌食，並抬高床頭 45 度拍背，現呼吸已恢復平穩。</p>
+        <p class="text-[#596D5C]"><strong>個管護理師指導：</strong> 建議維持半坐臥 30 分鐘，暫緩灌水，若再咳或發熱即刻回報。</p>
+      </div>
+      <div class="flex justify-between items-center pt-2">
+        <button onclick="alert('已申請居家護理師致電關懷！')" class="px-3 py-2 bg-white border rounded-xl text-xs font-bold text-[#243527]">
+          <i class="fa-solid fa-phone text-[#648866] mr-1"></i> 請護理師追蹤
+        </button>
+        <button onclick="signAcknowledgeIncident()" class="px-4 py-2 bg-[#436048] hover:bg-[#324936] text-white font-bold rounded-xl text-xs">
+          我已了解 (完成家屬端簽核)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 管路詳細圖卡 Modal -->
+  <div id="tube-card-modal" class="fixed inset-0 bg-stone-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-[#DEE8DC]">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-[#EDF3EC] text-[#436048] flex items-center justify-center font-bold">
+            <i class="fa-solid fa-file-waveform"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-[#243527] text-base" id="tc-title">管路詳細圖卡</h3>
+            <p class="text-[11px] text-[#596D5C]" id="tc-subtitle">留置資訊與安全水位</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('tube-card-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="space-y-2.5 text-xs" id="tc-content-area"></div>
+      <div class="flex justify-end pt-2 border-t">
+        <button onclick="document.getElementById('tube-card-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white font-bold rounded-xl text-xs">關閉圖卡</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BSFS 完整 7 型打卡 Modal -->
+  <div id="bsfs-modal" class="fixed inset-0 bg-stone-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto border">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2"><i class="fa-solid fa-toilet text-[#648866]"></i> BSFS 布里斯托大便分類法 (完整 1～7 型)</h3>
+        <button onclick="document.getElementById('bsfs-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+        <button onclick="alert('已選第 1 型：硬球粒狀 (便秘)')" class="p-2.5 bg-[#FAF8F5] border rounded-xl text-left">🪨 第 1 型：硬球粒狀 (嚴重便秘)</button>
+        <button onclick="alert('已選第 2 型：凹凸香腸狀')" class="p-2.5 bg-[#FAF8F5] border rounded-xl text-left">🥖 第 2 型：凹凸香腸狀 (輕度便秘)</button>
+        <button onclick="alert('已選第 3 型：表面裂紋香腸')" class="p-2.5 bg-[#F8FAF8] border rounded-xl text-left">🌭 第 3 型：表面裂紋香腸 (正常偏乾)</button>
+        <button onclick="alert('已選第 4 型：光滑長條香蕉')" class="p-2.5 bg-[#EDF3EC] border-2 border-[#648866] rounded-xl text-left font-bold text-[#436048]">🍌 第 4 型：光滑長條香蕉 (最理想)</button>
+        <button onclick="alert('已選第 5 型：柔軟塊狀')" class="p-2.5 bg-[#F8FAF8] border rounded-xl text-left">🥔 第 5 型：柔軟塊狀 (缺纖維)</button>
+        <button onclick="alert('已選第 6 型：糊狀蓬鬆碎片')" class="p-2.5 bg-[#FAF8F5] border rounded-xl text-left">🥣 第 6 型：糊狀蓬鬆塊 (輕度腹瀉)</button>
+        <button onclick="alert('已選第 7 型：水狀無固體 (腹瀉警示)')" class="p-2.5 bg-[#FAF0EE] border border-[#F2D2CB] rounded-xl text-left col-span-1 sm:col-span-2 text-[#9A382A] font-bold">🌊 第 7 型：水狀完全無固體 (嚴重腹瀉)</button>
+      </div>
+      <div class="flex justify-end gap-2 pt-2 border-t">
+        <button onclick="document.getElementById('bsfs-modal').classList.add('hidden')" class="px-4 py-1.5 bg-stone-100 rounded-xl text-xs font-bold">取消</button>
+        <button onclick="document.getElementById('bsfs-modal').classList.add('hidden'); alert('✅ 排便打卡已完成並同步三端！');" class="px-5 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認儲存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 生命徵象/血糖/灌食/用藥 Modal -->
+  <div id="vital-modal" class="fixed inset-0 bg-stone-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto border">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-[#C55D4E]"></i> 全生命徵象、血糖、灌食與用藥紀錄</h3>
+        <button onclick="document.getElementById('vital-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="event.preventDefault(); document.getElementById('vital-modal').classList.add('hidden'); alert('✅ 生理與用藥數據已儲存並同步至三端！');" class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#F8FAF8] p-3 rounded-2xl border">
+          <div><label class="block font-medium">收縮壓</label><input type="number" value="125" class="w-full border rounded-lg p-1.5 bg-white"></div>
+          <div><label class="block font-medium">舒張壓</label><input type="number" value="80" class="w-full border rounded-lg p-1.5 bg-white"></div>
+          <div><label class="block font-medium">心率 bpm</label><input type="number" value="76" class="w-full border rounded-lg p-1.5 bg-white"></div>
+          <div><label class="block font-medium">體溫 °C</label><input type="number" step="0.1" value="36.5" class="w-full border rounded-lg p-1.5 bg-white"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 bg-[#EDF3EC] p-3 rounded-2xl border">
+          <div><label class="block font-bold text-[#436048]">🌅 飯前空腹血糖</label><input type="number" value="108" class="w-full border rounded-lg p-1.5 bg-white font-bold"></div>
+          <div><label class="block font-bold text-[#436048]">🍽️ 飯後 2 小時血糖</label><input type="number" value="136" class="w-full border rounded-lg p-1.5 bg-white font-bold"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-2 bg-[#F8FAF8] p-3 rounded-2xl border">
+          <div><label class="block font-medium">灌食量 (ml)</label><input type="number" value="250" class="w-full border rounded-lg p-1.5 bg-white"></div>
+          <div><label class="block font-medium">溫水潤管 (ml)</label><input type="number" value="30" class="w-full border rounded-lg p-1.5 bg-white"></div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2 border-t">
+          <button type="submit" class="px-5 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">儲存並同步</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 長照預算 Modal -->
+  <div id="ltc-budget-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
+      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-wallet text-[#648866]"></i> 長照 2.0 四包錢總預算 (CMS-7級)</h3>
+      <div class="p-3 bg-[#F8FAF8] rounded-xl border text-xs space-y-1">
+        <p>• 照顧及專業服務：$36,180/月 (已使用 $23,500 / 65%)</p>
+        <p>• 交通接送補助：透析接送第4組 (本月尚餘 4 趟)</p>
+      </div>
+      <div class="flex justify-end"><button onclick="document.getElementById('ltc-budget-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">關閉</button></div>
+    </div>
+  </div>
+
+  <!-- 復康巴士 Modal -->
+  <div id="ltc-bus-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
+      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-bus text-[#648866]"></i> 特約復康巴士透析專車</h3>
+      <div class="p-3 bg-[#EDF3EC] rounded-xl border text-xs">司機：陳先生 (0912-345-678 · TDF-8899)<br>排程：每週一、三、五 14:00 出發往北榮透析中心</div>
+      <div class="flex justify-end"><button onclick="document.getElementById('ltc-bus-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認</button></div>
+    </div>
+  </div>
+
+  <!-- 沐浴車 Modal -->
+  <div id="ltc-outreach-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
+      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-bath text-[#648866]"></i> 到宅沐浴車與專業團隊</h3>
+      <div class="p-3 bg-[#F8FAF8] rounded-xl border text-xs">紅十字會到宅沐浴車 (每雙週五 10:00 · 三人小組到府服務)</div>
+      <div class="flex justify-end"><button onclick="document.getElementById('ltc-outreach-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認</button></div>
+    </div>
+  </div>
+
+  <!-- 喘息支援 Modal -->
+  <div id="ltc-care-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
+      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-hand-holding-hand text-[#648866]"></i> 社區照顧與喘息支援</h3>
+      <div class="p-3 bg-[#F8FAF8] rounded-xl border text-xs">每週可申請 1 次居服員替班 3 小時，讓看護阿蒂安心休息。</div>
+      <div class="flex justify-end"><button onclick="document.getElementById('ltc-care-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認</button></div>
+    </div>
+  </div>
+
+  <!-- 懷舊生活問答 Modal -->
+  <div id="nostalgic-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl space-y-4 border border-[#DEE8DC]">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-[#243527] text-base">📻 懷舊生活老歌問答 (第 1 題 / 共 3 題)</h3>
+        <button onclick="document.getElementById('nostalgic-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="space-y-3 text-center">
+        <p class="text-base font-black text-[#243527]">「阮若打開心內的門，就會看見五彩的春光...」這首經典老歌的歌名是？</p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-bold pt-2">
+          <button onclick="alert('🎉 答對了！金伯伯反應時間僅 1.6 秒，大腦記憶維持非常棒！'); document.getElementById('nostalgic-modal').classList.add('hidden');" class="p-3 bg-[#EDF3EC] hover:bg-[#D3E3CF] border rounded-xl text-[#436048]">A. 阮若打開心內的門窗</button>
+          <button onclick="alert('差一點點！這首歌是傳唱經典的《阮若打開心內的門窗》喔！動動腦很棒！'); document.getElementById('nostalgic-modal').classList.add('hidden');" class="p-3 bg-[#F8FAF8] hover:bg-stone-100 border rounded-xl text-[#243527]">B. 望春風</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 影音播放器 Modal -->
+  <div id="video-interactive-modal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-3">
+      <div class="flex justify-between items-center pb-2 border-b">
+        <h3 class="font-bold text-[#243527] text-sm" id="modal-video-title">SOP 護理技術訓練</h3>
+        <button onclick="closeInteractiveVideo()" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="bg-stone-900 rounded-2xl h-56 flex flex-col items-center justify-center text-white relative">
+        <i class="fa-solid fa-play text-4xl text-[#D3E3CF] cursor-pointer" onclick="alert('影片播放中 (0.8x 慢速雙語放映)...')"></i>
+        <span class="absolute bottom-3 right-3 bg-black/60 px-2 py-0.5 rounded text-[10px]">0.8x 慢速字幕</span>
+      </div>
+      <div class="p-3 bg-[#EDF3EC] rounded-xl text-xs text-[#436048]">
+        <strong>課後小測驗：</strong> 翻身側臥時，背後三角枕維持幾度最能保護大轉子骨突避免壓瘡？<br>
+        <button onclick="alert('🎉 答對了！已頒發照護知能認證徽章！'); closeInteractiveVideo();" class="mt-2 w-full py-2 bg-[#436048] text-white rounded-lg font-bold">A. 30度側臥懸空 (正確)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 鼻胃管比對 Modal -->
+  <div id="ngt-check-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
+      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-camera"></i> 鼻胃管刻度相片比對</h3>
+      <div class="p-3 bg-[#EDF3EC] rounded-2xl text-xs text-[#436048] font-bold">今日辨識：52.1 cm（昨日基準 52.0 cm，位移 +0.1cm 安全無滑脫）</div>
+      <div class="flex justify-end"><button onclick="document.getElementById('ngt-check-modal').classList.add('hidden'); alert('刻度比對完成，已解鎖灌食！');" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認無位移</button></div>
+    </div>
+  </div>
+
+  <!-- 核心自適應裝置檢測腳本與業務邏輯 -->
+  <script>
+    /* ==================== 🌟 核心：自動偵測手機/電腦並調整比例 ==================== */
+    function detectAndScaleDevice() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isTouchMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+      const isNarrowWidth = window.innerWidth < 768;
+      const isMobile = isTouchMobile || isNarrowWidth;
+
+      const htmlEl = document.documentElement;
+      const badge = document.getElementById('device-mode-badge');
+
+      if (isMobile) {
+        htmlEl.classList.add('device-mobile');
+        htmlEl.classList.remove('device-desktop');
+        if (badge) {
+          badge.innerHTML = `<i class="fa-solid fa-mobile-screen mr-1 text-[#436048]"></i>手機適配比例 (${window.innerWidth}px)`;
+        }
+      } else {
+        htmlEl.classList.add('device-desktop');
+        htmlEl.classList.remove('device-mobile');
+        if (badge) {
+          badge.innerHTML = `<i class="fa-solid fa-display mr-1 text-[#436048]"></i>電腦桌面比例 (${window.innerWidth}px)`;
+        }
+      }
+
+      // 如果圖表已初始化，視窗縮放時自動重繪
+      if (careTrendChartInstance) {
+        careTrendChartInstance.resize();
+      }
+    }
+
+    window.addEventListener('resize', detectAndScaleDevice);
+    window.addEventListener('orientationchange', detectAndScaleDevice);
+    document.addEventListener('DOMContentLoaded', detectAndScaleDevice);
+
+    /* ==================== 資料與業務邏輯 ==================== */
+    const careTrendData = {
+      labels: ['07/20', '07/21', '07/22', '07/23', '07/24', '07/25', '07/26'],
+      completionRates: [80, 85, 75, 90, 85, 95, 72],
+      dailyHighlights: [
+        '07/20 (週一)：完成 4/5 項 · 血液透析專車準點 · 夜間生理平穩',
+        '07/21 (週二)：完成 4/5 項 · 居服員到府陪伴喘息 3 小時 · 鼻管正常',
+        '07/22 (週三)：完成 3/5 項 · 透析接送 · 阿蒂通過鼻胃管灌食 SOP 認證',
+        '07/23 (週四)：完成 5/5 項 · 全日排程達標 · 物理治療師到宅指導',
+        '07/24 (週五)：完成 4/5 項 · ⚠️ 10:45 左側髖部皮膚輕度泛紅（已加強翻身）',
+        '07/25 (週六)：完成 5/5 項 · ⚠️ 14:20 灌食輕微咳嗽（阿蒂即刻暫停並抬高）',
+        '07/26 (今日)：完成 3/5 項 · 晨間空腹血糖 108mg/dL · 下午洗腎待出發'
+      ]
+    };
+
+    let careTrendChartInstance = null;
+
+    function initCareTrendChart() {
+      const ctx = document.getElementById('careTrendChart');
+      if (!ctx) return;
+      if (careTrendChartInstance) careTrendChartInstance.destroy();
+
+      careTrendChartInstance = new Chart(ctx.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: careTrendData.labels,
+          datasets: [{
+            label: '完成率 (%)',
+            data: careTrendData.completionRates,
+            borderColor: '#436048',
+            backgroundColor: 'rgba(100, 136, 102, 0.15)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: '#648866',
+            pointBorderColor: '#FFFFFF',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#C55D4E',
+            pointHoverBorderColor: '#FFFFFF'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#243527',
+              titleColor: '#D3E3CF',
+              bodyColor: '#FFFFFF',
+              padding: 10,
+              cornerRadius: 10,
+              callbacks: {
+                title: (ctx) => '📅 日期：' + ctx[0].label + ' (2026年)',
+                label: (ctx) => '照護完成率：' + ctx.parsed.y + '%',
+                afterLabel: (ctx) => '\n📌 當日重點：\n' + careTrendData.dailyHighlights[ctx.dataIndex]
+              }
+            }
+          },
+          scales: {
+            y: { min: 40, max: 100, ticks: { callback: v => v + '%' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function openTubeModal(type) {
+      const modal = document.getElementById('tube-card-modal');
+      const title = document.getElementById('tc-title');
+      const subtitle = document.getElementById('tc-subtitle');
+      const area = document.getElementById('tc-content-area');
+
+      if (type === 'ngt') {
+        title.innerText = '鼻胃管 (NGT 14 Fr 矽膠材質)';
+        subtitle.innerText = '留置於鼻腔至胃部 · 營養灌食與給藥專用';
+        area.innerHTML = `
+          <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9]">
+            <div class="flex justify-between font-bold text-[#436048]">
+              <span>留置效期剩餘：12 天 (置放日 08/01)</span>
+              <span class="text-xs bg-white px-2 py-0.5 rounded border">安全常態</span>
+            </div>
+            <div class="w-full bg-white h-2 rounded-full overflow-hidden border border-[#D0DFC9] mt-1.5">
+              <div class="bg-[#436048] h-full w-[60%]"></div>
+            </div>
+          </div>
+          <div class="p-3 bg-[#F8FAF8] rounded-2xl border border-[#DEE8DC] space-y-1">
+            <p><strong>刻度固定線：</strong> 52.0 cm（今日相片核對正常無位移）</p>
+            <p><strong>耗材水位：</strong> 50ml 空針剩 2 支（<span class="text-rose-600 font-bold">⚠️ 低水位</span>）· 膠帶 5 捲</p>
+            <p><strong>護理重點：</strong> 灌食前務必反抽胃殘餘量；維持半坐臥 45 度防嗆咳。</p>
+          </div>
+        `;
+      } else if (type === 'dialysis') {
+        title.innerText = '左前臂洗腎瘻管 (AV Fistula)';
+        subtitle.innerText = '左手自體動靜脈瘻管 · 血液透析通道';
+        area.innerHTML = `
+          <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] space-y-1">
+            <p class="font-bold text-[#436048]">瘻管震顫音 (Thrill)：沙沙跳動正常、血流暢通</p>
+            <p><strong>照護禁忌：</strong> 嚴禁於左手測量血壓、抽血或佩戴飾品；睡覺避免枕壓。</p>
+            <p><strong>外展接送：</strong> 台北市無障礙長照車隊 (陳司機 0912-345-678)。</p>
+          </div>
+        `;
+      } else if (type === 'foley') {
+        title.innerText = '留置導尿管 (Foley Catheter 16 Fr)';
+        subtitle.innerText = '雙腔留置導尿管 · 引流通暢無沈澱';
+        area.innerHTML = `
+          <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] space-y-1">
+            <p class="font-bold text-[#436048]">效期倒數：剩餘 18 天 (效期至 09/06)</p>
+            <p><strong>尿液指標：</strong> 累計 1450ml · 清澈淡黃無異味。</p>
+            <p><strong>防呆安全：</strong> 尿袋位置必須保持低於膀胱位置防逆流感染。</p>
+          </div>
+        `;
+      } else if (type === 'hip') {
+        title.innerText = '左側髖部大轉子受壓處 (壓瘡紅斑防護)';
+        subtitle.innerText = '骨突長期受壓處 · 臨床第一期不可消退紅斑';
+        area.innerHTML = `
+          <div class="p-3 bg-[#FAF0EE] rounded-2xl border border-[#F2D2CB] space-y-1">
+            <p class="font-bold text-[#9A382A]">觀察標籤：第一期紅斑 (加強減壓防護中)</p>
+            <p><strong>護理處置：</strong> 每 2 小時側臥翻身，背後墊入 30 度減壓三角枕懸空骨突。</p>
+            <p><strong>通報紀錄：</strong> 阿蒂拍照通報，個管師線上指導塗抹保濕保護霜。</p>
+          </div>
+        `;
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function openCgLearningTrackModal() { document.getElementById('cg-learning-track-modal').classList.remove('hidden'); }
+    function openScheduleDetailModal() { document.getElementById('schedule-detail-modal').classList.remove('hidden'); }
+    function openIncidentDetailModal() { document.getElementById('incident-detail-modal').classList.remove('hidden'); }
+    function signAcknowledgeIncident() {
+      alert('✅ 家屬金先生已完成線上雙軌簽核確認！個管師已同步接收紀錄。');
+      document.getElementById('incident-detail-modal').classList.add('hidden');
+    }
+
+    function openLtcBudgetModal() { document.getElementById('ltc-budget-modal').classList.remove('hidden'); }
+    function openLtcBusModal() { document.getElementById('ltc-bus-modal').classList.remove('hidden'); }
+    function openLtcOutreachModal() { document.getElementById('ltc-outreach-modal').classList.remove('hidden'); }
+    function openLtcCareModal() { document.getElementById('ltc-care-modal').classList.remove('hidden'); }
+
+    function recordClientMood(mood) {
+      const alertBox = document.getElementById('client-mood-alert');
+      alertBox.innerText = `❤️ 金伯伯今日心情已記錄為：「${mood}」，已同步至家屬小金的手機！`;
+      alertBox.classList.remove('hidden');
+    }
+
+    function clientReportPain(part) {
+      const feedback = document.getElementById('client-pain-feedback');
+      feedback.innerHTML = `⚠️ 已通知阿蒂與小金先生！金伯伯目前回報部位：<strong>${part}</strong>`;
+      feedback.classList.remove('hidden');
+      alert(`已即刻發出警示至阿蒂與小金手機：「金伯伯反映 ${part} 不舒服」！`);
+    }
+
+    function togglePatientVoiceRecord() {
+      const btn = document.getElementById('btn-patient-record');
+      const text = document.getElementById('record-status-text');
+      const wave = document.getElementById('recording-waveform');
+      if (!isRecording) {
+        isRecording = true;
+        btn.className = 'w-14 h-14 bg-emerald-600 text-white rounded-full flex items-center justify-center text-2xl animate-pulse';
+        text.innerText = '正在聆聽錄音中...請說出心願';
+        wave.classList.remove('hidden');
+      } else {
+        isRecording = false;
+        btn.className = 'w-14 h-14 bg-[#C55D4E] text-white rounded-full flex items-center justify-center text-2xl';
+        text.innerText = '錄音完畢！AI 已自動轉譯為文字';
+        wave.classList.add('hidden');
+      }
+    }
+
+    function submitPatientWish() {
+      const wish = document.getElementById('patient-wish-select').value;
+      const msg = document.getElementById('patient-wish-msg');
+      msg.innerText = `✓ 心願：「${wish}」已成功排入阿蒂今日照護清單中！`;
+      msg.classList.remove('hidden');
+      alert(`心願已送出！看護阿蒂與家屬小金已接收推播。`);
+    }
+
+    function openInteractiveVideo(type) {
+      const title = document.getElementById('modal-video-title');
+      title.innerText = type === 'ngt' ? 'SOP 鼻胃管灌食標準步驟 (NGT)' : 'SOP 翻身減壓防壓瘡技巧 (Positioning)';
+      document.getElementById('video-interactive-modal').classList.remove('hidden');
+    }
+    function closeInteractiveVideo() { document.getElementById('video-interactive-modal').classList.add('hidden'); }
+    function openNgtCheckModal() { document.getElementById('ngt-check-modal').classList.remove('hidden'); }
+    function openBsfsModal() { document.getElementById('bsfs-modal').classList.remove('hidden'); }
+    function openNostalgicModal() { document.getElementById('nostalgic-modal').classList.remove('hidden'); }
+
+    function sendUserMessage() {
+      const input = document.getElementById('ai-dialog-input');
+      const text = input.value.trim();
+      if (!text) return;
+      appendAIMessage('user', text);
+      input.value = '';
+
+      setTimeout(() => {
+        let reply = `收到您的提問：「${text}」。金伯伯目前生理數據維持在穩定閾值內。若感到呼吸較促，請先測量 SpO2 血氧並維持 45 度舒適擺位，我隨時在此支援您！`;
+        if (text.includes('嗆') || text.includes('咳')) {
+          reply = `⚠️ <strong>【嗆咳緊急處置 3 步驟】</strong><br>1. <strong>立即停止灌食</strong>，千萬不要拔管！<br>2. 協助金伯伯維持半坐臥 45～60 度，頭偏一側利於咳出。<br>3. 檢視嘴唇顏色是否發紺，案件已同步通報個管師與家屬！`;
+        }
+        appendAIMessage('ai', reply);
+      }, 500);
+    }
+
+    function sendQuickScenario(type) {
+      if (type === 'cough') {
+        appendAIMessage('user', '金伯伯剛才灌食時連續嗆咳兩聲！');
+        setTimeout(() => {
+          appendAIMessage('ai', `⚠️ <strong>【AI 臨床黃色警示 - 嗆咳處置】</strong><br>1. 請立刻關閉灌食夾停止進食！<br>2. 床頭維持 45～60 度半坐臥。<br>3. 反抽鼻管確認刻度是否仍在 52cm。<br>✓ 本次事件已同步至家屬小金的決策台！`);
+        }, 400);
+      } else if (type === 'fever') {
+        appendAIMessage('user', '體溫量測 38.3°C 發冷發抖。');
+        setTimeout(() => {
+          appendAIMessage('ai', `🌡️ <strong>【發熱處置指引】</strong><br>1. 溫水毛巾輕拭額頭散熱。<br>2. 檢查左手洗腎瘻管周圍有無紅腫熱痛。<br>3. 30 分鐘後請再次複測打卡。`);
+        }, 400);
+      } else if (type === 'tube_out') {
+        appendAIMessage('user', '🚨 鼻胃管被扯出來一點點，滑脫了！');
+        setTimeout(() => {
+          appendAIMessage('ai', `🚨 <strong>【紅色緊急警示 - 嚴禁擅自推回】</strong><br>1. <strong>千萬不可以自行插回！</strong>（避免誤入氣管窒息）<br>2. 立即停止灌入任何液體。<br>3. 居家護理師專線：0800-119-Care，請立即聯繫真人指導！`);
+        }, 400);
+      }
+    }
+
+    function appendAIMessage(role, text) {
+      const box = document.getElementById('ai-dialog-box');
+      const div = document.createElement('div');
+      div.className = role === 'ai' ? 'chat-bubble-ai p-3 shadow-xs' : 'chat-bubble-user p-3 shadow-xs ml-auto max-w-[85%]';
+      div.innerHTML = role === 'ai' ? `<p class="font-bold text-[#436048] text-[11px] mb-0.5"><i class="fa-solid fa-robot"></i> SynCare AI</p>${text}` : `<p class="font-bold text-emerald-100 text-[11px] mb-0.5 text-right">Mbak Tri (阿蒂)</p>${text}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function resetAIChat() {
+      document.getElementById('ai-dialog-box').innerHTML = `
+        <div class="chat-bubble-ai p-3 shadow-xs">
+          <p class="font-bold text-[#436048] text-[11px] mb-0.5"><i class="fa-solid fa-robot"></i> SynCare AI</p>
+          對話已重置。阿蒂您好，有任何照護問題請隨時發問！
+        </div>
+      `;
+    }
+
+    function completeTask(btn) {
+      btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 打卡完成';
+      btn.className = 'px-3 py-1.5 bg-[#648866] text-white text-xs font-bold rounded-xl';
+      alert('✅ 照護照片與翻身任務已完成打卡並同步至雲端！');
+    }
+
+    function loginRole(role) {
+      document.getElementById('view-portal-hub').classList.add('hidden');
+      document.getElementById('view-app-main').classList.remove('hidden');
+      switchRole(role);
+    }
+
+    function logoutToPortal() {
+      document.getElementById('view-app-main').classList.add('hidden');
+      document.getElementById('view-portal-hub').classList.remove('hidden');
+    }
+
+    function goToCurrentRoleHome() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function navigateHistoryBack() {
+      logoutToPortal();
+    }
+
+    function switchRole(role) {
+      ['caregiver', 'family', 'patient'].forEach(r => {
+        document.getElementById('view-' + r).classList.add('hidden');
+        document.getElementById('tab-' + r).className = 'px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]';
+      });
+
+      document.getElementById('view-' + role).classList.remove('hidden');
+      document.getElementById('tab-' + role).className = 'px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-white text-[#436048] shadow-xs font-black border border-[#DEE8DC]';
+
+      if (role === 'family') {
+        setTimeout(initCareTrendChart, 100);
+      }
+    }
+
+    function changeGlobalLanguage(lang) {
+      // 語言切換邏輯
+      const hubSelect = document.getElementById('hub-lang-select');
+      const mainSelect = document.getElementById('main-lang-select');
+      if (hubSelect) hubSelect.value = lang;
+      if (mainSelect) mainSelect.value = lang;
+    }
+  </script>
+</body>
+</html>
