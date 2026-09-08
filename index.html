@@ -2,7 +2,6 @@
 <html lang="zh-TW" class="auto-adaptive">
 <head>
   <meta charset="UTF-8">
-  <!-- 動態自適應視口設定，支援 iPhone/Android 安全區域與自動比例調整 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SynCare 昕護 - 居家特護跨角色智慧協作生態平台</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -32,13 +31,8 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* 手機與電腦自適應比例控制 */
-    html.device-mobile {
-      font-size: 15px;
-    }
-    html.device-desktop {
-      font-size: 16px;
-    }
+    html.device-mobile { font-size: 15px; }
+    html.device-desktop { font-size: 16px; }
 
     .badge-sage-primary { background-color: var(--sage-light); color: var(--sage-dark); border: 1px solid var(--sage-mid); }
     .badge-sage-soft { background-color: #EDF3EC; color: #436048; border: 1px solid #D0DFC9; }
@@ -47,8 +41,8 @@
 
     .body-marker {
       position: absolute;
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
@@ -58,10 +52,10 @@
       color: white;
       font-weight: 800;
       box-shadow: 0 3px 8px rgba(67, 96, 72, 0.45);
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
       z-index: 20;
     }
-    .body-marker:hover, .body-marker:active { transform: scale(1.3); }
+    .body-marker:hover { transform: scale(1.35); }
 
     .pulse-amber { animation: pulseAmber 2s infinite; }
     .pulse-rose { animation: pulseRose 2s infinite; }
@@ -144,26 +138,25 @@
 
     <div class="my-4 bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-3">
       <div class="flex items-center justify-between border-b border-[#EDF3EC] pb-2">
-        <h3 class="font-black text-sm text-[#243527] flex items-center gap-2">
-          <i class="fa-solid fa-compass text-[#648866]"></i> SynCare 平台核心使用指引
+        <h3 class="font-black text-sm text-[#243527] flex items-center gap-2" data-i18n="guide_portal_title">
+          <i class="fa-solid fa-compass text-[#648866]"></i> SynCare 平台核心使用指引與跨角色協作機制
         </h3>
-        <!-- 自動偵測裝置狀態標籤 -->
         <span id="device-mode-badge" class="text-[11px] font-bold px-2.5 py-0.5 bg-[#EDF3EC] text-[#436048] rounded-full border border-[#D0DFC9]">
           <i class="fa-solid fa-mobile-screen mr-1"></i>偵測中...
         </span>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-[#596D5C]">
         <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9]">
-          <p class="font-bold text-[#436048]">外籍看護端 (阿蒂)</p>
-          <p class="mt-1">SOP 影音學習認證、BSFS 完整 7 型大便打卡、標準人形管路圖卡、母語語音結構化交班與用藥記錄。</p>
+          <p class="font-bold text-[#436048]" data-i18n="guide_cg_col_title">外籍看護端 (阿蒂)</p>
+          <p class="mt-1" data-i18n="guide_cg_col_desc">SOP 影音學習認證、BSFS 完整 7 型大便打卡、標準人形管路圖卡、母語語音結構化交班與用藥記錄。</p>
         </div>
         <div class="p-3 bg-white rounded-2xl border border-[#DEE8DC]">
-          <p class="font-bold text-[#436048]">家屬決策端 (小金)</p>
-          <p class="mt-1">近 7 日連續照護折線圖（支援懸停每日重點）、3 大指標圖卡追蹤、長照 2.0 外展資源與急診數位包。</p>
+          <p class="font-bold text-[#436048]" data-i18n="guide_fam_col_title">家屬決策端 (小金)</p>
+          <p class="mt-1" data-i18n="guide_fam_col_desc">可點開 3 大指標追蹤圖卡、近 7 日連續折線圖（附懸停重點）、長照 2.0 外展資源與急診數位包。</p>
         </div>
         <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9]">
-          <p class="font-bold text-[#436048]">個案端 (金伯伯)</p>
-          <p class="mt-1">大字行程提醒、ICOPE 六力懷舊認知問答、自主語音心願錄製、標準人形不適點選與每日心情回饋。</p>
+          <p class="font-bold text-[#436048]" data-i18n="guide_pat_col_title">個案端 (金伯伯)</p>
+          <p class="mt-1" data-i18n="guide_pat_col_desc">大字行程提醒、ICOPE 六力懷舊認知問答、自主語音心願錄製、標準人形不適點選與每日心情回饋。</p>
         </div>
       </div>
     </div>
@@ -171,8 +164,8 @@
     <!-- 身分分流卡片 -->
     <div class="space-y-3 my-2">
       <div class="text-center">
-        <h2 class="text-xl sm:text-2xl font-black text-[#243527]">請選擇登入身分</h2>
-        <p class="text-xs text-[#596D5C] mt-0.5">個案：金大明 伯伯 (75歲 · 留置鼻胃管 · 每週三次血液透析)</p>
+        <h2 class="text-xl sm:text-2xl font-black text-[#243527]" data-i18n="portal_select_role">請選擇您的登入身分</h2>
+        <p class="text-xs text-[#596D5C] mt-0.5" data-i18n="portal_case_info">個案：金大明 伯伯 (75歲 · 留置鼻胃管 · 每週三次血液透析)</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
@@ -182,13 +175,13 @@
               <i class="fa-solid fa-user-nurse"></i>
             </div>
             <div>
-              <span class="text-[10px] font-bold text-[#648866] uppercase tracking-wider">Perawat (Tri)</span>
-              <h3 class="text-lg font-bold text-[#243527]">外籍看護端 (阿蒂)</h3>
-              <p class="text-xs text-[#596D5C] mt-1">SOP 影音學習測驗中心、BSFS 完整 7 型打卡、標準人形管路圖卡、全生命徵象/血糖/灌食與 AI 臨床對話。</p>
+              <span class="text-[10px] font-bold text-[#648866] uppercase tracking-wider" data-i18n="portal_tag_cg">Perawat (Mbak Tri)</span>
+              <h3 class="text-lg font-bold text-[#243527]" data-i18n="portal_role_cg_name">外籍看護端 (阿蒂)</h3>
+              <p class="text-xs text-[#596D5C] mt-1" data-i18n="portal_role_cg_desc">SOP 影音學習測驗中心、BSFS 完整 7 型打卡、標準人形管路圖卡、全生命徵象/血糖/灌食與 AI 臨床對話。</p>
             </div>
           </div>
           <div class="mt-4 pt-3 border-t border-[#EDF3EC] text-xs font-bold text-[#436048] flex justify-between items-center">
-            <span>進入看護工作台 ➔</span>
+            <span data-i18n="portal_btn_login_cg">進入看護工作台 ➔</span>
             <i class="fa-solid fa-arrow-right text-[#648866]"></i>
           </div>
         </div>
@@ -199,13 +192,13 @@
               <i class="fa-solid fa-user-tie"></i>
             </div>
             <div>
-              <span class="text-[10px] font-bold text-[#436048] uppercase tracking-wider">Keluarga (Mr. Kim)</span>
-              <h3 class="text-lg font-bold text-[#243527]">家屬決策端 (小金)</h3>
-              <p class="text-xs text-[#596D5C] mt-1">近 7 日照護趨勢連續折線圖（懸停每日重點）、3 大指標圖卡追蹤、長照 2.0 生態外展連動與急診數位包。</p>
+              <span class="text-[10px] font-bold text-[#436048] uppercase tracking-wider" data-i18n="portal_tag_fam">Keluarga (Mr. Kim)</span>
+              <h3 class="text-lg font-bold text-[#243527]" data-i18n="portal_role_fam_name">家屬決策端 (小金)</h3>
+              <p class="text-xs text-[#596D5C] mt-1" data-i18n="portal_role_fam_desc">近 7 日照護趨勢連續折線圖（懸停每日重點）、3 大指標圖卡追蹤、長照 2.0 生態外展連動與急診數位包。</p>
             </div>
           </div>
           <div class="mt-4 pt-3 border-t border-[#EDF3EC] text-xs font-bold text-[#436048] flex justify-between items-center">
-            <span>進入家屬決策台 ➔</span>
+            <span data-i18n="portal_btn_login_fam">進入家屬決策台 ➔</span>
             <i class="fa-solid fa-arrow-right text-[#648866]"></i>
           </div>
         </div>
@@ -216,20 +209,20 @@
               <i class="fa-solid fa-wheelchair"></i>
             </div>
             <div>
-              <span class="text-[10px] font-bold text-[#648866] uppercase tracking-wider">Pasien (Kakek Kim)</span>
-              <h3 class="text-lg font-bold text-[#243527]">個案端 (金伯伯)</h3>
-              <p class="text-xs text-[#596D5C] mt-1">大字今日行程、每日 2 分鐘懷舊問答、語音自主心願錄製表達、標準人形身體不適點選與每日心情回饋。</p>
+              <span class="text-[10px] font-bold text-[#648866] uppercase tracking-wider" data-i18n="portal_tag_pat">Pasien (Kakek Kim)</span>
+              <h3 class="text-lg font-bold text-[#243527]" data-i18n="portal_role_pat_name">個案端 (金伯伯)</h3>
+              <p class="text-xs text-[#596D5C] mt-1" data-i18n="portal_role_pat_desc">大字今日行程、每日 2 分鐘懷舊問答、語音自主心願錄製表達、標準人形身體不適點選與每日心情回饋。</p>
             </div>
           </div>
           <div class="mt-4 pt-3 border-t border-[#EDF3EC] text-xs font-bold text-[#436048] flex justify-between items-center">
-            <span>進入個案專屬介面 ➔</span>
+            <span data-i18n="portal_btn_login_pat">進入個案專屬介面 ➔</span>
             <i class="fa-solid fa-arrow-right text-[#648866]"></i>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="text-center text-xs text-[#596D5C] py-2">
+    <div class="text-center text-xs text-[#596D5C] py-2" data-i18n="portal_footer">
       SynCare · 台北榮民總醫院實習研發 以人為本跨角色智慧閉環照護系統
     </div>
   </div>
@@ -255,26 +248,26 @@
             <div>
               <div class="flex items-center gap-1.5">
                 <span class="text-lg font-black text-[#243527]">SynCare</span>
-                <span class="text-[10px] px-2 py-0.5 bg-[#EDF3EC] text-[#436048] font-bold rounded-md">同步 09:42</span>
+                <span class="text-[10px] px-2 py-0.5 bg-[#EDF3EC] text-[#436048] font-bold rounded-md" data-i18n="sync_time_badge">同步於 09:42</span>
               </div>
-              <p class="text-[11px] text-[#596D5C] hidden sm:block">三端智慧閉環照護系統</p>
+              <p class="text-[11px] text-[#596D5C] hidden sm:block" data-i18n="nav_sub_title">三端智慧閉環照護系統</p>
             </div>
 
             <button onclick="navigateHistoryBack()" class="px-2 py-1 bg-[#EDF3EC] hover:bg-[#D3E3CF] text-[#436048] rounded-xl text-xs font-bold border border-[#D0DFC9] flex items-center gap-1">
-              <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">上一頁</span>
+              <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline" data-i18n="btn_nav_back">上一頁</span>
             </button>
           </div>
 
-          <!-- 角色切換 Tab (手機自動滑動，大螢幕居中) -->
+          <!-- 角色切換 Tab -->
           <div class="flex overflow-x-auto bg-[#EDF3EC] p-1 rounded-2xl border border-[#D0DFC9] text-xs font-bold max-w-full">
             <button id="tab-caregiver" onclick="switchRole('caregiver')" class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]">
-              <i class="fa-solid fa-user-nurse"></i> 看護端 (阿蒂)
+              <i class="fa-solid fa-user-nurse"></i> <span id="label-role-caregiver" data-i18n="tab_caregiver">看護端 (阿蒂)</span>
             </button>
             <button id="tab-family" onclick="switchRole('family')" class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]">
-              <i class="fa-solid fa-user-tie"></i> 家屬端 (小金)
+              <i class="fa-solid fa-user-tie"></i> <span id="label-role-family" data-i18n="tab_family">家屬端 (小金)</span>
             </button>
             <button id="tab-patient" onclick="switchRole('patient')" class="px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]">
-              <i class="fa-solid fa-wheelchair"></i> 個案端 (金伯伯)
+              <i class="fa-solid fa-wheelchair"></i> <span id="label-role-patient" data-i18n="tab_patient">個案端 (金伯伯)</span>
             </button>
           </div>
 
@@ -286,7 +279,7 @@
               <option value="en">🇺🇸 EN</option>
               <option value="vi">🇻🇳 越南</option>
             </select>
-            <button onclick="logoutToPortal()" class="px-2.5 py-1.5 bg-[#FAF0EE] hover:bg-[#F5E2DE] text-[#9A382A] rounded-xl text-xs font-bold border border-[#F2D2CB]">
+            <button onclick="logoutToPortal()" class="px-2.5 py-1.5 bg-[#FAF0EE] hover:bg-[#F5E2DE] text-[#9A382A] rounded-xl text-xs font-bold border border-[#F2D2CB]" title="登出">
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
@@ -304,20 +297,20 @@
         <div class="bg-gradient-to-r from-[#436048] via-[#527557] to-[#648866] rounded-3xl p-5 text-white shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div class="inline-flex items-center gap-1.5 px-3 py-0.5 bg-white/20 rounded-full text-xs font-semibold mb-1.5">
-              <i class="fa-solid fa-circle-check text-emerald-200"></i> 三端連線同步中
+              <i class="fa-solid fa-circle-check text-emerald-200"></i> <span id="cg-status-badge" data-i18n="cg_badge_sync">已同步連線護理師與家屬</span>
             </div>
-            <h2 class="text-xl sm:text-2xl font-black">Selamat Pagi, Mbak Tri (早安，阿蒂)</h2>
-            <p class="text-emerald-100 text-xs mt-0.5">個案：金大明 伯伯 (75歲) · 今日照護排程：5 項任務</p>
+            <h2 class="text-xl sm:text-2xl font-black" id="cg-welcome-title" data-i18n="cg_welcome">Selamat Pagi, Mbak Tri (早安，阿蒂)</h2>
+            <p class="text-emerald-100 text-xs mt-0.5" id="cg-welcome-desc" data-i18n="cg_patient_info">個案：金大明 伯伯 (75歲) · 今日照護排程：5 項任務</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <button onclick="openNgtCheckModal()" class="px-3 py-1.5 bg-[#D3E3CF] hover:bg-[#C2D7BD] text-[#243527] font-bold rounded-xl text-xs flex items-center gap-1">
-              <i class="fa-solid fa-ruler-combined text-[#436048]"></i> 鼻胃管刻度相片比對
+              <i class="fa-solid fa-ruler-combined text-[#436048]"></i> <span data-i18n="btn_ngt_check">拍照比對鼻胃管刻度</span>
             </button>
             <button onclick="openBsfsModal()" class="px-3 py-1.5 bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold rounded-xl text-xs flex items-center gap-1">
-              <i class="fa-solid fa-toilet"></i> BSFS 完整 7 型打卡
+              <i class="fa-solid fa-toilet"></i> <span data-i18n="btn_bsfs_log">BSFS 7型完整排便打卡</span>
             </button>
             <button onclick="document.getElementById('vital-modal').classList.remove('hidden')" class="px-3.5 py-1.5 bg-white text-[#436048] font-black rounded-xl text-xs shadow-xs flex items-center gap-1">
-              <i class="fa-solid fa-heart-pulse text-[#C55D4E]"></i> 登錄徵象/血糖/用藥
+              <i class="fa-solid fa-heart-pulse text-[#C55D4E]"></i> <span data-i18n="cg_btn_vitals">登錄生命徵象/血糖/灌食/用藥</span>
             </button>
           </div>
         </div>
@@ -325,25 +318,24 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div class="lg:col-span-2 space-y-5">
 
-            <!-- 🌟 需求 1: 附件 1 象形標準人形圖管路監控 -->
+            <!-- 附件 1 象形標準人形圖管路監控 -->
             <div id="section-body-map" class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs">
               <div class="flex justify-between items-center mb-3">
                 <div>
                   <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
-                    <i class="fa-solid fa-child-reaching text-[#648866]"></i> 標準人體管路監控與即時圖卡 (附件 1 人形)
+                    <i class="fa-solid fa-child-reaching text-[#648866]"></i> <span data-i18n="body_map_title">標準人體管路監控與即時圖卡 (附件 1 人形)</span>
                   </h3>
-                  <p class="text-xs text-[#596D5C]">點選人形標記（鼻胃管、瘻管、導尿管、壓瘡點）即可彈出專屬圖卡</p>
+                  <p class="text-xs text-[#596D5C]" data-i18n="body_map_desc">點選人形標記（鼻胃管、瘻管、導尿管、壓瘡點）即可彈出專屬圖卡</p>
                 </div>
-                <span class="badge-amber px-2.5 py-1 rounded-full text-xs font-bold">1 處管路觀察中</span>
+                <span class="badge-amber px-2.5 py-1 rounded-full text-xs font-bold" data-i18n="body_map_badge">1 處管路觀察中</span>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
                 <!-- 附件 1 象形圖人體輪廓 -->
                 <div class="md:col-span-5 bg-[#F8FAF8] border border-[#DEE8DC] rounded-3xl p-4 flex flex-col items-center justify-center relative min-h-[350px]">
-                  <p class="text-[11px] text-[#596D5C] font-bold mb-2">附件 1 人形臨床點位</p>
+                  <p class="text-[11px] text-[#596D5C] font-bold mb-2" data-i18n="body_front_label">附件 1 人形臨床點位</p>
                   
                   <div class="relative w-44 h-76 flex items-center justify-center">
-                    <!-- 附件 1 精準向量人體 -->
                     <svg viewBox="0 0 180 320" class="w-full h-full drop-shadow-sm">
                       <circle cx="90" cy="36" r="22" fill="#436048" />
                       <rect x="22" y="78" width="18" height="114" rx="9" fill="#436048" />
@@ -351,7 +343,7 @@
                       <path d="M 52,90 C 52,76 66,74 90,74 C 114,74 128,76 128,90 L 128,190 L 126,294 C 126,302 104,302 104,294 L 100,195 C 100,190 80,190 80,195 L 76,294 C 76,302 54,302 54,294 L 52,190 Z" fill="#436048" />
                     </svg>
 
-                    <!-- 4 大部位精確定位標記 -->
+                    <!-- 4 大部位標記 -->
                     <div onclick="openTubeModal('ngt')" class="body-marker bg-[#C68947] pulse-amber" style="top: 26px; left: 77px;" title="1. 鼻胃管 NGT">
                       <span>1</span>
                     </div>
@@ -367,9 +359,9 @@
                   </div>
 
                   <div class="flex gap-3 text-[10px] mt-2 font-bold">
-                    <span class="flex items-center gap-1 text-[#436048]"><span class="w-2 h-2 rounded-full bg-[#436048]"></span> 正常</span>
-                    <span class="flex items-center gap-1 text-[#8F5E24]"><span class="w-2 h-2 rounded-full bg-[#C68947]"></span> 臨期/注意</span>
-                    <span class="flex items-center gap-1 text-[#9A382A]"><span class="w-2 h-2 rounded-full bg-[#C55D4E]"></span> 壓瘡警示</span>
+                    <span class="flex items-center gap-1 text-[#436048]"><span class="w-2.5 h-2.5 rounded-full bg-[#436048]"></span> <span data-i18n="tag_normal">正常</span></span>
+                    <span class="flex items-center gap-1 text-[#8F5E24]"><span class="w-2.5 h-2.5 rounded-full bg-[#C68947]"></span> <span data-i18n="tag_warning">臨期/注意</span></span>
+                    <span class="flex items-center gap-1 text-[#9A382A]"><span class="w-2.5 h-2.5 rounded-full bg-[#C55D4E]"></span> <span data-i18n="tag_alert">壓瘡警示</span></span>
                   </div>
                 </div>
 
@@ -379,68 +371,68 @@
                     <div>
                       <div class="flex items-center gap-2">
                         <span class="text-xs font-black px-2 py-0.5 bg-[#D3E3CF] text-[#436048] rounded">標記 1</span>
-                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]">鼻胃管 (NGT 14 Fr 矽膠材質)</h4>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]" data-i18n="tube_ngt_pos">鼻胃管 (NGT 14 Fr 矽膠材質)</h4>
                       </div>
-                      <p class="text-[11px] text-[#596D5C] mt-0.5">固定刻度 52cm · 效期剩餘 12 天 · 點擊查詳細圖卡 ➔</p>
+                      <p class="text-[11px] text-[#596D5C] mt-0.5" data-i18n="tube_ngt_sub">固定刻度 52cm · 效期剩餘 12 天 · 點擊查詳細圖卡 ➔</p>
                     </div>
-                    <span class="badge-amber text-[10px] px-2 py-0.5 rounded font-bold">今日已核對</span>
+                    <span class="badge-amber text-[10px] px-2 py-0.5 rounded font-bold" data-i18n="tag_verified">今日已核對</span>
                   </div>
 
                   <div onclick="openTubeModal('dialysis')" class="p-3 bg-[#F8FAF8] hover:bg-[#EDF3EC] border border-[#DEE8DC] rounded-2xl cursor-pointer transition flex justify-between items-center">
                     <div>
                       <div class="flex items-center gap-2">
                         <span class="text-xs font-black px-2 py-0.5 bg-[#DEE8DC] text-[#436048] rounded">標記 2</span>
-                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]">左手洗腎瘻管 (AV Fistula)</h4>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]" data-i18n="tube_dialysis_title">左手洗腎瘻管 (AV Fistula)</h4>
                       </div>
-                      <p class="text-[11px] text-[#596D5C] mt-0.5">震顫音 Thrill 良好 · 嚴禁量血壓壓迫 · 點擊查圖卡 ➔</p>
+                      <p class="text-[11px] text-[#596D5C] mt-0.5" data-i18n="tube_dialysis_sub">震顫音 Thrill 良好 · 嚴禁量血壓壓迫 · 點擊查圖卡 ➔</p>
                     </div>
-                    <span class="badge-sage-primary text-[10px] px-2 py-0.5 rounded font-bold">血流暢通</span>
+                    <span class="badge-sage-primary text-[10px] px-2 py-0.5 rounded font-bold" data-i18n="tag_flow_ok">血流暢通</span>
                   </div>
 
                   <div onclick="openTubeModal('foley')" class="p-3 bg-[#F8FAF8] hover:bg-[#EDF3EC] border border-[#DEE8DC] rounded-2xl cursor-pointer transition flex justify-between items-center">
                     <div>
                       <div class="flex items-center gap-2">
                         <span class="text-xs font-black px-2 py-0.5 bg-[#DEE8DC] text-[#436048] rounded">標記 3</span>
-                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]">雙腔留置導尿管 (Foley 16 Fr)</h4>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#243527]" data-i18n="tube_foley_title">雙腔留置導尿管 (Foley 16 Fr)</h4>
                       </div>
-                      <p class="text-[11px] text-[#596D5C] mt-0.5">尿袋低於膀胱 · 尿色澄清無沈澱 · 點擊查圖卡 ➔</p>
+                      <p class="text-[11px] text-[#596D5C] mt-0.5" data-i18n="tube_foley_sub">尿袋低於膀胱 · 尿色澄清無沈澱 · 點擊查圖卡 ➔</p>
                     </div>
-                    <span class="badge-sage-primary text-[10px] px-2 py-0.5 rounded font-bold">剩 18 天</span>
+                    <span class="badge-sage-primary text-[10px] px-2 py-0.5 rounded font-bold" data-i18n="tag_days_18">剩 18 天</span>
                   </div>
 
                   <div onclick="openTubeModal('hip')" class="p-3 bg-[#FAF0EE] hover:bg-[#F5E2DE] border border-[#F2D2CB] rounded-2xl cursor-pointer transition flex justify-between items-center">
                     <div>
                       <div class="flex items-center gap-2">
                         <span class="text-xs font-black px-2 py-0.5 bg-[#F2D2CB] text-[#9A382A] rounded">警示</span>
-                        <h4 class="font-bold text-xs sm:text-sm text-[#9A382A]">左側髖部大轉子 (壓瘡紅斑觀察點)</h4>
+                        <h4 class="font-bold text-xs sm:text-sm text-[#9A382A]" data-i18n="tube_hip_title">左側髖部大轉子 (壓瘡紅斑觀察點)</h4>
                       </div>
-                      <p class="text-[11px] text-[#9A382A] mt-0.5">定時 2 小時側臥減壓 30 度 · 點擊查照護對策 ➔</p>
+                      <p class="text-[11px] text-[#9A382A] mt-0.5" data-i18n="tube_hip_sub">定時 2 小時側臥減壓 30 度 · 點擊查照護對策 ➔</p>
                     </div>
-                    <span class="badge-rose text-[10px] px-2 py-0.5 rounded font-bold">重點防護</span>
+                    <span class="badge-rose text-[10px] px-2 py-0.5 rounded font-bold" data-i18n="tag_protect">重點防護</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- 🌟 需求 2: 看護端學習影片功能 (修復完畢) -->
+            <!-- 看護端學習影片功能 -->
             <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-3">
               <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#EDF3EC] pb-3 gap-2">
                 <div>
                   <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
-                    <i class="fa-solid fa-circle-play text-[#648866]"></i> Pusat Video SOP & Pelatihan (多語影音衛教中心)
+                    <i class="fa-solid fa-circle-play text-[#648866]"></i> <span data-i18n="video_hub_title">Pusat Video SOP & Pelatihan (多語影音衛教中心)</span>
                   </h3>
-                  <p class="text-xs text-[#596D5C]">免翻手冊 · 支援雙語對照 · 0.8x 慢速放映 · 課後防呆小測驗</p>
+                  <p class="text-xs text-[#596D5C]" data-i18n="video_hub_sub">免翻手冊 · 支援雙語對照 · 0.8x 慢速放映 · 課後防呆小測驗</p>
                 </div>
                 <span class="text-xs bg-[#EDF3EC] text-[#436048] font-black px-3 py-1 rounded-full border border-[#D0DFC9]">
-                  <i class="fa-solid fa-award mr-1"></i>認證進度：75% (3/4門合格)
+                  <i class="fa-solid fa-award mr-1 text-[#648866]"></i><span data-i18n="cert_progress_lbl">認證進度：75% (3/4門合格)</span>
                 </span>
               </div>
 
               <!-- 影片分類 -->
               <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-bold">
-                <button class="px-3 py-1.5 bg-[#436048] text-white rounded-xl whitespace-nowrap">全部課程 (Semua)</button>
-                <button class="px-3 py-1.5 bg-[#EDF3EC] text-[#436048] rounded-xl whitespace-nowrap">鼻胃管灌食 (Selang NGT)</button>
-                <button class="px-3 py-1.5 bg-[#EDF3EC] text-[#436048] rounded-xl whitespace-nowrap">翻身減壓 (Reposisi Tubuh)</button>
+                <button class="px-3 py-1.5 bg-[#436048] text-white rounded-xl whitespace-nowrap" data-i18n="video_tab_all">全部課程 (Semua)</button>
+                <button class="px-3 py-1.5 bg-[#EDF3EC] text-[#436048] rounded-xl whitespace-nowrap" data-i18n="video_tab_ngt">鼻胃管灌食 (Selang NGT)</button>
+                <button class="px-3 py-1.5 bg-[#EDF3EC] text-[#436048] rounded-xl whitespace-nowrap" data-i18n="video_tab_turn">翻身減壓 (Reposisi Tubuh)</button>
               </div>
 
               <!-- 影片列表 -->
@@ -454,11 +446,11 @@
                     <span class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 rounded font-mono z-10">02:45</span>
                   </div>
                   <div class="mt-2">
-                    <h4 class="font-bold text-xs sm:text-sm text-[#243527]">SOP Pemberian Nutrisi NGT (鼻胃管灌食標準步驟)</h4>
-                    <p class="text-[11px] text-[#596D5C] mt-0.5">反抽胃液確認、38°C溫水潤管、45度坐姿防嗆咳吸入性肺炎。</p>
+                    <h4 class="font-bold text-xs sm:text-sm text-[#243527]" data-i18n="video_1_title">SOP Pemberian Nutrisi NGT (鼻胃管灌食標準步驟)</h4>
+                    <p class="text-[11px] text-[#596D5C] mt-0.5" data-i18n="video_1_desc">反抽胃液確認、38°C溫水潤管、45度坐姿防嗆咳吸入性肺炎。</p>
                     <div class="mt-2 pt-2 border-t flex justify-between items-center text-xs">
-                      <span class="text-[#436048] font-bold"><i class="fa-solid fa-check"></i> 已認證</span>
-                      <button onclick="openInteractiveVideo('ngt')" class="text-[#648866] font-bold hover:underline">複習影片</button>
+                      <span class="text-[#436048] font-bold"><i class="fa-solid fa-check"></i> <span data-i18n="badge_certified">已認證</span></span>
+                      <button onclick="openInteractiveVideo('ngt')" class="text-[#648866] font-bold hover:underline" data-i18n="btn_review_video">複習影片</button>
                     </div>
                   </div>
                 </div>
@@ -472,11 +464,11 @@
                     <span class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-1.5 rounded font-mono z-10">03:15</span>
                   </div>
                   <div class="mt-2">
-                    <h4 class="font-bold text-xs sm:text-sm text-[#243527]">Teknik Membalikkan Tubuh & Cegah Luka (翻身減壓防壓瘡)</h4>
-                    <p class="text-[11px] text-[#596D5C] mt-0.5">利用床單省力翻轉、30度三角側睡枕、檢查骨突處皮膚完整度。</p>
+                    <h4 class="font-bold text-xs sm:text-sm text-[#243527]" data-i18n="video_2_title">Teknik Membalikkan Tubuh & Cegah Luka (翻身減壓防壓瘡)</h4>
+                    <p class="text-[11px] text-[#596D5C] mt-0.5" data-i18n="video_2_desc">利用床單省力翻轉、30度三角側睡枕、檢查骨突處皮膚完整度。</p>
                     <div class="mt-2 pt-2 border-t flex justify-between items-center text-xs">
-                      <span class="text-[#C68947] font-bold"><i class="fa-solid fa-clock"></i> 待測驗</span>
-                      <button onclick="openInteractiveVideo('turning')" class="px-2.5 py-1 bg-[#436048] text-white rounded-lg font-bold">開始學習</button>
+                      <span class="text-[#C68947] font-bold"><i class="fa-solid fa-clock"></i> <span data-i18n="status_pending_quiz">待測驗</span></span>
+                      <button onclick="openInteractiveVideo('turning')" class="px-2.5 py-1 bg-[#436048] text-white rounded-lg font-bold" data-i18n="btn_start_learn">開始學習</button>
                     </div>
                   </div>
                 </div>
@@ -487,31 +479,31 @@
             <div class="bg-white rounded-3xl p-5 border border-[#DEE8DC] shadow-xs space-y-3">
               <div class="flex justify-between items-center">
                 <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
-                  <i class="fa-solid fa-calendar-check text-[#648866]"></i> 今日照護排程 (5項)
+                  <i class="fa-solid fa-calendar-check text-[#648866]"></i> <span data-i18n="cg_task_header">今日照護排程 (5項)</span>
                 </h3>
-                <span class="text-xs bg-[#EDF3EC] text-[#436048] px-2.5 py-0.5 rounded-full font-bold">完成 3/5</span>
+                <span class="text-xs bg-[#EDF3EC] text-[#436048] px-2.5 py-0.5 rounded-full font-bold" data-i18n="cg_task_progress_text">完成 3/5</span>
               </div>
               <div class="space-y-2 text-xs" id="caregiver-task-list">
                 <div class="p-3 bg-[#F8FAF8] border rounded-2xl flex justify-between items-center">
                   <div>
-                    <p class="font-bold text-[#243527]">08:00 晨間生理徵象 & 飯前血糖 (已完成)</p>
+                    <p class="font-bold text-[#243527]" data-i18n="cg_task_1">08:00 晨間生理徵象 & 飯前血糖 (已完成)</p>
                     <p class="text-[11px] text-[#596D5C]">血壓: 125/80 mmHg · 血糖: 108 mg/dL · SpO2: 98%</p>
                   </div>
-                  <span class="badge-sage-primary px-2 py-0.5 rounded font-bold">已打卡</span>
+                  <span class="badge-sage-primary px-2 py-0.5 rounded font-bold" data-i18n="status_done">已完成</span>
                 </div>
                 <div class="p-3 bg-[#F8FAF8] border rounded-2xl flex justify-between items-center">
                   <div>
-                    <p class="font-bold text-[#243527]">11:30 鼻胃管灌食 250ml & 飯後血糖 (已完成)</p>
+                    <p class="font-bold text-[#243527]" data-i18n="cg_task_2">11:30 鼻胃管灌食 250ml & 飯後血糖 (已完成)</p>
                     <p class="text-[11px] text-[#596D5C]">低鉀配方 250ml · 飯後血糖: 136 mg/dL · 胃殘餘 15ml</p>
                   </div>
-                  <span class="badge-sage-primary px-2 py-0.5 rounded font-bold">已打卡</span>
+                  <span class="badge-sage-primary px-2 py-0.5 rounded font-bold" data-i18n="status_done">已完成</span>
                 </div>
                 <div class="p-3 bg-white border border-[#648866] rounded-2xl flex justify-between items-center shadow-xs">
                   <div>
-                    <p class="font-bold text-[#243527]">14:00 翻身擺位與左髖減壓檢測</p>
-                    <p class="text-[11px] text-[#C68947]">特別注意：左側髖部紅斑處置與三角枕 30 度擺位</p>
+                    <p class="font-bold text-[#243527]" data-i18n="cg_task_3">14:00 翻身擺位與左髖減壓檢測</p>
+                    <p class="text-[11px] text-[#C68947]" data-i18n="cg_task_3_sub">特別注意：左側髖部紅斑處置與三角枕 30 度擺位</p>
                   </div>
-                  <button onclick="completeTask(this)" class="px-3 py-1.5 bg-[#436048] hover:bg-[#324936] text-white rounded-xl font-bold">拍照完成</button>
+                  <button onclick="completeTask(this)" class="px-3 py-1.5 bg-[#436048] hover:bg-[#324936] text-white rounded-xl font-bold" data-i18n="btn_confirm_task">拍照完成</button>
                 </div>
               </div>
             </div>
@@ -527,8 +519,8 @@
                     <i class="fa-solid fa-robot"></i>
                   </div>
                   <div>
-                    <h3 class="text-sm font-bold text-[#243527]">SynCare AI 臨床分級助手</h3>
-                    <p class="text-[10px] text-[#436048] font-bold">● 24H 雙語真人級臨床對話中</p>
+                    <h3 class="text-sm font-bold text-[#243527]" data-i18n="ai_title">SynCare AI 臨床分級助手</h3>
+                    <p class="text-[10px] text-[#436048] font-bold" data-i18n="ai_status_24h">● 24H 雙語真人級臨床對話中</p>
                   </div>
                 </div>
                 <button onclick="resetAIChat()" class="text-xs text-[#596D5C] hover:text-[#243527]"><i class="fa-solid fa-rotate-right"></i></button>
@@ -536,9 +528,9 @@
 
               <!-- 快捷情境 -->
               <div class="flex flex-wrap gap-1 mb-2.5 text-[10px] font-bold">
-                <button onclick="sendQuickScenario('cough')" class="px-2 py-0.5 bg-[#FAF4EA] text-[#8F5E24] rounded-lg border">⚠️ 灌食嗆咳</button>
-                <button onclick="sendQuickScenario('fever')" class="px-2 py-0.5 bg-[#FAF4EA] text-[#8F5E24] rounded-lg border">🌡️ 體溫 38.3°C</button>
-                <button onclick="sendQuickScenario('tube_out')" class="px-2 py-0.5 bg-[#FAF0EE] text-[#9A382A] rounded-lg border">🚨 鼻管滑脫</button>
+                <button onclick="sendQuickScenario('cough')" class="px-2 py-0.5 bg-[#FAF4EA] text-[#8F5E24] rounded-lg border" data-i18n="prompt_cough">⚠️ 灌食嗆咳</button>
+                <button onclick="sendQuickScenario('fever')" class="px-2 py-0.5 bg-[#FAF4EA] text-[#8F5E24] rounded-lg border" data-i18n="prompt_fever">🌡️ 體溫 38.3°C</button>
+                <button onclick="sendQuickScenario('tube_out')" class="px-2 py-0.5 bg-[#FAF0EE] text-[#9A382A] rounded-lg border" data-i18n="prompt_tube">🚨 鼻管滑脫</button>
               </div>
 
               <!-- 對話視窗 -->
@@ -550,7 +542,7 @@
               </div>
 
               <div class="mt-2.5 flex gap-1.5 pt-2 border-t">
-                <input id="ai-dialog-input" type="text" onkeydown="if(event.key==='Enter') sendUserMessage()" placeholder="輸入照護問題..." class="flex-grow text-xs border rounded-xl px-3 py-2 bg-[#F8FAF8] focus:outline-none">
+                <input id="ai-dialog-input" type="text" onkeydown="if(event.key==='Enter') sendUserMessage()" placeholder="輸入照護問題..." data-i18n-placeholder="ai_input_ph" class="flex-grow text-xs border rounded-xl px-3 py-2 bg-[#F8FAF8] focus:outline-none">
                 <button onclick="sendUserMessage()" class="bg-[#436048] text-white px-3.5 py-2 rounded-xl text-xs font-bold"><i class="fa-solid fa-paper-plane"></i></button>
               </div>
             </div>
@@ -564,20 +556,20 @@
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#EDF3EC] pb-3 mb-4 gap-2">
             <div>
-              <p class="text-[11px] font-bold text-[#648866] uppercase">2026年7月26日・星期日</p>
-              <h2 class="text-2xl font-black text-[#243527]">早安，金先生</h2>
-              <p class="text-xs text-[#596D5C] mt-0.5">父親今日生理體徵平穩，阿蒂已落實晨間空腹血糖與生命徵象登錄。</p>
+              <p class="text-[11px] font-bold text-[#648866] uppercase" data-i18n="fam_date_eyebrow">2026年7月26日・星期日</p>
+              <h2 class="text-2xl font-black text-[#243527]" data-i18n="fam_welcome_title">早安，金先生</h2>
+              <p class="text-xs text-[#596D5C] mt-0.5" data-i18n="fam_welcome_sub">父親今日生理體徵平穩，阿蒂已落實晨間空腹血糖與生命徵象登錄。</p>
             </div>
             <span class="text-xs bg-[#EDF3EC] text-[#436048] px-3 py-1.5 rounded-xl font-bold border border-[#D0DFC9]">
               <i class="fa-solid fa-shield-halved mr-1"></i>三端即時閉環同步中
             </span>
           </div>
 
-          <!-- 🌟 需求 4: 家屬端 3 大核心指標均可點開圖卡詳細追蹤 -->
+          <!-- 家屬端 3 大核心指標均可點開圖卡詳細追蹤 -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
             <div onclick="openCgLearningTrackModal()" class="p-4 rounded-2xl bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] flex flex-col justify-between cursor-pointer transition group shadow-xs">
               <div class="flex justify-between items-start">
-                <span class="text-xs font-bold text-[#436048]">阿蒂知能學習認證</span>
+                <span class="text-xs font-bold text-[#436048]" data-i18n="dash_metric1_label">阿蒂知能學習認證</span>
                 <span class="w-6 h-6 rounded-lg bg-[#436048] text-white flex items-center justify-center text-xs font-bold">↗</span>
               </div>
               <div class="my-2">
@@ -586,43 +578,43 @@
                   <div class="bg-[#436048] h-full w-[72%]"></div>
                 </div>
               </div>
-              <span class="text-xs font-bold text-[#648866] group-hover:underline">點擊開啟受訓圖卡與證書 ➔</span>
+              <span class="text-xs font-bold text-[#648866] group-hover:underline" data-i18n="dash_metric1_btn">點擊開啟受訓圖卡與證書 ➔</span>
             </div>
 
             <div onclick="openScheduleDetailModal()" class="p-4 rounded-2xl bg-white hover:bg-[#F8FAF8] border border-[#DEE8DC] flex flex-col justify-between cursor-pointer transition group shadow-xs">
               <div class="flex justify-between items-start">
-                <span class="text-xs font-bold text-[#596D5C]">今日排程執行進度</span>
+                <span class="text-xs font-bold text-[#596D5C]" data-i18n="dash_metric2_label">今日排程執行進度</span>
                 <span class="w-6 h-6 rounded-lg bg-[#648866] text-white flex items-center justify-center text-xs font-bold">✓</span>
               </div>
               <div class="my-2">
                 <strong class="text-3xl font-black text-[#243527]">3 <span class="text-sm font-normal text-stone-500">/ 5 項</span></strong>
-                <p class="text-xs text-[#596D5C] mt-1">晨間量測、午間灌食已打卡完成</p>
+                <p class="text-xs text-[#596D5C] mt-1" data-i18n="dash_metric2_desc">晨間量測、午間灌食已打卡完成</p>
               </div>
-              <span class="text-xs font-bold text-[#648866] group-hover:underline">點擊開啟排程打卡圖卡 ➔</span>
+              <span class="text-xs font-bold text-[#648866] group-hover:underline" data-i18n="dash_metric2_btn">點擊開啟排程打卡圖卡 ➔</span>
             </div>
 
             <div onclick="openIncidentDetailModal()" class="p-4 rounded-2xl bg-[#FAF0EE] hover:bg-[#F5E2DE] border border-[#F2D2CB] flex flex-col justify-between cursor-pointer transition group shadow-xs">
               <div class="flex justify-between items-start">
-                <span class="text-xs font-bold text-[#9A382A]">待追蹤臨床事件</span>
+                <span class="text-xs font-bold text-[#9A382A]" data-i18n="dash_metric3_label">待追蹤臨床事件</span>
                 <span class="w-6 h-6 rounded-lg bg-[#C55D4E] text-white flex items-center justify-center text-xs font-bold animate-pulse">!</span>
               </div>
               <div class="my-2">
                 <strong class="text-3xl font-black text-[#9A382A]">1 <span class="text-sm font-normal">項待簽核</span></strong>
-                <p class="text-xs text-[#9A382A] mt-1 font-semibold">14:20 灌食期間出現輕微咳嗽</p>
+                <p class="text-xs text-[#9A382A] mt-1 font-semibold" data-i18n="dash_metric3_desc">14:20 灌食期間出現輕微咳嗽</p>
               </div>
-              <span class="text-xs font-bold text-[#C55D4E] group-hover:underline">點擊開啟雙軌確認簽核 ➔</span>
+              <span class="text-xs font-bold text-[#C55D4E] group-hover:underline" data-i18n="dash_metric3_btn">點擊開啟雙軌確認簽核 ➔</span>
             </div>
           </div>
         </div>
 
-        <!-- 7 日照護趨勢連續折線圖 (以真實日期標記 + 懸停每日重點) -->
+        <!-- 近 7 日照護趨勢連續折線圖 -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-2.5">
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-[#EDF3EC] pb-2.5 gap-2">
             <div>
               <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
-                <i class="fa-solid fa-chart-line text-[#648866]"></i> 近 7 日照護計畫連續趨勢圖 (動態完成率與每日關鍵備忘)
+                <i class="fa-solid fa-chart-line text-[#648866]"></i> <span data-i18n="trend_chart_title">近 7 日照護計畫連續趨勢圖 (動態完成率與每日關鍵備忘)</span>
               </h3>
-              <p class="text-xs text-[#596D5C]">以真實日期記錄 · 滑鼠移至圓點即可浮現當日照護重點備忘</p>
+              <p class="text-xs text-[#596D5C]" data-i18n="trend_chart_sub">以真實日期記錄 · 滑鼠移至圓點即可浮現當日照護重點備忘</p>
             </div>
             <span class="text-xs bg-[#EDF3EC] text-[#436048] font-bold px-3 py-1 rounded-full border border-[#D0DFC9]">
               近 7 日平均完成率：83.5%
@@ -633,11 +625,11 @@
           </div>
         </div>
 
-        <!-- 🌟 需求 3: 長照 2.0 生態外展資源連動 (恢復完整連動) -->
+        <!-- 長照 2.0 社區外展資源整合連動 -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#DEE8DC] shadow-xs space-y-3">
           <div class="flex justify-between items-center border-b border-[#EDF3EC] pb-2.5">
             <h3 class="text-base font-bold text-[#243527] flex items-center gap-2">
-              <i class="fa-solid fa-van-shuttle text-[#648866]"></i> 長照 2.0 與社區外展資源整合 (Community Ecosystem Hub)
+              <i class="fa-solid fa-van-shuttle text-[#648866]"></i> <span data-i18n="ltc_title">長照 2.0 與社區外展資源整合 (Community Ecosystem Hub)</span>
             </h3>
             <button onclick="openLtcBudgetModal()" class="text-xs text-[#436048] bg-[#EDF3EC] px-3 py-1 rounded-xl font-bold border border-[#D0DFC9]">
               四包錢預算水位：已用 65%
@@ -646,7 +638,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
             <div onclick="openLtcBusModal()" class="p-3.5 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl cursor-pointer transition">
               <div class="flex justify-between font-bold text-[#436048]">
-                <span><i class="fa-solid fa-bus text-[#648866] mr-1"></i> 特約復康巴士 (透析接送)</span>
+                <span><i class="fa-solid fa-bus text-[#648866] mr-1"></i> <span data-i18n="ltc_bus_title">特約復康巴士 (透析接送)</span></span>
                 <span class="badge-sage-primary px-2 py-0.5 rounded text-[10px]">準點出發</span>
               </div>
               <p class="text-[#243527] font-semibold mt-1">今日 14:00 血液透析專車 (車牌：TDF-8899)</p>
@@ -655,7 +647,7 @@
 
             <div onclick="openLtcOutreachModal()" class="p-3.5 bg-white hover:bg-[#F8FAF8] border border-[#DEE8DC] rounded-2xl cursor-pointer transition">
               <div class="flex justify-between font-bold text-[#436048]">
-                <span><i class="fa-solid fa-bath text-[#648866] mr-1"></i> 到宅沐浴車與專業團隊</span>
+                <span><i class="fa-solid fa-bath text-[#648866] mr-1"></i> <span data-i18n="ltc_bath_title">到宅沐浴車與專業團隊</span></span>
                 <span class="text-stone-500 text-[10px]">週五 10:00</span>
               </div>
               <p class="text-[#243527] font-semibold mt-1">紅十字會到宅沐浴車 (三人專業小組)</p>
@@ -664,7 +656,7 @@
 
             <div onclick="openLtcCareModal()" class="p-3.5 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl cursor-pointer transition">
               <div class="flex justify-between font-bold text-[#436048]">
-                <span><i class="fa-solid fa-hand-holding-hand text-[#648866] mr-1"></i> 社區照顧與喘息支援</span>
+                <span><i class="fa-solid fa-hand-holding-hand text-[#648866] mr-1"></i> <span data-i18n="ltc_respite_title">社區照顧與喘息支援</span></span>
                 <span class="text-[10px] bg-[#D3E3CF] text-[#436048] px-1.5 py-0.5 rounded font-bold">可申請</span>
               </div>
               <p class="text-[#243527] font-semibold mt-1">居服員備餐 / 陪伴喘息服務</p>
@@ -674,74 +666,74 @@
         </div>
       </section>
 
-      <!-- ==================== 3. 🌟 需求 5: 個案端 (Client View - 金大明伯伯) ==================== -->
+      <!-- ==================== 3. 個案端 (Client View - 金大明伯伯) ==================== -->
       <section id="view-patient" class="space-y-6 hidden">
         
-        <!-- 🌟 需求 10: 個案重要行程字體放大 -->
+        <!-- 個案大字版問候與重要行程 -->
         <div class="bg-white border-2 border-[#DEE8DC] rounded-3xl p-6 sm:p-8 text-center max-w-3xl mx-auto space-y-6 shadow-sm">
-          <div class="w-16 h-16 bg-[#436048] text-white rounded-3xl mx-auto flex items-center justify-center text-3xl shadow-md">
+          <div class="w-16 h-16 bg-[#436048] text-white rounded-3xl mx-auto flex items-center justify-center text-3xl shadow-md p-3">
             <i class="fa-solid fa-sun text-[#D3E3CF]"></i>
           </div>
           <div>
-            <h2 class="text-3xl sm:text-4xl font-black text-[#243527]">早安，金大明 伯伯</h2>
-            <p class="text-lg sm:text-xl text-[#596D5C] font-bold mt-1">今天是 2026 年 8 月 19 日 (星期三)</p>
+            <h2 class="text-3xl sm:text-4xl font-black text-[#243527]" data-i18n="pat_welcome">早安，金大明 伯伯</h2>
+            <p class="text-lg sm:text-xl text-[#596D5C] font-bold mt-1" data-i18n="pat_date_str">今天是 2026 年 8 月 19 日 (星期三)</p>
           </div>
 
           <!-- 重要行程 (特大字體排版) -->
           <div class="bg-[#F8FAF8] rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-4">
             <h3 class="text-2xl font-black text-[#243527] border-b border-[#EDF3EC] pb-2 flex items-center gap-2">
-              <i class="fa-solid fa-calendar-day text-[#648866]"></i> 今日重要行程提醒
+              <i class="fa-solid fa-calendar-day text-[#648866]"></i> <span data-i18n="pat_schedule_title">今日重要行程提醒</span>
             </h3>
             <div class="space-y-3">
               <div class="p-4 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] flex items-center space-x-4">
                 <span class="text-4xl">🚐</span>
                 <div>
-                  <p class="text-xl sm:text-2xl font-black text-[#243527]">下午 14:00 - 醫院血液透析 (洗腎)</p>
-                  <p class="text-sm sm:text-base text-[#596D5C] font-bold mt-0.5">復康巴士陳先生接送 · 阿蒂陪同前往</p>
+                  <p class="text-xl sm:text-2xl font-black text-[#243527]" data-i18n="pat_sched_dialysis">下午 14:00 - 醫院血液透析 (洗腎)</p>
+                  <p class="text-sm sm:text-base text-[#596D5C] font-bold mt-0.5" data-i18n="pat_sched_dialysis_sub">復康巴士陳先生接送 · 阿蒂陪同前往</p>
                 </div>
               </div>
               <div class="p-4 bg-white rounded-2xl border border-[#DEE8DC] flex items-center space-x-4">
                 <span class="text-4xl">🥣</span>
                 <div>
-                  <p class="text-xl sm:text-2xl font-black text-[#243527]">下午 16:30 - 傍晚營養灌食</p>
-                  <p class="text-sm sm:text-base text-[#596D5C] font-bold mt-0.5">低鉀腎臟專用配方奶 250ml</p>
+                  <p class="text-xl sm:text-2xl font-black text-[#243527]" data-i18n="pat_sched_feeding">下午 16:30 - 傍晚營養灌食</p>
+                  <p class="text-sm sm:text-base text-[#596D5C] font-bold mt-0.5" data-i18n="pat_sched_feeding_sub">低鉀腎臟專用配方奶 250ml</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 🌟 需求 9: 個案心情選項供家屬追蹤 -->
+          <!-- 個案心情打卡選項 -->
           <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-3 shadow-xs">
             <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
-              <i class="fa-solid fa-face-smile text-[#648866]"></i> 今天心情與感覺怎麼樣？
+              <i class="fa-solid fa-face-smile text-[#648866]"></i> <span data-i18n="pat_comfort_title">今天心情與感覺怎麼樣？</span>
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
               <button onclick="recordClientMood('舒服很好 😊')" class="p-4 bg-[#EDF3EC] hover:bg-[#D3E3CF] border border-[#D0DFC9] rounded-2xl text-center transition">
                 <span class="text-4xl block">😊</span>
-                <span class="text-base font-black text-[#436048] mt-1 block">舒服 / 很好</span>
+                <span class="text-base font-black text-[#436048] mt-1 block" data-i18n="pat_mood_good">舒服 / 很好</span>
               </button>
               <button onclick="recordClientMood('普通還可以 😐')" class="p-4 bg-[#F8FAF8] hover:bg-[#EDF3EC] border border-[#DEE8DC] rounded-2xl text-center transition">
                 <span class="text-4xl block">😐</span>
-                <span class="text-base font-black text-[#243527] mt-1 block">還可以 / 普通</span>
+                <span class="text-base font-black text-[#243527] mt-1 block" data-i18n="pat_mood_ok">還可以 / 普通</span>
               </button>
               <button onclick="recordClientMood('疼痛難受 😣')" class="p-4 bg-[#FAF0EE] hover:bg-[#F5E2DE] border border-[#F2D2CB] rounded-2xl text-center transition">
                 <span class="text-4xl block">😣</span>
-                <span class="text-base font-black text-[#9A382A] mt-1 block">疼痛 / 難受</span>
+                <span class="text-base font-black text-[#9A382A] mt-1 block" data-i18n="pat_mood_bad">疼痛 / 難受</span>
               </button>
               <button onclick="recordClientMood('想念小金 💬')" class="p-4 bg-[#FAF4EA] hover:bg-[#F2E8DA] border border-[#ECDDC7] rounded-2xl text-center transition">
                 <span class="text-4xl block">💬</span>
-                <span class="text-base font-black text-[#8F5E24] mt-1 block">想找家人</span>
+                <span class="text-base font-black text-[#8F5E24] mt-1 block" data-i18n="pat_mood_fam">想找家人</span>
               </button>
             </div>
             <p id="client-mood-alert" class="hidden text-xs font-bold text-[#436048] bg-[#EDF3EC] p-2.5 rounded-xl border border-[#D0DFC9] text-center"></p>
           </div>
 
-          <!-- 🌟 需求 8: 個案端 身體哪裡不適點選 (附件 1 人形圖互動) -->
+          <!-- 個案端 身體哪裡不適點選 (附件 1 人形圖互動) -->
           <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-4 shadow-xs">
             <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
-              <i class="fa-solid fa-person-dots-from-line text-[#C55D4E]"></i> 哪裡覺得痛或不舒服？（點選人形部位）
+              <i class="fa-solid fa-person-dots-from-line text-[#C55D4E]"></i> <span data-i18n="pat_pain_title">哪裡覺得痛或不舒服？（點選人形部位）</span>
             </h3>
-            <p class="text-xs text-[#596D5C]">免開口說話，直接點選身體部位，系統即刻發送通知給阿蒂與小金！</p>
+            <p class="text-xs text-[#596D5C]" data-i18n="pat_pain_sub">免開口說話，直接點選身體部位，系統即刻發送通知給阿蒂與小金！</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
               <!-- 附件 1 象形人體 -->
@@ -760,7 +752,7 @@
                   <div onclick="clientReportPain('胸口悶 / 呼吸喘')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 105px; left: 77px;" title="胸口悶">
                     <span>🫁</span>
                   </div>
-                  <div onclick="clientReportPain('肚子脹痛 / 想吐')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 145px; left: 77px;" title="肚子脹痛">
+                  <div onclick="clientReportPain('肚子脹痛 / 想吐')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 145px; left: 77px;" title="肚子痛">
                     <span>🫄</span>
                   </div>
                   <div onclick="clientReportPain('左側屁股 / 髖部壓痛')" class="body-marker bg-[#C55D4E] pulse-rose" style="top: 175px; right: 40px;" title="髖部壓痛">
@@ -775,16 +767,16 @@
               <!-- 快捷症狀按鈕 -->
               <div class="sm:col-span-6 space-y-2.5 text-xs font-bold">
                 <button onclick="clientReportPain('鼻胃管卡卡拉扯痛')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
-                  <span class="text-xl">👃</span> 鼻子 / 鼻胃管卡卡痛
+                  <span class="text-xl">👃</span> <span data-i18n="pain_nose">鼻子 / 鼻胃管卡卡痛</span>
                 </button>
                 <button onclick="clientReportPain('胸口很悶、吸不到氣')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
-                  <span class="text-xl">🫁</span> 胸口很悶、吸不到氣
+                  <span class="text-xl">🫁</span> <span data-i18n="pain_chest">胸口很悶、吸不到氣</span>
                 </button>
                 <button onclick="clientReportPain('肚子脹脹的、消化不良')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
-                  <span class="text-xl">🫄</span> 肚子脹脹的、想吐
+                  <span class="text-xl">🫄</span> <span data-i18n="pain_belly">肚子脹脹的、想吐</span>
                 </button>
                 <button onclick="clientReportPain('左側髖部骨頭被壓到很痛')" class="w-full p-3 bg-[#FAF8F5] hover:bg-[#FAF0EE] border rounded-xl text-left flex items-center gap-2">
-                  <span class="text-xl">🦴</span> 屁股 / 側邊骨頭被壓到痛
+                  <span class="text-xl">🦴</span> <span data-i18n="pain_hip">屁股 / 側邊骨頭被壓到痛</span>
                 </button>
 
                 <div id="client-pain-feedback" class="hidden p-3 bg-[#FAF0EE] border border-[#F2D2CB] text-[#9A382A] rounded-xl text-xs"></div>
@@ -792,30 +784,30 @@
             </div>
           </div>
 
-          <!-- 🌟 需求 6: 個案端 ICOPE 長者六力懷舊認知問答微互動 -->
+          <!-- 個案端 ICOPE 長者六力懷舊認知問答微互動 -->
           <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-3 shadow-xs">
             <div class="flex justify-between items-center border-b border-[#EDF3EC] pb-2">
               <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
-                <i class="fa-solid fa-gamepad text-[#648866]"></i> 每日 2 分鐘懷舊老歌問答 (長者六力認知維持)
+                <i class="fa-solid fa-gamepad text-[#648866]"></i> <span data-i18n="pat_trivia_title">每日 2 分鐘懷舊老歌問答 (長者六力認知維持)</span>
               </h3>
               <span class="text-xs bg-[#EDF3EC] text-[#436048] font-bold px-2.5 py-1 rounded-full border border-[#D0DFC9]">大腦活化</span>
             </div>
-            <p class="text-xs text-[#596D5C]">天天猜一猜，動動腦筋更健康！點擊下方開始今天的三道懷舊題目：</p>
+            <p class="text-xs text-[#596D5C]" data-i18n="pat_trivia_sub">天天猜一猜，動動腦筋更健康！點擊下方開始今天的三道懷舊題目：</p>
             <button onclick="openNostalgicModal()" class="w-full py-3.5 bg-[#436048] hover:bg-[#324936] text-white font-black text-base rounded-2xl shadow-xs transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-play"></i> 點我開始今天的懷舊問答 (3 題)
+              <i class="fa-solid fa-play"></i> <span data-i18n="btn_start_trivia">點我開始今天的懷舊問答 (3 題)</span>
             </button>
           </div>
 
-          <!-- 🌟 需求 7: 個案端 語音自主心願錄製表達功能 -->
+          <!-- 個案端 語音自主心願錄製表達功能 -->
           <div class="bg-white rounded-3xl p-6 border border-[#DEE8DC] text-left space-y-4 shadow-xs">
             <div class="flex justify-between items-center border-b border-[#EDF3EC] pb-2">
               <h3 class="text-xl font-black text-[#243527] flex items-center gap-2">
-                <i class="fa-solid fa-heart text-[#648866]"></i> 今日生活自主心願 (My Dignity Wishes)
+                <i class="fa-solid fa-heart text-[#648866]"></i> <span data-i18n="pat_wishes_title">今日生活自主心願 (My Dignity Wishes)</span>
               </h3>
               <span class="text-xs bg-[#EDF3EC] text-[#436048] font-bold px-2.5 py-1 rounded-full border">我有選擇權</span>
             </div>
             <div>
-              <label class="block text-sm font-bold text-[#243527] mb-1.5">👉 請選擇您今天希望照護者配合的心願：</label>
+              <label class="block text-sm font-bold text-[#243527] mb-1.5" data-i18n="pat_select_wish_label">👉 請選擇您今天希望照護者配合的心願：</label>
               <select id="patient-wish-select" class="w-full text-base border border-[#DEE8DC] rounded-xl p-3 bg-[#F8FAF8] font-bold focus:ring-2 focus:ring-[#648866] focus:outline-none">
                 <option value="擦澡前想先聽 20 分鐘廣播老歌">📻 擦澡前想先聽 20 分鐘廣播老歌</option>
                 <option value="下午翻身時希望側睡左側多看看窗外陽光">🪟 下午翻身時希望側睡左側多看看窗外陽光</option>
@@ -832,8 +824,8 @@
                   <i id="record-icon" class="fa-solid fa-microphone"></i>
                 </button>
                 <div>
-                  <p class="font-black text-base text-[#243527]" id="record-status-text">點擊按鈕開始錄音說出心願</p>
-                  <p class="text-xs text-[#596D5C]">國語、台語皆可，AI 自動轉譯並傳達給阿蒂與小金</p>
+                  <p class="font-black text-base text-[#243527]" id="record-status-text" data-i18n="pat_btn_record_label">點擊按鈕開始錄音說出心願</p>
+                  <p class="text-xs text-[#596D5C]" data-i18n="pat_record_sub">國語、台語皆可，AI 自動轉譯並傳達給阿蒂與小金</p>
                 </div>
               </div>
               <div id="recording-waveform" class="hidden items-center space-x-1.5 h-7">
@@ -846,14 +838,14 @@
             </div>
 
             <button onclick="submitPatientWish()" class="w-full py-3 bg-[#436048] hover:bg-[#324936] text-white font-black text-base rounded-2xl shadow-xs transition">
-              <i class="fa-solid fa-paper-plane mr-1"></i> 確認送出心願 (自動通知阿蒂與小金)
+              <i class="fa-solid fa-paper-plane mr-1"></i> <span data-i18n="btn_submit_wish">確認送出心願 (自動通知阿蒂與小金)</span>
             </button>
             <div id="patient-wish-msg" class="hidden text-sm font-bold text-[#436048] text-center p-3 bg-[#EDF3EC] rounded-xl border border-[#D0DFC9]"></div>
           </div>
 
           <!-- 緊急呼叫大按鈕 -->
           <button onclick="alert('🚨 已觸發呼叫鈴！阿蒂手機與智慧手環已同步震動鈴響。')" class="w-full py-5 bg-[#C55D4E] hover:bg-[#AA493B] text-white font-black text-2xl rounded-3xl shadow-lg shadow-[#C55D4E]/30 transition flex items-center justify-center gap-3">
-            <i class="fa-solid fa-bell animate-bounce"></i> 呼叫看護阿蒂 (Panggil Tri)
+            <i class="fa-solid fa-bell animate-bounce"></i> <span data-i18n="pat_btn_call">呼叫看護阿蒂 (Panggil Tri)</span>
           </button>
         </div>
       </section>
@@ -861,258 +853,6 @@
     </main>
   </div>
 
-  <!-- ==================== 模態視窗組 (MODALS) ==================== -->
-
-  <!-- 阿蒂學習進度詳情 Modal -->
-  <div id="cg-learning-track-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto border border-[#DEE8DC]">
-      <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2">
-          <i class="fa-solid fa-user-graduate text-[#648866]"></i> 外籍看護 (阿蒂) 照護技能受訓與認證圖卡
-        </h3>
-        <button onclick="document.getElementById('cg-learning-track-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="p-4 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] space-y-2 text-xs">
-        <div class="flex justify-between font-bold text-[#436048]">
-          <span>整體受訓達成率：72% (3/4 門通過)</span>
-          <span>🔥 連續受訓 7 天</span>
-        </div>
-        <div class="w-full bg-white h-2 rounded-full overflow-hidden border">
-          <div class="bg-[#436048] h-full w-[72%]"></div>
-        </div>
-      </div>
-      <div class="space-y-2 text-xs">
-        <div class="p-3 bg-[#F8FAF8] rounded-xl border flex justify-between items-center">
-          <div><p class="font-bold text-[#243527]">1. 鼻胃管灌食安全 (NGT Feeding)</p><p class="text-[11px] text-stone-500">回抽胃液確認、38°C溫水潤管、45度坐姿</p></div>
-          <span class="badge-sage-primary px-2.5 py-0.5 rounded-full font-bold">已認證</span>
-        </div>
-        <div class="p-3 bg-[#F8FAF8] rounded-xl border flex justify-between items-center">
-          <div><p class="font-bold text-[#243527]">2. 安全翻身與移位 (Positioning & Skin)</p><p class="text-[11px] text-stone-500">每 2 小時翻身、30度三角枕支撐、骨突檢視</p></div>
-          <span class="badge-amber px-2.5 py-0.5 rounded-full font-bold">62%</span>
-        </div>
-      </div>
-      <div class="flex justify-end pt-2 border-t">
-        <button onclick="document.getElementById('cg-learning-track-modal').classList.add('hidden')" class="px-4 py-2 bg-[#436048] text-white font-bold rounded-xl text-xs">關閉圖卡</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 今日排程任務進度詳情 Modal -->
-  <div id="schedule-detail-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-xl space-y-4 max-h-[90vh] overflow-y-auto border border-[#DEE8DC]">
-      <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-[#648866]"></i> 今日 5 大照護任務執行圖卡
-        </h3>
-        <button onclick="document.getElementById('schedule-detail-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="space-y-2.5 text-xs">
-        <div class="p-3 bg-[#EDF3EC] rounded-xl border">
-          <div class="flex justify-between font-bold text-[#436048]"><span>1. 08:00 晨間量測與血糖</span><span>已於 08:05 打卡</span></div>
-          <p class="text-stone-600 mt-1">血壓: 125/80 mmHg · 血糖: 108 mg/dL · 脈搏: 76 bpm</p>
-        </div>
-        <div class="p-3 bg-[#EDF3EC] rounded-xl border">
-          <div class="flex justify-between font-bold text-[#436048]"><span>2. 11:30 鼻胃管灌食與血糖</span><span>已於 11:35 打卡</span></div>
-          <p class="text-stone-600 mt-1">低鉀配方 250ml · 飯後血糖: 136 mg/dL · 刻度照片核對無位移</p>
-        </div>
-        <div class="p-3 bg-[#FAF0EE] rounded-xl border">
-          <div class="flex justify-between font-bold text-[#9A382A]"><span>3. 14:00 翻身擺位與髖部檢查</span><span>已打卡 (發現泛紅)</span></div>
-          <p class="text-stone-600 mt-1">已拍照上傳 · 左側髖部有輕微紅斑 · 已協助三角枕減壓 30 度</p>
-        </div>
-      </div>
-      <div class="flex justify-end pt-2 border-t">
-        <button onclick="document.getElementById('schedule-detail-modal').classList.add('hidden')" class="px-4 py-2 bg-[#436048] text-white font-bold rounded-xl text-xs">關閉</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 異常事件雙軌確認簽核 Modal -->
-  <div id="incident-detail-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl space-y-4 border border-[#DEE8DC]">
-      <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-bold text-[#9A382A] text-base flex items-center gap-2">
-          <i class="fa-solid fa-triangle-exclamation text-[#C55D4E]"></i> 臨床異常事件通報圖卡 (雙軌確認)
-        </h3>
-        <button onclick="document.getElementById('incident-detail-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="p-4 bg-[#FAF0EE] rounded-2xl border border-[#F2D2CB] space-y-2 text-xs">
-        <div class="flex justify-between text-[#9A382A] font-bold">
-          <span>事件：灌食輕微嗆咳 (黃色觀察)</span>
-          <span>7月25日 14:20</span>
-        </div>
-        <p class="text-[#243527]"><strong>回報人員：</strong> 外籍看護阿蒂 (Ati)</p>
-        <p class="text-[#243527]"><strong>處置經過：</strong> 灌食 100ml 時連續咳嗽兩聲，阿蒂立刻暫停灌食，並抬高床頭 45 度拍背，現呼吸已恢復平穩。</p>
-        <p class="text-[#596D5C]"><strong>個管護理師指導：</strong> 建議維持半坐臥 30 分鐘，暫緩灌水，若再咳或發熱即刻回報。</p>
-      </div>
-      <div class="flex justify-between items-center pt-2">
-        <button onclick="alert('已申請居家護理師致電關懷！')" class="px-3 py-2 bg-white border rounded-xl text-xs font-bold text-[#243527]">
-          <i class="fa-solid fa-phone text-[#648866] mr-1"></i> 請護理師追蹤
-        </button>
-        <button onclick="signAcknowledgeIncident()" class="px-4 py-2 bg-[#436048] hover:bg-[#324936] text-white font-bold rounded-xl text-xs">
-          我已了解 (完成家屬端簽核)
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 管路詳細圖卡 Modal -->
-  <div id="tube-card-modal" class="fixed inset-0 bg-stone-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 border border-[#DEE8DC]">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 rounded-xl bg-[#EDF3EC] text-[#436048] flex items-center justify-center font-bold">
-            <i class="fa-solid fa-file-waveform"></i>
-          </div>
-          <div>
-            <h3 class="font-black text-[#243527] text-base" id="tc-title">管路詳細圖卡</h3>
-            <p class="text-[11px] text-[#596D5C]" id="tc-subtitle">留置資訊與安全水位</p>
-          </div>
-        </div>
-        <button onclick="document.getElementById('tube-card-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="space-y-2.5 text-xs" id="tc-content-area"></div>
-      <div class="flex justify-end pt-2 border-t">
-        <button onclick="document.getElementById('tube-card-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white font-bold rounded-xl text-xs">關閉圖卡</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BSFS 完整 7 型打卡 Modal -->
-  <div id="bsfs-modal" class="fixed inset-0 bg-stone-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto border">
-      <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2"><i class="fa-solid fa-toilet text-[#648866]"></i> BSFS 布里斯托大便分類法 (完整 1～7 型)</h3>
-        <button onclick="document.getElementById('bsfs-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-        <button onclick="alert('已選第 1 型：硬球粒狀 (便秘)')" class="p-2.5 bg-[#FAF8F5] border rounded-xl text-left">🪨 第 1 型：硬球粒狀 (嚴重便秘)</button>
-        <button onclick="alert('已選第 2 型：凹凸香腸狀')" class="p-2.5 bg-[#FAF8F5] border rounded-xl text-left">🥖 第 2 型：凹凸香腸狀 (輕度便秘)</button>
-        <button onclick="alert('已選第 3 型：表面裂紋香腸')" class="p-2.5 bg-[#F8FAF8] border rounded-xl text-left">🌭 第 3 型：表面裂紋香腸 (正常偏乾)</button>
-        <button onclick="alert('已選第 4 型：光滑長條香蕉')" class="p-2.5 bg-[#EDF3EC] border-2 border-[#648866] rounded-xl text-left font-bold text-[#436048]">🍌 第 4 型：光滑長條香蕉 (最理想)</button>
-        <button onclick="alert('已選第 5 型：柔軟塊狀')" class="p-2.5 bg-[#F8FAF8] border rounded-xl text-left">🥔 第 5 型：柔軟塊狀 (缺纖維)</button>
-        <button onclick="alert('已選第 6 型：糊狀蓬鬆碎片')" class="p-2.5 bg-[#FAF8F5] border rounded-xl text-left">🥣 第 6 型：糊狀蓬鬆塊 (輕度腹瀉)</button>
-        <button onclick="alert('已選第 7 型：水狀無固體 (腹瀉警示)')" class="p-2.5 bg-[#FAF0EE] border border-[#F2D2CB] rounded-xl text-left col-span-1 sm:col-span-2 text-[#9A382A] font-bold">🌊 第 7 型：水狀完全無固體 (嚴重腹瀉)</button>
-      </div>
-      <div class="flex justify-end gap-2 pt-2 border-t">
-        <button onclick="document.getElementById('bsfs-modal').classList.add('hidden')" class="px-4 py-1.5 bg-stone-100 rounded-xl text-xs font-bold">取消</button>
-        <button onclick="document.getElementById('bsfs-modal').classList.add('hidden'); alert('✅ 排便打卡已完成並同步三端！');" class="px-5 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認儲存</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 生命徵象/血糖/灌食/用藥 Modal -->
-  <div id="vital-modal" class="fixed inset-0 bg-stone-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-3 max-h-[90vh] overflow-y-auto border">
-      <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-bold text-[#243527] text-base flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-[#C55D4E]"></i> 全生命徵象、血糖、灌食與用藥紀錄</h3>
-        <button onclick="document.getElementById('vital-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <form onsubmit="event.preventDefault(); document.getElementById('vital-modal').classList.add('hidden'); alert('✅ 生理與用藥數據已儲存並同步至三端！');" class="space-y-3 text-xs">
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-[#F8FAF8] p-3 rounded-2xl border">
-          <div><label class="block font-medium">收縮壓</label><input type="number" value="125" class="w-full border rounded-lg p-1.5 bg-white"></div>
-          <div><label class="block font-medium">舒張壓</label><input type="number" value="80" class="w-full border rounded-lg p-1.5 bg-white"></div>
-          <div><label class="block font-medium">心率 bpm</label><input type="number" value="76" class="w-full border rounded-lg p-1.5 bg-white"></div>
-          <div><label class="block font-medium">體溫 °C</label><input type="number" step="0.1" value="36.5" class="w-full border rounded-lg p-1.5 bg-white"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-2 bg-[#EDF3EC] p-3 rounded-2xl border">
-          <div><label class="block font-bold text-[#436048]">🌅 飯前空腹血糖</label><input type="number" value="108" class="w-full border rounded-lg p-1.5 bg-white font-bold"></div>
-          <div><label class="block font-bold text-[#436048]">🍽️ 飯後 2 小時血糖</label><input type="number" value="136" class="w-full border rounded-lg p-1.5 bg-white font-bold"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-2 bg-[#F8FAF8] p-3 rounded-2xl border">
-          <div><label class="block font-medium">灌食量 (ml)</label><input type="number" value="250" class="w-full border rounded-lg p-1.5 bg-white"></div>
-          <div><label class="block font-medium">溫水潤管 (ml)</label><input type="number" value="30" class="w-full border rounded-lg p-1.5 bg-white"></div>
-        </div>
-        <div class="flex justify-end gap-2 pt-2 border-t">
-          <button type="submit" class="px-5 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">儲存並同步</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- 長照預算 Modal -->
-  <div id="ltc-budget-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
-      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-wallet text-[#648866]"></i> 長照 2.0 四包錢總預算 (CMS-7級)</h3>
-      <div class="p-3 bg-[#F8FAF8] rounded-xl border text-xs space-y-1">
-        <p>• 照顧及專業服務：$36,180/月 (已使用 $23,500 / 65%)</p>
-        <p>• 交通接送補助：透析接送第4組 (本月尚餘 4 趟)</p>
-      </div>
-      <div class="flex justify-end"><button onclick="document.getElementById('ltc-budget-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">關閉</button></div>
-    </div>
-  </div>
-
-  <!-- 復康巴士 Modal -->
-  <div id="ltc-bus-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
-      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-bus text-[#648866]"></i> 特約復康巴士透析專車</h3>
-      <div class="p-3 bg-[#EDF3EC] rounded-xl border text-xs">司機：陳先生 (0912-345-678 · TDF-8899)<br>排程：每週一、三、五 14:00 出發往北榮透析中心</div>
-      <div class="flex justify-end"><button onclick="document.getElementById('ltc-bus-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認</button></div>
-    </div>
-  </div>
-
-  <!-- 沐浴車 Modal -->
-  <div id="ltc-outreach-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
-      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-bath text-[#648866]"></i> 到宅沐浴車與專業團隊</h3>
-      <div class="p-3 bg-[#F8FAF8] rounded-xl border text-xs">紅十字會到宅沐浴車 (每雙週五 10:00 · 三人小組到府服務)</div>
-      <div class="flex justify-end"><button onclick="document.getElementById('ltc-outreach-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認</button></div>
-    </div>
-  </div>
-
-  <!-- 喘息支援 Modal -->
-  <div id="ltc-care-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
-      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-hand-holding-hand text-[#648866]"></i> 社區照顧與喘息支援</h3>
-      <div class="p-3 bg-[#F8FAF8] rounded-xl border text-xs">每週可申請 1 次居服員替班 3 小時，讓看護阿蒂安心休息。</div>
-      <div class="flex justify-end"><button onclick="document.getElementById('ltc-care-modal').classList.add('hidden')" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認</button></div>
-    </div>
-  </div>
-
-  <!-- 懷舊生活問答 Modal -->
-  <div id="nostalgic-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-xl space-y-4 border border-[#DEE8DC]">
-      <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-bold text-[#243527] text-base">📻 懷舊生活老歌問答 (第 1 題 / 共 3 題)</h3>
-        <button onclick="document.getElementById('nostalgic-modal').classList.add('hidden')" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="space-y-3 text-center">
-        <p class="text-base font-black text-[#243527]">「阮若打開心內的門，就會看見五彩的春光...」這首經典老歌的歌名是？</p>
-        <div class="grid grid-cols-2 gap-2 text-xs font-bold pt-2">
-          <button onclick="alert('🎉 答對了！金伯伯反應時間僅 1.6 秒，大腦記憶維持非常棒！'); document.getElementById('nostalgic-modal').classList.add('hidden');" class="p-3 bg-[#EDF3EC] hover:bg-[#D3E3CF] border rounded-xl text-[#436048]">A. 阮若打開心內的門窗</button>
-          <button onclick="alert('差一點點！這首歌是傳唱經典的《阮若打開心內的門窗》喔！動動腦很棒！'); document.getElementById('nostalgic-modal').classList.add('hidden');" class="p-3 bg-[#F8FAF8] hover:bg-stone-100 border rounded-xl text-[#243527]">B. 望春風</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 影音播放器 Modal -->
-  <div id="video-interactive-modal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-3">
-      <div class="flex justify-between items-center pb-2 border-b">
-        <h3 class="font-bold text-[#243527] text-sm" id="modal-video-title">SOP 護理技術訓練</h3>
-        <button onclick="closeInteractiveVideo()" class="text-stone-400"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="bg-stone-900 rounded-2xl h-56 flex flex-col items-center justify-center text-white relative">
-        <i class="fa-solid fa-play text-4xl text-[#D3E3CF] cursor-pointer" onclick="alert('影片播放中 (0.8x 慢速雙語放映)...')"></i>
-        <span class="absolute bottom-3 right-3 bg-black/60 px-2 py-0.5 rounded text-[10px]">0.8x 慢速字幕</span>
-      </div>
-      <div class="p-3 bg-[#EDF3EC] rounded-xl text-xs text-[#436048]">
-        <strong>課後小測驗：</strong> 翻身側臥時，背後三角枕維持幾度最能保護大轉子骨突避免壓瘡？<br>
-        <button onclick="alert('🎉 答對了！已頒發照護知能認證徽章！'); closeInteractiveVideo();" class="mt-2 w-full py-2 bg-[#436048] text-white rounded-lg font-bold">A. 30度側臥懸空 (正確)</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 鼻胃管比對 Modal -->
-  <div id="ngt-check-modal" class="fixed inset-0 bg-stone-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-xl space-y-3">
-      <h3 class="font-bold text-[#243527] text-base"><i class="fa-solid fa-camera"></i> 鼻胃管刻度相片比對</h3>
-      <div class="p-3 bg-[#EDF3EC] rounded-2xl text-xs text-[#436048] font-bold">今日辨識：52.1 cm（昨日基準 52.0 cm，位移 +0.1cm 安全無滑脫）</div>
-      <div class="flex justify-end"><button onclick="document.getElementById('ngt-check-modal').classList.add('hidden'); alert('刻度比對完成，已解鎖灌食！');" class="px-4 py-1.5 bg-[#436048] text-white rounded-xl text-xs font-bold">確認無位移</button></div>
-    </div>
-  </div>
-
-  <!-- 核心自適應裝置檢測腳本與業務邏輯 -->
   <script>
     /* ==================== 🌟 核心：自動偵測手機/電腦並調整比例 ==================== */
     function detectAndScaleDevice() {
@@ -1127,18 +867,13 @@
       if (isMobile) {
         htmlEl.classList.add('device-mobile');
         htmlEl.classList.remove('device-desktop');
-        if (badge) {
-          badge.innerHTML = `<i class="fa-solid fa-mobile-screen mr-1 text-[#436048]"></i>手機適配比例 (${window.innerWidth}px)`;
-        }
+        if (badge) badge.innerHTML = `<i class="fa-solid fa-mobile-screen mr-1 text-[#436048]"></i>手機適配 (${window.innerWidth}px)`;
       } else {
         htmlEl.classList.add('device-desktop');
         htmlEl.classList.remove('device-mobile');
-        if (badge) {
-          badge.innerHTML = `<i class="fa-solid fa-display mr-1 text-[#436048]"></i>電腦桌面比例 (${window.innerWidth}px)`;
-        }
+        if (badge) badge.innerHTML = `<i class="fa-solid fa-display mr-1 text-[#436048]"></i>電腦桌面 (${window.innerWidth}px)`;
       }
 
-      // 如果圖表已初始化，視窗縮放時自動重繪
       if (careTrendChartInstance) {
         careTrendChartInstance.resize();
       }
@@ -1149,6 +884,12 @@
     document.addEventListener('DOMContentLoaded', detectAndScaleDevice);
 
     /* ==================== 資料與業務邏輯 ==================== */
+    let activeRole = 'portal';
+    let historyStack = [];
+    let currentLang = 'zh';
+    let isRecording = false;
+
+    // 近 7 日照護趨勢折線圖數據
     const careTrendData = {
       labels: ['07/20', '07/21', '07/22', '07/23', '07/24', '07/25', '07/26'],
       completionRates: [80, 85, 75, 90, 85, 95, 72],
@@ -1165,130 +906,600 @@
 
     let careTrendChartInstance = null;
 
-    function initCareTrendChart() {
-      const ctx = document.getElementById('careTrendChart');
-      if (!ctx) return;
-      if (careTrendChartInstance) careTrendChartInstance.destroy();
+    // 🌟 完整修復 4 國語言字典（補齊 English 與 Vietnamese）
+    const i18nDict = {
+      zh: {
+        portal_subtitle: "居家特護跨角色智慧協作與生態樞紐平台",
+        guide_portal_title: "SynCare 平台核心使用指引與跨角色協作機制",
+        guide_cg_col_title: "外籍看護端 (阿蒂)",
+        guide_cg_col_desc: "SOP 影音學習認證、BSFS 完整 7 型大便打卡、標準人形管路圖卡、母語語音結構化交班與用藥記錄。",
+        guide_fam_col_title: "家屬決策端 (小金)",
+        guide_fam_col_desc: "可點開 3 大指標追蹤圖卡、近 7 日連續折線圖（附懸停重點）、長照 2.0 生態外展連動與急診數位包。",
+        guide_pat_col_title: "個案端 (金伯伯)",
+        guide_pat_col_desc: "放大字體重要行程、ICOPE 六力懷舊認知問答、語音心願錄製表達、標準人形不適點選與每日心情回饋。",
+        portal_select_role: "請選擇您的登入身分",
+        portal_case_info: "個案：金大明 伯伯 (75歲 · 留置鼻胃管 · 每週三次血液透析)",
+        portal_tag_cg: "Perawat (Mbak Tri)",
+        portal_role_cg_name: "外籍看護端 (阿蒂)",
+        portal_role_cg_desc: "SOP 影音學習測驗中心、BSFS 完整 7 型打卡、標準人形管路圖卡、全生命徵象/血糖/灌食與 AI 臨床對話。",
+        portal_btn_login_cg: "進入看護工作台 ➔",
+        portal_tag_fam: "Keluarga (Mr. Kim)",
+        portal_role_fam_name: "家屬決策端 (小金)",
+        portal_role_fam_desc: "近 7 日照護趨勢連續折線圖、每日重點懸停詳情、阿蒂受訓歷程追蹤與回顧型健康多維報告。",
+        portal_btn_login_fam: "進入家屬決策台 ➔",
+        portal_tag_pat: "Pasien (Kakek Kim)",
+        portal_role_pat_name: "個案端 (金伯伯)",
+        portal_role_pat_desc: "大字今日行程提醒、每日 2 分鐘懷舊問答、語音自主心願錄音表達、標準人形身體不適點選與每日心情回饋。",
+        portal_btn_login_pat: "進入個案專屬介面 ➔",
+        portal_footer: "SynCare · 台北榮民總醫院實習研發 以人為本跨角色智慧閉環照護系統",
+        sync_time_badge: "同步於 09:42",
+        nav_sub_title: "三端智慧閉環照護系統",
+        btn_nav_back: "上一頁",
+        btn_logout: "登出",
+        tab_caregiver: "看護端 (阿蒂)",
+        tab_family: "家屬端 (小金)",
+        tab_patient: "個案端 (金伯伯)",
+        cg_badge_sync: "已同步連線護理師與家屬",
+        cg_welcome: "早安，阿蒂 (Mbak Tri)",
+        cg_patient_info: "個案：金大明 伯伯 (75歲) · 今日照護排程：5 項任務",
+        btn_ngt_check: "拍照比對鼻胃管刻度",
+        btn_bsfs_log: "BSFS 7型完整排便打卡",
+        cg_btn_vitals: "登錄生命徵象/血糖/灌食/用藥",
+        body_map_title: "標準人體管路監控與即時圖卡 (附件 1 人形)",
+        body_map_desc: "點選人形標記（鼻胃管、瘻管、導尿管、壓瘡點）即可彈出專屬圖卡",
+        body_map_badge: "1 處管路觀察中",
+        body_front_label: "附件 1 人形臨床點位",
+        tag_normal: "正常",
+        tag_warning: "臨期/注意",
+        tag_alert: "壓瘡警示",
+        tube_ngt_pos: "鼻胃管 (NGT 14 Fr 矽膠材質)",
+        tube_ngt_sub: "固定刻度 52cm · 效期剩餘 12 天 · 點擊查詳細圖卡 ➔",
+        tag_verified: "今日已核對",
+        tube_dialysis_title: "左手洗腎瘻管 (AV Fistula)",
+        tube_dialysis_sub: "震顫音 Thrill 良好 · 嚴禁量血壓壓迫 · 點擊查圖卡 ➔",
+        tag_flow_ok: "血流暢通",
+        tube_foley_title: "雙腔留置導尿管 (Foley 16 Fr)",
+        tube_foley_sub: "尿袋低於膀胱 · 尿色澄清無沈澱 · 點擊查圖卡 ➔",
+        tag_days_18: "剩 18 天",
+        tube_hip_title: "左側髖部大轉子 (壓瘡紅斑觀察點)",
+        tube_hip_sub: "定時 2 小時側臥減壓 30 度 · 點擊查照護對策 ➔",
+        tag_protect: "重點防護",
+        video_hub_title: "Pusat Video SOP & Pelatihan (多語影音衛教中心)",
+        video_hub_sub: "免翻手冊 · 支援雙語對照 · 0.8x 慢速放映 · 課後防呆小測驗",
+        cert_progress_lbl: "認證進度：75% (3/4門合格)",
+        video_tab_all: "全部課程 (Semua)",
+        video_tab_ngt: "鼻胃管灌食 (Selang NGT)",
+        video_tab_turn: "翻身減壓 (Reposisi Tubuh)",
+        video_1_title: "SOP Pemberian Nutrisi NGT (鼻胃管灌食標準步驟)",
+        video_1_desc: "反抽胃液確認、38°C溫水潤管、45度坐姿防嗆咳吸入性肺炎。",
+        badge_certified: "已認證",
+        btn_review_video: "複習影片",
+        video_2_title: "Teknik Membalikkan Tubuh & Cegah Luka (翻身減壓防壓瘡)",
+        video_2_desc: "利用床單省力翻轉、30度三角側睡枕、檢查骨突處皮膚完整度。",
+        status_pending_quiz: "待測驗",
+        btn_start_learn: "開始學習",
+        cg_task_header: "今日照護排程 (5項)",
+        cg_task_progress_text: "完成 3/5",
+        cg_task_1: "08:00 晨間生理徵象 & 飯前血糖 (已完成)",
+        cg_task_2: "11:30 鼻胃管灌食 250ml & 飯後血糖 (已完成)",
+        cg_task_3: "14:00 翻身擺位與左髖減壓檢測",
+        cg_task_3_sub: "特別注意：左側髖部紅斑處置與三角枕 30 度擺位",
+        btn_confirm_task: "拍照完成",
+        status_done: "已完成",
+        ai_title: "SynCare AI 臨床分級助手",
+        ai_status_24h: "● 24H 雙語真人級臨床對話中",
+        prompt_cough: "⚠️ 灌食嗆咳",
+        prompt_fever: "🌡️ 體溫 38.3°C",
+        prompt_tube: "🚨 鼻管滑脫",
+        ai_input_ph: "輸入照護問題...",
+        fam_date_eyebrow: "2026年7月26日・星期日",
+        fam_welcome_title: "早安，金先生",
+        fam_welcome_sub: "父親今日生理體徵平穩，阿蒂已落實晨間空腹血糖與生命徵象登錄。",
+        dash_metric1_label: "阿蒂知能學習認證",
+        dash_metric1_btn: "點擊開啟受訓圖卡與證書 ➔",
+        dash_metric2_label: "今日排程執行進度",
+        dash_metric2_desc: "晨間量測、午間灌食已打卡完成",
+        dash_metric2_btn: "點擊開啟排程打卡圖卡 ➔",
+        dash_metric3_label: "待追蹤臨床事件",
+        dash_metric3_desc: "14:20 灌食期間出現輕微咳嗽",
+        dash_metric3_btn: "點擊開啟雙軌確認簽核 ➔",
+        trend_chart_title: "近 7 日照護計畫連續趨勢圖 (動態完成率與每日關鍵備忘)",
+        trend_chart_sub: "以真實日期記錄 · 滑鼠移至圓點即可浮現當日照護重點備忘",
+        ltc_title: "長照 2.0 與社區外展資源整合 (Community Ecosystem Hub)",
+        ltc_bus_title: "特約復康巴士 (透析接送)",
+        ltc_bath_title: "到宅沐浴車與專業團隊",
+        ltc_respite_title: "社區照顧與喘息支援",
+        pat_welcome: "早安，金大明 伯伯",
+        pat_date_str: "今天是 2026 年 8 月 19 日 (星期三)",
+        pat_schedule_title: "今日重要行程提醒",
+        pat_sched_dialysis: "下午 14:00 - 醫院血液透析 (洗腎)",
+        pat_sched_dialysis_sub: "復康巴士陳先生接送 · 阿蒂陪同前往",
+        pat_sched_feeding: "下午 16:30 - 傍晚營養灌食",
+        pat_sched_feeding_sub: "低鉀腎臟專用配方奶 250ml",
+        pat_comfort_title: "今天心情與感覺怎麼樣？",
+        pat_mood_good: "舒服 / 很好",
+        pat_mood_ok: "還可以 / 普通",
+        pat_mood_bad: "疼痛 / 難受",
+        pat_mood_fam: "想找家人",
+        pat_pain_title: "哪裡覺得痛或不舒服？（點選人形部位）",
+        pat_pain_sub: "免開口說話，直接點選身體部位，系統即刻發送通知給阿蒂與小金！",
+        pain_nose: "鼻子 / 鼻胃管卡卡痛",
+        pain_chest: "胸口很悶、吸不到氣",
+        pain_belly: "肚子脹脹的、想吐",
+        pain_hip: "屁股 / 側邊骨頭被壓到痛",
+        pat_trivia_title: "每日 2 分鐘懷舊老歌問答 (長者六力認知維持)",
+        pat_trivia_sub: "天天猜一猜，動動腦筋更健康！點擊下方開始今天的三道懷舊題目：",
+        btn_start_trivia: "點我開始今天的懷舊問答 (3 題)",
+        pat_wishes_title: "今日生活自主心願 (My Dignity Wishes)",
+        pat_select_wish_label: "👉 請選擇您今天希望照護者配合的心願：",
+        pat_btn_record_label: "點擊按鈕開始錄音說出心願",
+        pat_record_sub: "國語、台語皆可，AI 自動轉譯並傳達給阿蒂與小金",
+        btn_submit_wish: "確認送出心願 (自動通知阿蒂與小金)",
+        pat_btn_call: "呼叫看護阿蒂 (Panggil Tri)"
+      },
+      id: {
+        portal_subtitle: "Platform Kolaborasi Cerdas & Ekosistem Perawatan Rumah",
+        guide_portal_title: "Panduan Inti SynCare & Kolaborasi Multi-Peran",
+        guide_cg_col_title: "Perawat Asing (Tri)",
+        guide_cg_col_desc: "Sertifikasi video SOP, input 7 tipe BSFS, kartu selang anatomi standar, rekam vital/gula & dialog AI.",
+        guide_fam_col_title: "Keluarga (Mr. Kim)",
+        guide_fam_col_desc: "3 kartu metrik dapat diklik, grafik garis 7 hari (hover catatan harian), integrasi LTC 2.0.",
+        guide_pat_col_title: "Klien/Pasien (Bapak Kim)",
+        guide_pat_col_desc: "Jadwal huruf besar, kuis nostalgia 2 menit, rekam suara keinginan diri, peta nyeri anatomi & suasana hati.",
+        portal_select_role: "Pilih Peran Masuk Anda",
+        portal_case_info: "Kasus: Bapak Da-Ming Kim (75 thn · Selang NGT · Hemodialisis 3x/minggu)",
+        portal_tag_cg: "Perawat (Mbak Tri)",
+        portal_role_cg_name: "Perawat Pasien (Mbak Tri)",
+        portal_role_cg_desc: "SOP video, BSFS 7 tipe BAB, kartu selang anatomi standar, rekam vital lengkap & AI klinis.",
+        portal_btn_login_cg: "Masuk Meja Kerja Perawat ➔",
+        portal_tag_fam: "Keluarga (Mr. Kim)",
+        portal_role_fam_name: "Keluarga Pengambil Keputusan (Mr. Kim)",
+        portal_role_fam_desc: "Grafik garis tren 7 hari, hover rincian harian, pelacakan belajar Tri & integrasi LTC 2.0.",
+        portal_btn_login_fam: "Masuk Dashboard Keluarga ➔",
+        portal_tag_pat: "Klien/Pasien (Bapak Kim)",
+        portal_role_pat_name: "Tampilan Klien (Bapak Kim)",
+        portal_role_pat_desc: "Jadwal huruf besar, kuis nostalgia 2 menit, rekam keinginan suara & peta rasa sakit.",
+        portal_btn_login_pat: "Masuk Tampilan Klien ➔",
+        portal_footer: "SynCare · Kolaborasi Praktik RS Veteran Taipei (VGHTPE)",
+        sync_time_badge: "Tersinkronisasi 09:42",
+        nav_sub_title: "Sistem Perawatan Loop Tertutup Cerdas",
+        btn_nav_back: "Kembali",
+        btn_logout: "Keluar",
+        tab_caregiver: "Perawat (Tri)",
+        tab_family: "Keluarga (Mr. Kim)",
+        tab_patient: "Klien (Bapak Kim)",
+        cg_badge_sync: "Terhubung Perawat & Keluarga",
+        cg_welcome: "Selamat Pagi, Mbak Tri (阿蒂)",
+        cg_patient_info: "Pasien: Bapak Kim (75 thn) · Rencana: 5 Tugas",
+        btn_ngt_check: "Foto Skala Selang NGT",
+        btn_bsfs_log: "Input BAB 7 Tipe BSFS",
+        cg_btn_vitals: "Catat Tanda Vital/Gula/NGT",
+        body_map_title: "Peta Anatomi Standar & Kartu Siklus Selang",
+        body_map_desc: "Klik tanda anatomi (hidung, fistula, kateter, luka) untuk rincian kartu",
+        body_map_badge: "1 Selang dalam Pantauan",
+        body_front_label: "Titik Klinis Anatomi Tubuh Depan",
+        tag_normal: "Normal",
+        tag_warning: "Perhatian",
+        tag_alert: "Waspada Luka",
+        tube_ngt_pos: "Selang NGT (14 Fr Silikon)",
+        tube_ngt_sub: "Skala tetap 52cm · Sisa masa berlaku 12 hari · Rincian ➔",
+        tag_verified: "Terverifikasi",
+        tube_dialysis_title: "Fistula Dialisis Tangan Kiri (AVF)",
+        tube_dialysis_sub: "Getaran thrill normal · Dilarang ukur tensi di tangan kiri ➔",
+        tag_flow_ok: "Aliran Lancar",
+        tube_foley_title: "Kateter Urine Foley (16 Fr)",
+        tube_foley_sub: "Kantong urine di bawah kandung kemih · Urine jernih ➔",
+        tag_days_18: "Sisa 18 Hari",
+        tube_hip_title: "Pinggul Kiri (Pemantauan Luka Tekan)",
+        tube_hip_sub: "Miring 30 derajat tiap 2 jam menggunakan bantal segitiga ➔",
+        tag_protect: "Proteksi Ketat",
+        video_hub_title: "Pusat Video SOP & Pelatihan Mandiri",
+        video_hub_sub: "Pelatihan mandiri ramah · 0.8x kecepatan lambat · kuis pemahaman",
+        cert_progress_lbl: "Sertifikasi: 75% (3/4 lulus)",
+        video_tab_all: "Semua Kursus",
+        video_tab_ngt: "Selang NGT",
+        video_tab_turn: "Reposisi Tubuh",
+        video_1_title: "SOP Pemberian Nutrisi NGT Aman",
+        video_1_desc: "Cek residu lambung, bilas air hangat 38°C, posisi duduk 45°.",
+        badge_certified: "Tersertifikasi",
+        btn_review_video: "Ulas Video",
+        video_2_title: "Teknik Reposisi Tubuh & Cegah Luka Tekan",
+        video_2_desc: "Gunakan sprei untuk membalik badan, bantal 30°, cek kulit.",
+        status_pending_quiz: "Menunggu Kuis",
+        btn_start_learn: "Mulai Belajar",
+        cg_task_header: "Jadwal Tugas Hari Ini (5 Tugas)",
+        cg_task_progress_text: "Selesai 3/5",
+        cg_task_1: "08:00 Tanda Vital & Gula Darah Puasa (Selesai)",
+        cg_task_2: "11:30 Nutrisi NGT 250ml & Gula Darah 2 Jam (Selesai)",
+        cg_task_3: "14:00 Reposisi Tubuh & Cek Kulit Pinggul Kiri",
+        cg_task_3_sub: "Perhatian: Redakan kemerahan pinggul kiri dengan bantal segitiga 30°",
+        btn_confirm_task: "Foto Selesai",
+        status_done: "Selesai",
+        ai_title: "Asisten AI Klinis SynCare",
+        ai_status_24h: "● Siaga 24 Jam (Bahasa Indonesia)",
+        prompt_cough: "⚠️ Batuk saat NGT",
+        prompt_fever: "🌡️ Suhu 38.3°C",
+        prompt_tube: "🚨 Selang NGT Lepas",
+        ai_input_ph: "Ketik kendala perawatan...",
+        fam_date_eyebrow: "Minggu, 26 Juli 2026",
+        fam_welcome_title: "Selamat Pagi, Mr. Kim",
+        fam_welcome_sub: "Kondisi ayah stabil hari ini, Tri telah menyelesaikan pengukuran vital pagi.",
+        dash_metric1_label: "Sertifikasi Belajar Tri",
+        dash_metric1_btn: "Klik untuk Buka Kartu & Sertifikat ➔",
+        dash_metric2_label: "Progres Tugas Hari Ini",
+        dash_metric2_desc: "Pengukuran pagi dan makan siang selesai",
+        dash_metric2_btn: "Klik untuk Buka Kartu Tugas ➔",
+        dash_metric3_label: "Insiden Perlu Ditindaklanjuti",
+        dash_metric3_desc: "14:20 Batuk ringan saat pemberian nutrisi",
+        dash_metric3_btn: "Klik untuk Konfirmasi Validasi Ganda ➔",
+        trend_chart_title: "Grafik Garis Tren Perawatan 7 Hari (Tingkat Selesai & Sorotan)",
+        trend_chart_sub: "Berdasarkan tanggal riil · Arahkan kursor ke titik untuk melihat sorotan harian",
+        ltc_title: "Integrasi Komunitas & LTC 2.0 (Community Ecosystem)",
+        ltc_bus_title: "Bus Khusus Dialisis",
+        ltc_bath_title: "Mobil Mandi Homecare",
+        ltc_respite_title: "Bantuan Istirahat Komunitas",
+        pat_welcome: "Selamat Pagi, Kakek Kim",
+        pat_date_str: "Hari ini: Rabu, 19 Agustus 2026",
+        pat_schedule_title: "Pengingat Jadwal Penting Hari Ini",
+        pat_sched_dialysis: "14:00 Siang - Cuci Darah di Rumah Sakit",
+        pat_sched_dialysis_sub: "Jemputan Bus Khusus Bpk. Chen · Didampingi Tri",
+        pat_sched_feeding: "16:30 Sore - Pemberian Nutrisi NGT",
+        pat_sched_feeding_sub: "Susu formula rendah kalium 250ml",
+        pat_comfort_title: "Bagaimana perasaan dan suasana hati hari ini?",
+        pat_mood_good: "Sangat Baik / Nyaman",
+        pat_mood_ok: "Biasa Saja / Cukup",
+        pat_mood_bad: "Ada Nyeri / Sakit",
+        pat_mood_fam: "Kangen Keluarga",
+        pat_pain_title: "Bagian mana yang terasa sakit / tidak nyaman?",
+        pat_pain_sub: "Tanpa perlu bicara, klik bagian tubuh untuk memberi tahu Tri dan Kim!",
+        pain_nose: "Hidung / Selang NGT sakit",
+        pain_chest: "Dada sesak, sulit bernapas",
+        pain_belly: "Perut kembung, mual",
+        pain_hip: "Pantat / tulang pinggul sakit",
+        pat_trivia_title: "Kuis Lagu Nostalgia 2 Menit (Stimulasi Otak)",
+        pat_trivia_sub: "Tebak lagu untuk melatih daya ingat! Klik di bawah untuk mulai:",
+        btn_start_trivia: "Mulai Kuis Nostalgia Hari Ini (3 Soal)",
+        pat_wishes_title: "Keinginan Otonomi Hari Ini (My Dignity Wishes)",
+        pat_select_wish_label: "👉 Pilih keinginan Anda hari ini:",
+        pat_btn_record_label: "Klik tombol untuk merekam suara keinginan",
+        pat_record_sub: "Mendukung suara langsung, AI otomatis menerjemahkan ke Tri",
+        btn_submit_wish: "Kirim Keinginan (Beri Tahu Tri & Kim)",
+        pat_btn_call: "Panggil Pengasuh Tri (呼叫阿蒂)"
+      },
+      en: {
+        portal_subtitle: "Cross-Role Smart Collaboration & Ecosystem Hub for Home Care",
+        guide_portal_title: "SynCare Core Operation Guidelines & Multi-Role Collaboration",
+        guide_cg_col_title: "Caregiver (Tri)",
+        guide_cg_col_desc: "SOP video certification, full BSFS 7-type stool log, standard body tube cards, voice handover & vitals.",
+        guide_fam_col_title: "Family Decision-Maker (Mr. Kim)",
+        guide_fam_col_desc: "3 clickable metric cards, 7-day care trend line chart (hover for daily highlights), LTC 2.0 integration.",
+        guide_pat_col_title: "Client Portal (Grandpa Kim)",
+        guide_pat_col_desc: "Large font schedule, 2-minute nostalgia quiz, voice wish recording, body pain map & mood feedback.",
+        portal_select_role: "Please Select Your Login Identity",
+        portal_case_info: "Patient: Grandpa Da-Ming Kim (75 y/o · NGT retained · Hemodialysis 3x/wk)",
+        portal_tag_cg: "Caregiver (Tri)",
+        portal_role_cg_name: "Caregiver Portal (Tri)",
+        portal_role_cg_desc: "SOP video center, full BSFS stool logging, standard body tube cards, full vitals & clinical AI chat.",
+        portal_btn_login_cg: "Enter Caregiver Workspace ➔",
+        portal_tag_fam: "Family (Mr. Kim)",
+        portal_role_fam_name: "Family Decision Portal (Mr. Kim)",
+        portal_role_fam_desc: "7-day care trend line chart, hover daily highlights, Tri's learning logs & LTC 2.0 ecosystem.",
+        portal_btn_login_fam: "Enter Family Dashboard ➔",
+        portal_tag_pat: "Client (Grandpa Kim)",
+        portal_role_pat_name: "Client Portal (Grandpa Kim)",
+        portal_role_pat_desc: "Large font schedule, 2-minute trivia, voice wish expression, body pain map & daily mood check-in.",
+        portal_btn_login_pat: "Enter Client Interface ➔",
+        portal_footer: "SynCare · Taipei Veterans General Hospital Clinical System",
+        sync_time_badge: "Synced at 09:42",
+        nav_sub_title: "Smart Closed-Loop Homecare System",
+        btn_nav_back: "Back",
+        btn_logout: "Logout",
+        tab_caregiver: "Caregiver (Tri)",
+        tab_family: "Family (Mr. Kim)",
+        tab_patient: "Client (Grandpa Kim)",
+        cg_badge_sync: "Connected to Nurse & Family",
+        cg_welcome: "Good Morning, Tri (阿蒂)",
+        cg_patient_info: "Patient: Grandpa Kim (75 y/o) · Care Plan: 5 Tasks",
+        btn_ngt_check: "Verify NGT Scale Photo",
+        btn_bsfs_log: "Complete BSFS 7-Type Log",
+        cg_btn_vitals: "Log Vitals / Glucose / Feeding",
+        body_map_title: "Standard Body Tube Monitoring & Live Cards",
+        body_map_desc: "Click body markers (NGT, fistula, catheter, hip) to view detailed clinical cards",
+        body_map_badge: "1 Tube Under Observation",
+        body_front_label: "Clinical Body Points",
+        tag_normal: "Normal",
+        tag_warning: "Notice",
+        tag_alert: "Ulcer Alert",
+        tube_ngt_pos: "NG Tube (14 Fr Silicone)",
+        tube_ngt_sub: "Mark at 52cm · 12 days remaining · Details ➔",
+        tag_verified: "Verified Today",
+        tube_dialysis_title: "Left Arm AV Fistula",
+        tube_dialysis_sub: "Thrill palpable & normal · No BP measurements on left arm ➔",
+        tag_flow_ok: "Flow Normal",
+        tube_foley_title: "Foley Catheter (16 Fr)",
+        tube_foley_sub: "Drainage clear · Bag below bladder level ➔",
+        tag_days_18: "18 Days Left",
+        tube_hip_title: "Left Hip Trochanter (Pressure Ulcer Spot)",
+        tube_hip_sub: "Reposition every 2 hrs with 30° triangle pillow ➔",
+        tag_protect: "High Alert",
+        video_hub_title: "SOP Video Center & Self-Training",
+        video_hub_sub: "Friendly video lessons · 0.8x slow playback · micro quizzes",
+        cert_progress_lbl: "Certification: 75% (3/4 passed)",
+        video_tab_all: "All Courses",
+        video_tab_ngt: "NGT Feeding",
+        video_tab_turn: "Repositioning",
+        video_1_title: "Safe NG Tube Feeding SOP",
+        video_1_desc: "Gastric residual check, 38°C warm water flush, 45° elevation.",
+        badge_certified: "Certified",
+        btn_review_video: "Review Video",
+        video_2_title: "Repositioning & Pressure Ulcer Prevention",
+        video_2_desc: "Leverage bedsheets for turning, 30° triangle pillow, inspect skin.",
+        status_pending_quiz: "Pending Quiz",
+        btn_start_learn: "Start Learning",
+        cg_task_header: "Today's Care Schedule (5 Tasks)",
+        cg_task_progress_text: "Completed 3/5",
+        cg_task_1: "08:00 Vitals & Fasting Glucose (Completed)",
+        cg_task_2: "11:30 NGT Feeding 250ml & Postprandial Glucose (Completed)",
+        cg_task_3: "14:00 Body Repositioning & Left Hip Inspection",
+        cg_task_3_sub: "Notice: Relieve left hip redness with 30° wedge pillow",
+        btn_confirm_task: "Photo Confirm",
+        status_done: "Completed",
+        ai_title: "SynCare Clinical AI Assistant",
+        ai_status_24h: "● 24/7 Active (Multilingual)",
+        prompt_cough: "⚠️ Cough during Feeding",
+        prompt_fever: "🌡️ Body Temp 38.3°C",
+        prompt_tube: "🚨 NGT Dislodgement",
+        ai_input_ph: "Type clinical question...",
+        fam_date_eyebrow: "Sunday, July 26, 2026",
+        fam_welcome_title: "Good Morning, Mr. Kim",
+        fam_welcome_sub: "Father's vitals are stable today; Tri has logged morning fasting glucose.",
+        dash_metric1_label: "Tri's Competency Tracker",
+        dash_metric1_btn: "Click to View Cards & Certificates ➔",
+        dash_metric2_label: "Today's Task Progress",
+        dash_metric2_desc: "Morning measurement and noon feeding logged",
+        dash_metric2_btn: "Click to View Schedule Cards ➔",
+        dash_metric3_label: "Clinical Follow-up Needed",
+        dash_metric3_desc: "14:20 Mild coughing during feeding",
+        dash_metric3_btn: "Click to Sign Dual-Track Review ➔",
+        trend_chart_title: "7-Day Care Trend Line Chart (Completion Rate & Hover Highlights)",
+        trend_chart_sub: "Recorded by actual dates · Hover over nodes to view daily highlights",
+        ltc_title: "Community Ecosystem & LTC 2.0 Hub",
+        ltc_bus_title: "Contracted Dialysis Van",
+        ltc_bath_title: "In-Home Bathing Team",
+        ltc_respite_title: "Community Respite Support",
+        pat_welcome: "Good Morning, Grandpa Kim",
+        pat_date_str: "Today is Wednesday, August 19, 2026",
+        pat_schedule_title: "Today's Important Schedule Reminders",
+        pat_sched_dialysis: "14:00 PM - Hospital Hemodialysis",
+        pat_sched_dialysis_sub: "Accessible Van pickup with driver Chen · Tri accompanying",
+        pat_sched_feeding: "16:30 PM - Evening Formula Feeding",
+        pat_sched_feeding_sub: "Low-potassium special formula 250ml",
+        pat_comfort_title: "How do you feel overall today?",
+        pat_mood_good: "Very Good / Comfortable",
+        pat_mood_ok: "Okay / Fair",
+        pat_mood_bad: "In Pain / Unwell",
+        pat_mood_fam: "Miss Family",
+        pat_pain_title: "Where do you feel pain or discomfort?",
+        pat_pain_sub: "No need to speak—tap on the body pictogram to notify Tri and Kim!",
+        pain_nose: "Nose / Tube pain",
+        pain_chest: "Chest tightness / Short of breath",
+        pain_belly: "Bloated belly / Nausea",
+        pain_hip: "Hip / Bone pressure pain",
+        pat_trivia_title: "2-Minute Nostalgic Trivia (Cognitive Support)",
+        pat_trivia_sub: "Guess classic songs to keep your memory sharp! Tap below to start:",
+        btn_start_trivia: "Start Today's Quiz (3 Questions)",
+        pat_wishes_title: "My Daily Dignity Wishes",
+        pat_select_wish_label: "👉 Select what you would like to arrange today:",
+        pat_btn_record_label: "Press to record your voice wish",
+        pat_record_sub: "Voice supported, AI notifies Tri and Kim automatically",
+        btn_submit_wish: "Submit Wish (Notify Caregivers)",
+        pat_btn_call: "Call Caregiver Tri (呼叫阿蒂)"
+      },
+      vi: {
+        portal_subtitle: "Nền tảng Hợp tác Thông minh Chăm sóc Tại nhà & Trung tâm Sinh thái",
+        guide_portal_title: "Hướng dẫn Vận hành SynCare & Cơ chế Hợp tác Đa vai trò",
+        guide_cg_col_title: "Người Chăm sóc (Tri)",
+        guide_cg_col_desc: "Chứng chỉ video SOP, điểm danh phân BSFS 7 loại, thẻ ống cơ thể chuẩn, bàn giao giọng nói & sinh hiệu.",
+        guide_fam_col_title: "Gia đình (Anh Kim)",
+        guide_fam_col_desc: "3 thẻ chỉ số có thể nhấp, biểu đồ đường 7 ngày (rê chuột xem sự cố), tích hợp LTC 2.0.",
+        guide_pat_col_title: "Khách hàng / Bệnh nhân (Ông Kim)",
+        guide_pat_col_desc: "Lịch trình chữ to, câu đố hồi ức 2 phút, ghi âm nguyện vọng, bản đồ đau cơ thể & cảm xúc.",
+        portal_select_role: "Vui lòng Chọn Vai trò Đăng nhập",
+        portal_case_info: "Bệnh nhân: Ông Da-Ming Kim (75 tuổi · Sonde mũi · Lọc máu 3 lần/tuần)",
+        portal_tag_cg: "Người Chăm sóc (Tri)",
+        portal_role_cg_name: "Dành cho Người Chăm sóc (Tri)",
+        portal_role_cg_desc: "Video SOP, điểm danh BSFS 7 loại, thẻ ống cơ thể chuẩn, ghi chép đường huyết & AI lâm sàng.",
+        portal_btn_login_cg: "Vào Bàn Làm việc Người Chăm sóc ➔",
+        portal_tag_fam: "Gia đình (Anh Kim)",
+        portal_role_fam_name: "Dành cho Gia đình (Anh Kim)",
+        portal_role_fam_desc: "Biểu đồ xu hướng 7 ngày, xem chi tiết hàng ngày, lịch sử học tập của Tri & hệ sinh thái LTC 2.0.",
+        portal_btn_login_fam: "Vào Bảng Điều khiển Gia đình ➔",
+        portal_tag_pat: "Khách hàng (Ông Kim)",
+        portal_role_pat_name: "Giao diện Khách hàng (Ông Kim)",
+        portal_role_pat_desc: "Lịch trình chữ to, câu đố 2 phút, ghi âm nguyện vọng, bản đồ vị trí đau & điểm danh tâm trạng.",
+        portal_btn_login_pat: "Vào Giao diện Khách hàng ➔",
+        portal_footer: "SynCare · Thực tập Bệnh viện Cựu chiến binh Đài Bắc",
+        sync_time_badge: "Đồng bộ lúc 09:42",
+        nav_sub_title: "Hệ thống Chăm sóc Vòng khép kín Thông minh",
+        btn_nav_back: "Trang trước",
+        btn_logout: "Đăng xuất",
+        tab_caregiver: "Người chăm sóc (Tri)",
+        tab_family: "Gia đình (Anh Kim)",
+        tab_patient: "Khách hàng (Ông Kim)",
+        cg_badge_sync: "Đã kết nối Điều dưỡng & Gia đình",
+        cg_welcome: "Chào buổi sáng, Tri (阿蒂)",
+        cg_patient_info: "Bệnh nhân: Ông Kim (75 tuổi) · Kế hoạch: 5 Nhiệm vụ",
+        btn_ngt_check: "Chụp ảnh đối chiếu vạch sonde mũi",
+        btn_bsfs_log: "Điểm danh phân BSFS 7 loại",
+        cg_btn_vitals: "Ghi sinh hiệu / Đường huyết / Ăn",
+        body_map_title: "Bản đồ Cơ thể Chuẩn & Thẻ Vòng đời Ống",
+        body_map_desc: "Bấm vào các điểm (mũi, cầu tay, sonde tiểu, loét) để xem thẻ chi tiết",
+        body_map_badge: "1 Ống Đang Theo Dõi",
+        body_front_label: "Điểm Lâm sàng trên Cơ thể",
+        tag_normal: "Bình thường",
+        tag_warning: "Lưu ý",
+        tag_alert: "Báo động loét",
+        tube_ngt_pos: "Sonde mũi NGT (14 Fr Silicone)",
+        tube_ngt_sub: "Vạch cố định 52cm · Còn 12 ngày · Chi tiết ➔",
+        tag_verified: "Đã kiểm tra",
+        tube_dialysis_title: "Cầu tay Lọc máu Tự thân (AVF)",
+        tube_dialysis_sub: "Rung thrill tốt · Cấm đo huyết áp ở tay trái ➔",
+        tag_flow_ok: "Lưu thông tốt",
+        tube_foley_title: "Sonde tiểu Foley (16 Fr)",
+        tube_foley_sub: "Túi nước tiểu dưới bàng quang · Nước tiểu trong ➔",
+        tag_days_18: "Còn 18 ngày",
+        tube_hip_title: "Mấu chuyển xương đùi trái (Theo dõi loét)",
+        tube_hip_sub: "Nghiêng 30 độ mỗi 2 giờ với gối tam giác ➔",
+        tag_protect: "Bảo vệ nghiêm ngặt",
+        video_hub_title: "Trung tâm Video SOP & Đào tạo Tự chủ",
+        video_hub_sub: "Bài học thân thiện · phát chậm 0.8x · bài kiểm tra thực tế",
+        cert_progress_lbl: "Chứng chỉ: 75% (3/4 đạt)",
+        video_tab_all: "Tất cả Khóa học",
+        video_tab_ngt: "Bơm ăn Sonde Mũi",
+        video_tab_turn: "Trở mình Chống loét",
+        video_1_title: "SOP Bơm ăn qua Sonde Mũi An toàn",
+        video_1_desc: "Kiểm tra dịch vị, tráng nước ấm 38°C, tư thế ngồi 45°.",
+        badge_certified: "Đã chứng nhận",
+        btn_review_video: "Xem lại Video",
+        video_2_title: "Kỹ thuật Trở mình & Chống loét tì đè",
+        video_2_desc: "Dùng ga trải giường để trở mình, gối tam giác 30°, kiểm tra da.",
+        status_pending_quiz: "Chờ làm bài",
+        btn_start_learn: "Bắt đầu học",
+        cg_task_header: "Lịch trình Chăm sóc Hôm nay (5 việc)",
+        cg_task_progress_text: "Đã xong 3/5",
+        cg_task_1: "08:00 Đo Sinh hiệu & Đường huyết Đói (Xong)",
+        cg_task_2: "11:30 Bơm ăn NGT 250ml & Đường huyết 2h (Xong)",
+        cg_task_3: "14:00 Trở mình & Kiểm tra da hông trái",
+        cg_task_3_sub: "Lưu ý: Giảm áp lực vết đỏ hông trái bằng gối 30°",
+        btn_confirm_task: "Chụp ảnh xong",
+        status_done: "Đã xong",
+        ai_title: "Trợ lý AI Lâm sàng SynCare",
+        ai_status_24h: "● Trực 24/7 (Đa ngôn ngữ)",
+        prompt_cough: "⚠️ Ho khi bơm ăn NGT",
+        prompt_fever: "🌡️ Sốt 38.3°C",
+        prompt_tube: "🚨 Tuột ống Sonde",
+        ai_input_ph: "Nhập câu hỏi lâm sàng...",
+        fam_date_eyebrow: "Chủ nhật, 26 tháng 7 năm 2026",
+        fam_welcome_title: "Chào buổi sáng, Anh Kim",
+        fam_welcome_sub: "Hôm nay sinh hiệu của bố ổn định, Tri đã ghi nhận đường huyết buổi sáng.",
+        dash_metric1_label: "Chứng chỉ Kỹ năng của Tri",
+        dash_metric1_btn: "Bấm để Mở Thẻ & Chứng chỉ ➔",
+        dash_metric2_label: "Tiến độ Nhiệm vụ Hôm nay",
+        dash_metric2_desc: "Đã đo sinh hiệu sáng và bơm ăn trưa",
+        dash_metric2_btn: "Bấm để Mở Thẻ Lịch trình ➔",
+        dash_metric3_label: "Sự cố Cần Theo dõi",
+        dash_metric3_desc: "14:20 Ho nhẹ khi đang bơm thức ăn",
+        dash_metric3_btn: "Bấm để Ký Xác nhận Kép ➔",
+        trend_chart_title: "Biểu đồ Đường Xu hướng 7 Ngày (Tỷ lệ Hoàn thành & Ghi chú)",
+        trend_chart_sub: "Theo ngày thực tế · Rê chuột vào điểm để xem ghi chú sự cố hàng ngày",
+        ltc_title: "Hệ sinh thái Cộng đồng & Trung tâm LTC 2.0",
+        ltc_bus_title: "Xe Bus Lọc máu Chuyên dụng",
+        ltc_bath_title: "Xe Tắm Lưu động",
+        ltc_respite_title: "Hỗ trợ Nghỉ ngơi Cộng đồng",
+        pat_welcome: "Chào buổi sáng, Ông Kim",
+        pat_date_str: "Hôm nay: Thứ Tư, 19 tháng 8 năm 2026",
+        pat_schedule_title: "Nhắc nhở Lịch trình Quan trọng Hôm nay",
+        pat_sched_dialysis: "14:00 Chiều - Lọc máu tại Bệnh viện",
+        pat_sched_dialysis_sub: "Xe bus đón cùng bác tài Chen · Tri đi cùng",
+        pat_sched_feeding: "16:30 Chiều - Bơm Dinh dưỡng Sonde Mũi",
+        pat_sched_feeding_sub: "Sữa công thức ít kali 250ml",
+        pat_comfort_title: "Cảm giác và tâm trạng hôm nay thế nào?",
+        pat_mood_good: "Rất tốt / Dễ chịu",
+        pat_mood_ok: "Bình thường / Tạm ổn",
+        pat_mood_bad: "Có đau / Khó chịu",
+        pat_mood_fam: "Nhớ Người thân",
+        pat_pain_title: "Hiện tại ông cảm thấy đau hoặc khó chịu ở đâu?",
+        pat_pain_sub: "Không cần nói, bấm vào hình người để báo cho Tri và Kim ngay!",
+        pain_nose: "Mũi / Đau ống Sonde",
+        pain_chest: "Ngực tức, khó thở",
+        pain_belly: "Bụng chướng, buồn nôn",
+        pain_hip: "Mông / Đau xương hông tì đè",
+        pat_trivia_title: "Đố vui Bài hát Hoài niệm 2 Phút (Rèn luyện Trí não)",
+        pat_trivia_sub: "Đoán bài hát cổ điển để tăng cường trí nhớ! Bấm bên dưới để bắt đầu:",
+        btn_start_trivia: "Bắt đầu câu đố hôm nay (3 câu)",
+        pat_wishes_title: "Nguyện vọng Tự chủ (My Dignity Wishes)",
+        pat_select_wish_label: "👉 Chọn nguyện vọng muốn người chăm sóc hỗ trợ hôm nay:",
+        pat_btn_record_label: "Bấm nút để ghi âm nguyện vọng",
+        pat_record_sub: "Hỗ trợ giọng nói, AI tự động dịch cho Tri và Kim",
+        btn_submit_wish: "Gửi Nguyện vọng (Báo cho Tri & Kim)",
+        pat_btn_call: "Gọi Người chăm sóc Tri (呼叫阿蒂)"
+      }
+    };
 
-      careTrendChartInstance = new Chart(ctx.getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: careTrendData.labels,
-          datasets: [{
-            label: '完成率 (%)',
-            data: careTrendData.completionRates,
-            borderColor: '#436048',
-            backgroundColor: 'rgba(100, 136, 102, 0.15)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.35,
-            pointBackgroundColor: '#648866',
-            pointBorderColor: '#FFFFFF',
-            pointBorderWidth: 2,
-            pointRadius: 5,
-            pointHoverRadius: 8,
-            pointHoverBackgroundColor: '#C55D4E',
-            pointHoverBorderColor: '#FFFFFF'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: { mode: 'index', intersect: false },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: '#243527',
-              titleColor: '#D3E3CF',
-              bodyColor: '#FFFFFF',
-              padding: 10,
-              cornerRadius: 10,
-              callbacks: {
-                title: (ctx) => '📅 日期：' + ctx[0].label + ' (2026年)',
-                label: (ctx) => '照護完成率：' + ctx.parsed.y + '%',
-                afterLabel: (ctx) => '\n📌 當日重點：\n' + careTrendData.dailyHighlights[ctx.dataIndex]
-              }
-            }
-          },
-          scales: {
-            y: { min: 40, max: 100, ticks: { callback: v => v + '%' } },
-            x: { grid: { display: false } }
-          }
+    function changeGlobalLanguage(lang) {
+      if (!i18nDict[lang]) lang = 'zh';
+      currentLang = lang;
+
+      const hubSelect = document.getElementById('hub-lang-select');
+      const mainSelect = document.getElementById('main-lang-select');
+      if (hubSelect) hubSelect.value = lang;
+      if (mainSelect) mainSelect.value = lang;
+
+      const dict = i18nDict[lang];
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict && dict[key] !== undefined) {
+          el.innerHTML = dict[key];
         }
       });
-    }
 
-    function openTubeModal(type) {
-      const modal = document.getElementById('tube-card-modal');
-      const title = document.getElementById('tc-title');
-      const subtitle = document.getElementById('tc-subtitle');
-      const area = document.getElementById('tc-content-area');
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict && dict[key] !== undefined) {
+          el.placeholder = dict[key];
+        }
+      });
 
-      if (type === 'ngt') {
-        title.innerText = '鼻胃管 (NGT 14 Fr 矽膠材質)';
-        subtitle.innerText = '留置於鼻腔至胃部 · 營養灌食與給藥專用';
-        area.innerHTML = `
-          <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9]">
-            <div class="flex justify-between font-bold text-[#436048]">
-              <span>留置效期剩餘：12 天 (置放日 08/01)</span>
-              <span class="text-xs bg-white px-2 py-0.5 rounded border">安全常態</span>
-            </div>
-            <div class="w-full bg-white h-2 rounded-full overflow-hidden border border-[#D0DFC9] mt-1.5">
-              <div class="bg-[#436048] h-full w-[60%]"></div>
-            </div>
-          </div>
-          <div class="p-3 bg-[#F8FAF8] rounded-2xl border border-[#DEE8DC] space-y-1">
-            <p><strong>刻度固定線：</strong> 52.0 cm（今日相片核對正常無位移）</p>
-            <p><strong>耗材水位：</strong> 50ml 空針剩 2 支（<span class="text-rose-600 font-bold">⚠️ 低水位</span>）· 膠帶 5 捲</p>
-            <p><strong>護理重點：</strong> 灌食前務必反抽胃殘餘量；維持半坐臥 45 度防嗆咳。</p>
-          </div>
-        `;
-      } else if (type === 'dialysis') {
-        title.innerText = '左前臂洗腎瘻管 (AV Fistula)';
-        subtitle.innerText = '左手自體動靜脈瘻管 · 血液透析通道';
-        area.innerHTML = `
-          <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] space-y-1">
-            <p class="font-bold text-[#436048]">瘻管震顫音 (Thrill)：沙沙跳動正常、血流暢通</p>
-            <p><strong>照護禁忌：</strong> 嚴禁於左手測量血壓、抽血或佩戴飾品；睡覺避免枕壓。</p>
-            <p><strong>外展接送：</strong> 台北市無障礙長照車隊 (陳司機 0912-345-678)。</p>
-          </div>
-        `;
-      } else if (type === 'foley') {
-        title.innerText = '留置導尿管 (Foley Catheter 16 Fr)';
-        subtitle.innerText = '雙腔留置導尿管 · 引流通暢無沈澱';
-        area.innerHTML = `
-          <div class="p-3 bg-[#EDF3EC] rounded-2xl border border-[#D0DFC9] space-y-1">
-            <p class="font-bold text-[#436048]">效期倒數：剩餘 18 天 (效期至 09/06)</p>
-            <p><strong>尿液指標：</strong> 累計 1450ml · 清澈淡黃無異味。</p>
-            <p><strong>防呆安全：</strong> 尿袋位置必須保持低於膀胱位置防逆流感染。</p>
-          </div>
-        `;
-      } else if (type === 'hip') {
-        title.innerText = '左側髖部大轉子受壓處 (壓瘡紅斑防護)';
-        subtitle.innerText = '骨突長期受壓處 · 臨床第一期不可消退紅斑';
-        area.innerHTML = `
-          <div class="p-3 bg-[#FAF0EE] rounded-2xl border border-[#F2D2CB] space-y-1">
-            <p class="font-bold text-[#9A382A]">觀察標籤：第一期紅斑 (加強減壓防護中)</p>
-            <p><strong>護理處置：</strong> 每 2 小時側臥翻身，背後墊入 30 度減壓三角枕懸空骨突。</p>
-            <p><strong>通報紀錄：</strong> 阿蒂拍照通報，個管師線上指導塗抹保濕保護霜。</p>
-          </div>
-        `;
+      if (careTrendChartInstance) {
+        careTrendChartInstance.update();
       }
-      modal.classList.remove('hidden');
     }
 
-    function openCgLearningTrackModal() { document.getElementById('cg-learning-track-modal').classList.remove('hidden'); }
-    function openScheduleDetailModal() { document.getElementById('schedule-detail-modal').classList.remove('hidden'); }
-    function openIncidentDetailModal() { document.getElementById('incident-detail-modal').classList.remove('hidden'); }
-    function signAcknowledgeIncident() {
-      alert('✅ 家屬金先生已完成線上雙軌簽核確認！個管師已同步接收紀錄。');
-      document.getElementById('incident-detail-modal').classList.add('hidden');
+    function loginRole(role) {
+      activeRole = role;
+      historyStack = ['portal', role];
+      document.getElementById('view-portal-hub').classList.add('hidden');
+      document.getElementById('view-app-main').classList.remove('hidden');
+      switchRole(role);
     }
 
-    function openLtcBudgetModal() { document.getElementById('ltc-budget-modal').classList.remove('hidden'); }
-    function openLtcBusModal() { document.getElementById('ltc-bus-modal').classList.remove('hidden'); }
-    function openLtcOutreachModal() { document.getElementById('ltc-outreach-modal').classList.remove('hidden'); }
-    function openLtcCareModal() { document.getElementById('ltc-care-modal').classList.remove('hidden'); }
+    function logoutToPortal() {
+      activeRole = 'portal';
+      historyStack = [];
+      document.getElementById('view-app-main').classList.add('hidden');
+      document.getElementById('view-portal-hub').classList.remove('hidden');
+    }
+
+    function goToCurrentRoleHome() {
+      switchRole(activeRole);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function navigateHistoryBack() {
+      if (historyStack.length > 1) {
+        historyStack.pop();
+        const prev = historyStack[historyStack.length - 1];
+        if (prev === 'portal') logoutToPortal(); else switchRole(prev);
+      } else logoutToPortal();
+    }
+
+    function switchRole(role) {
+      activeRole = role;
+      if (historyStack[historyStack.length - 1] !== role) historyStack.push(role);
+
+      ['caregiver', 'family', 'patient'].forEach(r => {
+        document.getElementById('view-' + r).classList.add('hidden');
+        document.getElementById('tab-' + r).className = 'px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]';
+      });
+
+      document.getElementById('view-' + role).classList.remove('hidden');
+      document.getElementById('tab-' + role).className = 'px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-white text-[#436048] shadow-xs font-black border border-[#DEE8DC]';
+
+      if (role === 'family') {
+        setTimeout(initCareTrendChart, 100);
+      }
+    }
 
     function recordClientMood(mood) {
       const alertBox = document.getElementById('client-mood-alert');
@@ -1338,6 +1549,19 @@
     function openBsfsModal() { document.getElementById('bsfs-modal').classList.remove('hidden'); }
     function openNostalgicModal() { document.getElementById('nostalgic-modal').classList.remove('hidden'); }
 
+    function openCgLearningTrackModal() { document.getElementById('cg-learning-track-modal').classList.remove('hidden'); }
+    function openScheduleDetailModal() { document.getElementById('schedule-detail-modal').classList.remove('hidden'); }
+    function openIncidentDetailModal() { document.getElementById('incident-detail-modal').classList.remove('hidden'); }
+    function signAcknowledgeIncident() {
+      alert('✅ 家屬金先生已完成線上雙軌簽核確認！個管師已同步接收紀錄。');
+      document.getElementById('incident-detail-modal').classList.add('hidden');
+    }
+
+    function openLtcBudgetModal() { document.getElementById('ltc-budget-modal').classList.remove('hidden'); }
+    function openLtcBusModal() { document.getElementById('ltc-bus-modal').classList.remove('hidden'); }
+    function openLtcOutreachModal() { document.getElementById('ltc-outreach-modal').classList.remove('hidden'); }
+    function openLtcCareModal() { document.getElementById('ltc-care-modal').classList.remove('hidden'); }
+
     function sendUserMessage() {
       const input = document.getElementById('ai-dialog-input');
       const text = input.value.trim();
@@ -1346,9 +1570,9 @@
       input.value = '';
 
       setTimeout(() => {
-        let reply = `收到您的提問：「${text}」。金伯伯目前生理數據維持在穩定閾值內。若感到呼吸較促，請先測量 SpO2 血氧並維持 45 度舒適擺位，我隨時在此支援您！`;
+        let reply = `收到您的提問：「${text}」。金伯伯目前生理監測數據平穩。若感到呼吸較促或不適，請先測量 SpO2 血氧並維持 30 度舒適擺位，我隨時在此支援您！`;
         if (text.includes('嗆') || text.includes('咳')) {
-          reply = `⚠️ <strong>【嗆咳緊急處置 3 步驟】</strong><br>1. <strong>立即停止灌食</strong>，千萬不要拔管！<br>2. 協助金伯伯維持半坐臥 45～60 度，頭偏一側利於咳出。<br>3. 檢視嘴唇顏色是否發紺，案件已同步通報個管師與家屬！`;
+          reply = `⚠️ <strong>【嗆咳緊急處置 3 步驟】</strong><br>1. <strong>立即停止灌食</strong>，不要拔管！<br>2. 協助金伯伯維持半坐臥 45～60 度，頭偏一側利於咳出。<br>3. 觀察呼吸平穩度，案件已同步通報個管師與家屬！`;
         }
         appendAIMessage('ai', reply);
       }, 500);
@@ -1358,12 +1582,12 @@
       if (type === 'cough') {
         appendAIMessage('user', '金伯伯剛才灌食時連續嗆咳兩聲！');
         setTimeout(() => {
-          appendAIMessage('ai', `⚠️ <strong>【AI 臨床黃色警示 - 嗆咳處置】</strong><br>1. 請立刻關閉灌食夾停止進食！<br>2. 床頭維持 45～60 度半坐臥。<br>3. 反抽鼻管確認刻度是否仍在 52cm。<br>✓ 本次事件已同步至家屬小金的決策台！`);
+          appendAIMessage('ai', `⚠️ <strong>【AI 臨床黃色警示 - 嗆咳處置】</strong><br>1. 請立刻關閉灌食夾停止進食。<br>2. 床頭維持 45～60 度半坐臥。<br>3. 檢視嘴唇顏色，反抽鼻管確認刻度是否位移。<br>✓ 本次事件已同步至家屬小金的決策台！`);
         }, 400);
       } else if (type === 'fever') {
-        appendAIMessage('user', '體溫量測 38.3°C 發冷發抖。');
+        appendAIMessage('user', '體溫量測 38.3°C 而且身體有點發冷發抖。');
         setTimeout(() => {
-          appendAIMessage('ai', `🌡️ <strong>【發熱處置指引】</strong><br>1. 溫水毛巾輕拭額頭散熱。<br>2. 檢查左手洗腎瘻管周圍有無紅腫熱痛。<br>3. 30 分鐘後請再次複測打卡。`);
+          appendAIMessage('ai', `🌡️ <strong>【發熱處置指引】</strong><br>1. 解開過厚衣物，溫水毛巾輕拭額頭散熱。<br>2. 檢查左手洗腎瘻管與鼻管周圍有無紅腫熱痛。<br>3. 請於 30 分鐘後再次使用耳溫槍複測打卡。`);
         }, 400);
       } else if (type === 'tube_out') {
         appendAIMessage('user', '🚨 鼻胃管被扯出來一點點，滑脫了！');
@@ -1393,50 +1617,14 @@
 
     function completeTask(btn) {
       btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 打卡完成';
-      btn.className = 'px-3 py-1.5 bg-[#648866] text-white text-xs font-bold rounded-xl';
+      btn.className = 'px-3.5 py-1.5 bg-[#648866] text-white text-xs font-bold rounded-xl';
       alert('✅ 照護照片與翻身任務已完成打卡並同步至雲端！');
     }
 
-    function loginRole(role) {
-      document.getElementById('view-portal-hub').classList.add('hidden');
-      document.getElementById('view-app-main').classList.remove('hidden');
-      switchRole(role);
-    }
-
-    function logoutToPortal() {
-      document.getElementById('view-app-main').classList.add('hidden');
-      document.getElementById('view-portal-hub').classList.remove('hidden');
-    }
-
-    function goToCurrentRoleHome() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function navigateHistoryBack() {
-      logoutToPortal();
-    }
-
-    function switchRole(role) {
-      ['caregiver', 'family', 'patient'].forEach(r => {
-        document.getElementById('view-' + r).classList.add('hidden');
-        document.getElementById('tab-' + r).className = 'px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap text-[#596D5C]';
-      });
-
-      document.getElementById('view-' + role).classList.remove('hidden');
-      document.getElementById('tab-' + role).className = 'px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 whitespace-nowrap bg-white text-[#436048] shadow-xs font-black border border-[#DEE8DC]';
-
-      if (role === 'family') {
-        setTimeout(initCareTrendChart, 100);
-      }
-    }
-
-    function changeGlobalLanguage(lang) {
-      // 語言切換邏輯
-      const hubSelect = document.getElementById('hub-lang-select');
-      const mainSelect = document.getElementById('main-lang-select');
-      if (hubSelect) hubSelect.value = lang;
-      if (mainSelect) mainSelect.value = lang;
-    }
+    window.onload = function() {
+      changeGlobalLanguage('zh');
+      detectAndScaleDevice();
+    };
   </script>
 </body>
 </html>
